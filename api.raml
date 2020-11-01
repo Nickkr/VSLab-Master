@@ -80,6 +80,29 @@ types:
     post:
     delete:
 /users:
+    post:
+        description: Add a new user.
+        body:
+            application/json:
+                type: User
+                example: |
+                    {
+                        "id": 1234,
+                        "username": "Camembert77",
+                        "firstname": "Alex",
+                        "lastname": "Tester",
+                        "password": "rt5j8if",
+                        "role" : {
+                            "id": 5678,
+                            "typ": "USER",
+                            "level": 0
+                        }
+                    }
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: User
     /{username}:
         get:
             description: Query user.
@@ -96,5 +119,9 @@ types:
                                         "firstname": "Alex",
                                         "lastname": "Tester",
                                         "password": "rt5j8if",
-                                        "role" : "USER"
+                                        "role" : {
+                                            "id": 5678,
+                                            "typ": "USER",
+                                            "level": 0
+                                        }
                                     }
