@@ -16,7 +16,14 @@ types:
             name: string
             details: string
             price: number
-            categoryID: number        
+            categoryID: number
+    User:
+        properties:
+            id: number
+            username: string
+            firstname: string
+            lastname: string
+            password: string     
 /products:
     get:
         description: Filter products.
