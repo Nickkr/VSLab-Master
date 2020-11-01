@@ -23,7 +23,13 @@ types:
             username: string
             firstname: string
             lastname: string
-            password: string     
+            password: string
+            role: Role
+    Role:
+        properties:
+            id: number
+            type: string
+            level: string
 /products:
     get:
         description: Filter products.
@@ -74,6 +80,21 @@ types:
     post:
     delete:
 /users:
-    get:
-    post:
-    delete:
+    /{username}:
+        get:
+            description: Query user.
+            responses:
+                200:
+                    description: The requested user.
+                    body:
+                        application/json:
+                            type: User
+                            example: |
+                                    {
+                                        "id": 1234,
+                                        "username": "Camembert77",
+                                        "firstname": "Alex",
+                                        "lastname": "Tester",
+                                        "password": "rt5j8if",
+                                        "role" : "USER"
+                                    }
