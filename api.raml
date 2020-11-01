@@ -125,3 +125,12 @@ types:
                                             "level": 0
                                         }
                                     }
+        /role:
+            get: 
+                description: Request user's role.
+                responses:
+                    200:
+                        description: The requested user's role.
+                        body:
+                            application/json:
+                                type: Role
