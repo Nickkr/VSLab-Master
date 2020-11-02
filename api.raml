@@ -17,6 +17,10 @@ types:
             details: string
             price: number
             categoryID: number
+    Category:
+        properties:
+            id: number
+            name: string
     User:
         properties:
             id: number
@@ -100,9 +104,67 @@ types:
                 404:
                     description: Product not found.
 /categories:
+    description: Manage Categories.
     get:
+        description: Get all categories.
+        responses: 
+            200:
+                description: The list of all categories.
+                body:
+                    application/json:
+                        type: Category[]
+                        example: |
+                            [
+                                {
+                                    "id": 1,
+                                    "name": "Obst"
+                                },
+                                {
+                                    "id": 2,
+                                    "name": "Gemüse"
+                                }
+                            ]
     post:
-    delete:
+        description: Add a new category.
+        body:
+            application/x-www-form-urlencoded:
+                properties:
+                    name:
+                        description: The name for the new category.
+                        required: true
+                        type: string
+        responses: 
+            201:
+                description: The created category.
+                body:
+                    application/json:
+                        type: Category
+            401:
+                description: Unauthorized access. Only Admins can mangage categories.
+    /{categoryID}:
+        description: Category entity.
+        get:
+            description: Get a category.
+            responses:
+                200:
+                    description: The requested category.
+                    body:
+                        application/json:
+                            type: Category
+                            example: |
+                                {
+                                    "id": 1,
+                                    "name": "Obst"
+                                }
+                404:
+                    description: Category not found.
+        delete: 
+            description: Deletes a category and its accociated products.
+            responses: 
+                204:
+                    description: Success.
+                401:
+                    description: Unauthorized access. Only Admins can mangage categories.
 /users:
     post:
         description: Add a new user.
