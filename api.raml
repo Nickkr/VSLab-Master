@@ -104,7 +104,7 @@ types:
                 404:
                     description: Product not found.
 /categories:
-    description: Manage Categories.
+    description: Manage categories.
     get:
         description: Get all categories.
         responses: 
@@ -140,7 +140,7 @@ types:
                     application/json:
                         type: Category
             401:
-                description: Unauthorized access. Only Admins can mangage categories.
+                description: Unauthorized access. Only admin users can mangage categories.
     /{categoryID}:
         description: Category entity.
         get:
@@ -164,7 +164,7 @@ types:
                 204:
                     description: Success.
                 401:
-                    description: Unauthorized access. Only Admins can mangage categories.
+                    description: Unauthorized access. Only admin users can mangage categories.
 /users:
     post:
         description: Add a new user.
