@@ -29,7 +29,7 @@ types:
         properties:
             id: number
             type: string
-            level: string
+            level: number
 /products:
     get:
         description: Get all products.
@@ -55,10 +55,11 @@ types:
                         example: |
                             [
                                 {
-                                "id": 1,
-                                "name": "Apfel",
-                                "description": "Ein Apfel",
-                                "price": 5
+                                    "id": 1,
+                                    "name": "Apfel",
+                                    "details": "Ein Apfel",
+                                    "price": 5,
+                                    "categoryID": 1
                                 }
                             ]
     post:
@@ -82,12 +83,13 @@ types:
                         application/json:
                             type: Product
                             example: |
-                                    {
+                                {
                                     "id": 1,
                                     "name": "Apfel",
-                                    "description": "Ein Apfel",
-                                    "price": 5
-                                    }
+                                    "details": "Ein Apfel",
+                                    "price": 5,
+                                    "categoryID": 1
+                                }
                 404:
                     description: Product not found.
         delete:
@@ -116,7 +118,7 @@ types:
                         "password": "rt5j8if",
                         "role" : {
                             "id": 5678,
-                            "typ": "USER",
+                            "type": "USER",
                             "level": 0
                         }
                     }
@@ -143,7 +145,7 @@ types:
                                         "password": "rt5j8if",
                                         "role" : {
                                             "id": 5678,
-                                            "typ": "USER",
+                                            "type": "USER",
                                             "level": 0
                                         }
                                     }
@@ -164,7 +166,7 @@ types:
                                 example: |
                                     {
                                         "id": 5678,
-                                        "typ": "USER",
+                                        "type": "USER",
                                         "level": 0
                                     }
                         responses:
