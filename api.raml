@@ -127,24 +127,33 @@ types:
     post:
         description: Add a new category.
         body:
-            application/x-www-form-urlencoded:
+            application/json:
                 properties:
                     name:
                         description: The name for the new category.
                         required: true
                         type: string
+                example: |
+                    {
+                        "name": "Saft"
+                    }
         responses: 
             201:
                 description: The created category.
                 body:
                     application/json:
                         type: Category
+                        example: |
+                            {
+                                "id": 3,
+                                "name": "Saft"
+                            }
             401:
                 description: Unauthorized access. Only admin users can mangage categories.
     /{categoryID}:
-        description: Category entity.
+        description: Access a category by its ID.
         get:
-            description: Get a category.
+            description: Get a category entity.
             responses:
                 200:
                     description: The requested category.
@@ -165,6 +174,59 @@ types:
                     description: Success.
                 401:
                     description: Unauthorized access. Only admin users can mangage categories.
+    /{categoryName}:
+        description: Access a category by its name.
+        get:
+            description: Get a category entity.
+            responses:
+                200:
+                    description: The requested category.
+                    body:
+                        application/json:
+                            type: Category
+                            example: |
+                                {
+                                    "id": 1,
+                                    "name": "Obst"
+                                }
+                404:
+                    description: Category not found.
+        /products:
+            description: Access all products of one category by its name.
+            get:
+                description: Get all products for this category.
+                responses:
+                    200:
+                        description: The list of all products for this category.
+                        body:
+                            application/json:
+                                type: Product[]
+                                example: |
+                                    [
+                                        {
+                                            "id": 1,
+                                            "name": "Apfel",
+                                            "details": "Ein Apfel",
+                                            "price": 5,
+                                            "categoryID": 1
+                                        },
+                                        {
+                                            "id": 2,
+                                            "name": "Birne",
+                                            "details": "Eine Birne",
+                                            "price": 6,
+                                            "categoryID": 1
+                                        },
+                                        {
+                                            "id": 4,
+                                            "name": "Banane",
+                                            "details": "Eine Banane",
+                                            "price": 3,
+                                            "categoryID": 1
+                                        }
+                                    ]
+                    404:
+                        description: Category not found.
 /users:
     post:
         description: Add a new user.
