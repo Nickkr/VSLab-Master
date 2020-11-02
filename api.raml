@@ -32,7 +32,7 @@ types:
             level: string
 /products:
     get:
-        description: Filter products.
+        description: Get all products.
         queryParameters:
             searchText:
                 type: string
@@ -48,7 +48,7 @@ types:
                 required: false
         responses:
             200:
-                description: The list of found products.
+                description: The list of all products.
                 body:
                     application/json:
                         type: Product[]
@@ -71,10 +71,32 @@ types:
                 body:
                     application/json:
                         type: Product
-    /{productID}:
+    /{productId}:
+        description: Product entity.
         get:
-        post:
+            description: Get a product.
+            responses:
+                200:
+                    description: The requested product.
+                    body:
+                        application/json:
+                            type: Product
+                            example: |
+                                    {
+                                    "id": 1,
+                                    "name": "Apfel",
+                                    "description": "Ein Apfel",
+                                    "price": 5
+                                    }
+                404:
+                    description: Product not found.
         delete:
+            description: Delete a product.
+            responses:
+                200:
+                    description: Product deleted.
+                404:
+                    description: Product not found.
 /categories:
     get:
     post:
