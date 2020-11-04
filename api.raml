@@ -28,12 +28,16 @@ types:
             firstname: string
             lastname: string
             password: string
-            role: Role
+            role: ROLES
     Role:
         properties:
             id: number
             type: string
             level: number
+    ROLES:
+        enum:
+        - USER
+        - ADMIN
 /products:
     get:
         description: Get all products.
@@ -240,14 +244,10 @@ types:
                         "firstname": "Alex",
                         "lastname": "Tester",
                         "password": "rt5j8if",
-                        "role" : {
-                            "id": 5678,
-                            "type": "USER",
-                            "level": 0
-                        }
+                        "role" : ROLES.USER
                     }
         responses:
-            200:
+            201:
                 body:
                     application/json:
                         type: User
@@ -267,12 +267,10 @@ types:
                                         "firstname": "Alex",
                                         "lastname": "Tester",
                                         "password": "rt5j8if",
-                                        "role" : {
-                                            "id": 5678,
-                                            "type": "USER",
-                                            "level": 0
-                                        }
+                                        "role" : ROLES.USER
                                     }
+                404:
+                    description: User not found.
         /role:
             get: 
                 description: Request user's role.
@@ -282,20 +280,21 @@ types:
                         body:
                             application/json:
                                 type: Role
-            post:
-                        description: Assign a new role.
+                    404:
+                        description: Role not found.
+                    
+            put:
+                description: Assign a new role.
+                body:
+                    application/json:
+                        type: ROLES
+                        example: |
+                            {
+                                "type": "USER"
+                            }
+                responses:
+                    201:
                         body:
                             application/json:
                                 type: Role
-                                example: |
-                                    {
-                                        "id": 5678,
-                                        "type": "USER",
-                                        "level": 0
-                                    }
-                        responses:
-                            200:
-                                body:
-                                    application/json:
-                                        type: Role
                             
