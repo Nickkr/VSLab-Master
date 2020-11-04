@@ -284,19 +284,17 @@ types:
                         description: Role not found.
                     
             put:
-                        description: Assign a new role.
+                description: Assign a new role.
+                body:
+                    application/json:
+                        type: ROLES
+                        example: |
+                            {
+                                "type": "USER"
+                            }
+                responses:
+                    201:
                         body:
                             application/json:
                                 type: Role
-                                example: |
-                                    {
-                                        "id": 5678,
-                                        "type": "USER",
-                                        "level": 0
-                                    }
-                        responses:
-                            201:
-                                body:
-                                    application/json:
-                                        type: Role
                             
