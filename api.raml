@@ -39,6 +39,7 @@ types:
         - USER
         - ADMIN
 /products:
+    description: Manage products.
     get:
         description: Get all products.
         queryParameters:
@@ -53,6 +54,10 @@ types:
             maxPrice:
                 type: number
                 description: The maximum price.
+                required: false
+            category:
+                type: number
+                description: The id of a specific category.
                 required: false
         responses:
             200:
@@ -76,10 +81,21 @@ types:
             application/json:
                 type: NewProduct
         responses:
-            200:
+            201:
+                description: The creaded Product.
                 body:
                     application/json:
                         type: Product
+                        example: |
+                         {
+                                    "id": 1,
+                                    "name": "Apfel",
+                                    "details": "Ein Apfel",
+                                    "price": 5,
+                                    "categoryID": 1
+                        }
+            401:
+                description: Unauthorized access. Only admin users can mangage products.
     /{productId}:
         description: Product entity.
         get:
@@ -103,8 +119,10 @@ types:
         delete:
             description: Delete a product.
             responses:
-                200:
+                204:
                     description: Product deleted.
+                401:
+                    description: Unauthorized access. Only admin users can mangage products.
                 404:
                     description: Product not found.
 /categories:
@@ -232,6 +250,7 @@ types:
                     404:
                         description: Category not found.
 /users:
+    description: Manage users.
     post:
         description: Add a new user.
         body:
