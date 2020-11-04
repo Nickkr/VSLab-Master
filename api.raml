@@ -247,7 +247,7 @@ types:
                         }
                     }
         responses:
-            200:
+            201:
                 body:
                     application/json:
                         type: User
@@ -273,6 +273,8 @@ types:
                                             "level": 0
                                         }
                                     }
+                404:
+                    description: User not found.
         /role:
             get: 
                 description: Request user's role.
@@ -282,6 +284,9 @@ types:
                         body:
                             application/json:
                                 type: Role
+                    404:
+                        description: Role not found.
+                    
             post:
                         description: Assign a new role.
                         body:
@@ -294,7 +299,7 @@ types:
                                         "level": 0
                                     }
                         responses:
-                            200:
+                            201:
                                 body:
                                     application/json:
                                         type: Role
