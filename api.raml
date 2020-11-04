@@ -28,12 +28,16 @@ types:
             firstname: string
             lastname: string
             password: string
-            role: Role
+            role: ROLES
     Role:
         properties:
             id: number
             type: string
             level: number
+    ROLES:
+        enum:
+        - USER
+        - ADMIN
 /products:
     get:
         description: Get all products.
@@ -240,11 +244,7 @@ types:
                         "firstname": "Alex",
                         "lastname": "Tester",
                         "password": "rt5j8if",
-                        "role" : {
-                            "id": 5678,
-                            "type": "USER",
-                            "level": 0
-                        }
+                        "role" : ROLES.USER
                     }
         responses:
             201:
@@ -267,11 +267,7 @@ types:
                                         "firstname": "Alex",
                                         "lastname": "Tester",
                                         "password": "rt5j8if",
-                                        "role" : {
-                                            "id": 5678,
-                                            "type": "USER",
-                                            "level": 0
-                                        }
+                                        "role" : ROLES.USER
                                     }
                 404:
                     description: User not found.
