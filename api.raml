@@ -269,7 +269,7 @@ types:
             201:
                 body:
                     application/json:
-                        type: User
+                        type: User                            
     /{username}:
         get:
             description: Query user.
@@ -290,6 +290,22 @@ types:
                                     }
                 404:
                     description: User not found.
+        put:
+            description: Change user's properties.
+            body:
+                application/json:
+                    example: |
+                        {
+                            "lastname": "NeuerNachname"
+                        },
+                        {
+                            "password": "3jfjfe4_"
+                        }
+            responses:
+                200:
+                    body:
+                        application/json:
+                            type: User
         /role:
             get: 
                 description: Request user's role.
