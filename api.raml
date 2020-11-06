@@ -269,7 +269,7 @@ types:
             201:
                 body:
                     application/json:
-                        type: User
+                        type: User                            
     /{username}:
         get:
             description: Query user.
@@ -288,6 +288,29 @@ types:
                                         "password": "rt5j8if",
                                         "role" : ROLES.USER
                                     }
+                404:
+                    description: User not found.
+        put:
+            description: Change user's properties.
+            body:
+                application/json:
+                    example: |
+                        {
+                            "lastname": "NeuerNachname"
+                        },
+                        {
+                            "password": "3jfjfe4_"
+                        }
+            responses:
+                200:
+                    body:
+                        application/json:
+                            type: User
+        delete:
+            description: Delete a user.
+            responses:
+                204:
+                    description: User deleted.
                 404:
                     description: User not found.
         /role:
