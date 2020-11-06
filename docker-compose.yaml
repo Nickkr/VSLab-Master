@@ -1,8 +1,36 @@
-version: '3.1'
+version: '3.2'
 services:
-    api-docs:
-        build: .
-        volumes:
-            - '.:/app/api'
-        ports:
-            - '127.0.0.1:8080:8080'
+  product:
+    build: ./CoreServices/Product
+    networks:
+      - local_dev_net
+    ports:
+      - '18081:8080'
+#   category:
+#     build: ./CoreServices/Category
+#     networks:
+#       - local_dev_net
+#     ports:
+#       - '18082:18082'
+#   user:
+#     build: ./CoreServices/User
+#     networks:
+#       - local_dev_net
+#     ports:
+#       - '18083:18083'
+#   db:
+#     build: ./db
+#     volumes:
+#       - './.data/db:/var/lib/mysql'
+#     environment:
+#       MYSQL_ROOT_PASSWORD: c8de110f37300a53a971749
+#       MYSQL_DATABASE: webshop
+#       MYSQL_USER: webshopuser
+#       MYSQL_PASSWORD: 240b2c6d58ff2ce2f508b49f
+#     ports:
+#       - '3306:3306'
+#     networks:
+#       - local_dev_net
+networks:
+  local_dev_net:
+    driver: bridge

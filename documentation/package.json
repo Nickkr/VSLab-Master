@@ -1,0 +1,27 @@
+{
+  "name": "vslab-master",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "raml2html api.raml > api-docs.html",
+    "build:watch": "npm-watch"
+  },
+  "watch": {
+    "build": "api.raml"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nickkr/VSLab-Master.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nickkr/VSLab-Master/issues"
+  },
+  "homepage": "https://github.com/Nickkr/VSLab-Master#readme",
+  "dependencies": {
+    "npm-watch": "^0.7.0",
+    "raml2html": "^7.6.0"
+  }
+}
