@@ -306,6 +306,13 @@ types:
                     body:
                         application/json:
                             type: User
+        delete:
+            description: Delete a user.
+            responses:
+                204:
+                    description: User deleted.
+                404:
+                    description: User not found.
         /role:
             get: 
                 description: Request user's role.
