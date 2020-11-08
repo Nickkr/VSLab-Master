@@ -263,7 +263,7 @@ types:
                         "firstname": "Alex",
                         "lastname": "Tester",
                         "password": "rt5j8if",
-                        "role" : ROLES.USER
+                        "role" : "USER"
                     }
         responses:
             201:
@@ -286,7 +286,7 @@ types:
                                         "firstname": "Alex",
                                         "lastname": "Tester",
                                         "password": "rt5j8if",
-                                        "role" : ROLES.USER
+                                        "role" : "USER"
                                     }
                 404:
                     description: User not found.
@@ -296,9 +296,7 @@ types:
                 application/json:
                     example: |
                         {
-                            "lastname": "NeuerNachname"
-                        },
-                        {
+                            "lastname": "NeuerNachname",
                             "password": "3jfjfe4_"
                         }
             responses:
@@ -330,10 +328,7 @@ types:
                 body:
                     application/json:
                         type: ROLES
-                        example: |
-                            {
-                                "type": "USER"
-                            }
+                        example: "USER"
                 responses:
                     201:
                         body:
