@@ -128,7 +128,12 @@ types:
 /categories:
     description: Manage categories.
     get:
-        description: Get all categories.
+        description: Get all categories. Optionally filtered by a name.
+        queryParameters:
+            searchName:
+                type: string
+                description: The name to search for.
+                required: false
         responses: 
             200:
                 description: The list of all categories.
@@ -189,6 +194,32 @@ types:
                                 }
                 404:
                     description: Category not found.
+        put:
+            description: Change a category name.
+            body:
+                application/json:
+                    properties:
+                        name:
+                            description: The new name for the category.
+                            required: true
+                            type: string
+                    example: |
+                        {
+                            "name": "Wein"
+                        }
+            responses: 
+                201:
+                    description: The changed category.
+                    body:
+                        application/json:
+                            type: Category
+                            example: |
+                                {
+                                    "id": 3,
+                                    "name": "Wein"
+                                }
+                401:
+                    description: Unauthorized access. Only admin users can mangage categories.
         delete: 
             description: Deletes a category and its accociated products.
             responses: 
@@ -196,59 +227,6 @@ types:
                     description: Success.
                 401:
                     description: Unauthorized access. Only admin users can mangage categories.
-    /{categoryName}:
-        description: Access a category by its name.
-        get:
-            description: Get a category entity.
-            responses:
-                200:
-                    description: The requested category.
-                    body:
-                        application/json:
-                            type: Category
-                            example: |
-                                {
-                                    "id": 1,
-                                    "name": "Obst"
-                                }
-                404:
-                    description: Category not found.
-        /products:
-            description: Access all products of one category by its name.
-            get:
-                description: Get all products for this category.
-                responses:
-                    200:
-                        description: The list of all products for this category.
-                        body:
-                            application/json:
-                                type: Product[]
-                                example: |
-                                    [
-                                        {
-                                            "id": 1,
-                                            "name": "Apfel",
-                                            "details": "Ein Apfel",
-                                            "price": 5,
-                                            "categoryID": 1
-                                        },
-                                        {
-                                            "id": 2,
-                                            "name": "Birne",
-                                            "details": "Eine Birne",
-                                            "price": 6,
-                                            "categoryID": 1
-                                        },
-                                        {
-                                            "id": 4,
-                                            "name": "Banane",
-                                            "details": "Eine Banane",
-                                            "price": 3,
-                                            "categoryID": 1
-                                        }
-                                    ]
-                    404:
-                        description: Category not found.
 /users:
     description: Manage users.
     post:
