@@ -1,19 +1,38 @@
 package com.core.userservice;
 
+import javax.persistence.*;
+
 public enum Role{
     USER, ADMIN
 }
 
+@Entity
+@Table(name = "users")
 public class User {
 
-	private int id;
+    @Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "firstname")
     private String firstname;
+
+    @Column(name = "lastname")
     private String lastname;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "role")
     private Role role;
 
+    public User(){
 
+    }
+    
     public User(long id, String username, String firstname, String lastname, String password, Role role) {
 		this.id = id;
         this.username= username;
