@@ -1,5 +1,6 @@
 documentation/node_modules
-.data
+.data/**
+.data/db/
 
 HELP.md
 target/
