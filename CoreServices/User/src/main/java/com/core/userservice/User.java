@@ -2,22 +2,18 @@ package com.core.userservice;
 
 import javax.persistence.*;
 
-public enum Role{
-    USER, ADMIN
-}
-
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User {
 
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
     @Column(name = "username")
     private String username;
 
-    @Column(name = "firstname")
+    @Column(name = "name")
     private String firstname;
 
     @Column(name = "lastname")
@@ -33,7 +29,7 @@ public class User {
 
     }
     
-    public User(long id, String username, String firstname, String lastname, String password, Role role) {
+    public User(int id, String username, String firstname, String lastname, String password, Role role) {
 		this.id = id;
         this.username= username;
         this.firstname = firstname;
@@ -82,7 +78,7 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 

@@ -15,7 +15,7 @@ CREATE DATABASE user;
 
 use user;
 
-CREATE TABLE customer (
+CREATE TABLE user (
 	id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(255) NOT NULL,
 	lastname VARCHAR(255) NOT NULL,
