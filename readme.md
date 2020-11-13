@@ -27,6 +27,13 @@ Start the application using
 
 Open http://localhost:8080/greeting?name=User to check the response.
 
+Build and run Docker image manual
+
+~~~bash
+  docker build -t test .
+  docker run -it -p 18082:18082 --network=vslab-master_local_dev_net test
+~~~
+
 
 ## Further guides and tutorials
 
