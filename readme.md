@@ -13,16 +13,19 @@ wget -q --no-check-certificate https://registry.hub.docker.com/v1/repositories/m
 
 ## Generate an initial Spring Boot Core project
 
-
-
 https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.4.0.RELEASE&packaging=jar&jvmVersion=11&groupId=com.core&artifactId=category-service&name=category-service&description=Category%20Core%20Service&packageName=com.core.category-service&dependencies=web,devtools,actuator,mysql,data-jpa,cloud-eureka,oauth2-client
 
-
-cd CoreServices\Category
-
-Start the application using `mvn spring-boot:run`
-
 You need to have the JDK 11 and maven installed. Also check if your JAVA_HOME environment is configured correctly.
+
+Follow the https://spring.io/guides/gs/rest-service/ tutorial to create inital code.
+
+Start the application using
+~~~bash
+  cd CoreServices\Category
+  mvn spring-boot:run
+~~~
+
+Open http://localhost:8080/greeting?name=User to check the response.
 
 
 ## Further guides and tutorials

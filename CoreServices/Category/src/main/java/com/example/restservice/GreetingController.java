@@ -1,4 +1,4 @@
-package com.core.categoryservice;
+package com.example.restservice;
 
 import java.util.concurrent.atomic.AtomicLong;
 
