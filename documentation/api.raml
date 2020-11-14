@@ -116,6 +116,16 @@ types:
                                 }
                 404:
                     description: Product not found.
+        put:
+            description: Edit a product.
+            body:
+                application/json:
+                    type: Product
+            responses: 
+                200:
+                    description: The edited product
+                    application/json:
+                        type: Product
         delete:
             description: Delete a product.
             responses:
