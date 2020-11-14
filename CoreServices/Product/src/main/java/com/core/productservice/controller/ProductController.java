@@ -24,7 +24,10 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    List<Product> all(@RequestParam(required = false) double minPrice, @RequestParam(required = false) double maxPrice, @RequestParam(required = false) int categoryId, @RequestParam(required = false) String searchText) {
+    List<Product> all(@RequestParam(required = false) double minPrice, @RequestParam(required = false) double maxPrice,
+            @RequestParam(required = false) int categoryId, @RequestParam(required = false) String searchText) {
+
+        
         return repository.findAll();
     }
 

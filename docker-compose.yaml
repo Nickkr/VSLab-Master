@@ -1,12 +1,18 @@
 version: "3.2"
 services:
-  #   product:
-  #     build: ./CoreServices/Product
-  #     networks:
-  #       - local_dev_net
-  #     ports:
-  #       - '18081:8080'
-  category:
+  product:
+      build: 
+        context: ./CoreServices/
+        args:
+          PORT: 18081
+          FOLDER: Product
+      networks:
+        - local_dev_net
+      ports:
+        - '18081:18081'
+      depends_on: 
+        - db
+  category: 
     build: ./CoreServices/Category
     ports:
       - "18082:18082"
