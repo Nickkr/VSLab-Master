@@ -36,8 +36,8 @@ types:
             level: number
     ROLES:
         enum:
-        - USER
-        - ADMIN
+            - USER
+            - ADMIN
 /products:
     description: Manage products.
     get:
@@ -87,13 +87,13 @@ types:
                     application/json:
                         type: Product
                         example: |
-                         {
-                                    "id": 1,
-                                    "name": "Apfel",
-                                    "details": "Ein Apfel",
-                                    "price": 5,
-                                    "categoryID": 1
-                         }
+                            {
+                                "id": 1,
+                                "name": "Apfel",
+                                "details": "Ein Apfel",
+                                "price": 5,
+                                "categoryID": 1
+                            }
             401:
                 description: Unauthorized access. Only admin users can mangage products.
     /{productId}:
@@ -144,7 +144,7 @@ types:
                 type: string
                 description: The name to search for.
                 required: false
-        responses: 
+        responses:
             200:
                 description: The list of all categories.
                 body:
@@ -174,7 +174,7 @@ types:
                     {
                         "name": "Saft"
                     }
-        responses: 
+        responses:
             201:
                 description: The created category.
                 body:
@@ -217,7 +217,7 @@ types:
                         {
                             "name": "Wein"
                         }
-            responses: 
+            responses:
                 201:
                     description: The changed category.
                     body:
@@ -230,9 +230,9 @@ types:
                                 }
                 401:
                     description: Unauthorized access. Only admin users can mangage categories.
-        delete: 
+        delete:
             description: Deletes a category and its accociated products.
-            responses: 
+            responses:
                 204:
                     description: Success.
                 401:
@@ -257,7 +257,7 @@ types:
             201:
                 body:
                     application/json:
-                        type: User                            
+                        type: User
     /{username}:
         get:
             description: Query user.
@@ -268,14 +268,14 @@ types:
                         application/json:
                             type: User
                             example: |
-                                    {
-                                        "id": 1234,
-                                        "username": "Camembert77",
-                                        "firstname": "Alex",
-                                        "lastname": "Tester",
-                                        "password": "rt5j8if",
-                                        "role" : "USER"
-                                    }
+                                {
+                                    "id": 1234,
+                                    "username": "Camembert77",
+                                    "firstname": "Alex",
+                                    "lastname": "Tester",
+                                    "password": "rt5j8if",
+                                    "role" : "USER"
+                                }
                 404:
                     description: User not found.
         put:
@@ -300,7 +300,7 @@ types:
                 404:
                     description: User not found.
         /role:
-            get: 
+            get:
                 description: Request user's role.
                 responses:
                     200:
@@ -310,7 +310,7 @@ types:
                                 type: Role
                     404:
                         description: Role not found.
-                    
+
             put:
                 description: Assign a new role.
                 body:
@@ -322,4 +322,3 @@ types:
                         body:
                             application/json:
                                 type: Role
-                            
