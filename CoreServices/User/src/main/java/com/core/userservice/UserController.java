@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "http://localhost:18082")
+@CrossOrigin(origins = "http://localhost:18083")
 @RestController
 public class UserController {
 
@@ -49,7 +49,7 @@ public class UserController {
       if(!userData.isEmpty()){
         return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
       }else{
-        User _user = userRepository.save(new User((int) counter.incrementAndGet(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getPassword(), Role.USER));
+        User _user = userRepository.save(new User(user.getUsername(), user.getFirstname(), user.getLastname(), user.getPassword(), user.getRole()));
         return new ResponseEntity<>(_user, HttpStatus.CREATED);
       }
     } catch (Exception e) {

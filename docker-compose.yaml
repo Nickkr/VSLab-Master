@@ -13,19 +13,29 @@ services:
       depends_on: 
         - db
   category: 
-    build: ./CoreServices/Category
+    build: 
+      context: ./CoreServices
+      args:
+        PORT: 18082
+        FOLDER: Category
     ports:
-      - "18082:18082"
+      - '18082:18082'
     networks:
       - local_dev_net
     depends_on:
       - db
-  #   user:
-  #     build: ./CoreServices/User
-  #     networks:
-  #       - local_dev_net
-  #     ports:
-  #       - '18083:18083'
+  user:
+    build: 
+      context: ./CoreServices
+      args:
+        PORT: 18083
+        FOLDER: User
+    networks:
+      - local_dev_net
+    ports:
+      - '18083:18083'
+    depends_on: 
+      - db
   db:
     build: ./db
     volumes:

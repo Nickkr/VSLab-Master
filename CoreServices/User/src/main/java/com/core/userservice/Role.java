@@ -1,12 +1,12 @@
 package com.core.userservice;
 
 public enum Role{
-    USER("USER"),
-    ADMIN("ADMIN");
+    USER(0),
+    ADMIN(1);
 
-    private final String role;
+    private final int role;
 
-    private Role(String role) {
+    private Role(int role) {
         this.role = role;
     }
 }
