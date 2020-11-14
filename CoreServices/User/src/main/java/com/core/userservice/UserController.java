@@ -49,17 +49,21 @@ public class UserController {
       // TODO: SQL injection??
       // TODO: Rollentyp abfragen und entsprechend setzen oder immer User setzen und Ändern nur mit späteren Post möglich?
 
-      User _user = userRepository.save(
-        new User(
-          (int) counter.incrementAndGet(),
-          user.getUsername(),
-          user.getFirstname(),
-          user.getLastname(),
-          user.getPassword(),
-          Role.USER
-        )
-      );
-      return new ResponseEntity<>(_user, HttpStatus.CREATED);
+      List<User> userData = userRepository.findByUsername(user.getUsername());
+      if(!userData.isEmpty()){
+        return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+      }else{
+        User _user = userRepository.save(
+          new User(
+            (int) counter.incrementAndGet(), user.getUsername(),
+            user.getFirstname(),
+            user.getLastname(),
+            user.getPassword(),
+            Role.USER
+          )
+        );
+        return new ResponseEntity<>(_user, HttpStatus.CREATED);
+      }
     } catch (Exception e) {
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -126,7 +130,7 @@ public class UserController {
       System.out.println("User deleted");
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     } catch (Exception e) {
-      System.out.println("I'm in catch");
+
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
