@@ -45,23 +45,11 @@ public class UserController {
   @PostMapping("/users")
   public ResponseEntity<User> createUser(@RequestBody User user) {
     try {
-      // TODO: Check, if user already exists
-      // TODO: SQL injection??
-      // TODO: Rollentyp abfragen und entsprechend setzen oder immer User setzen und Ändern nur mit späteren Post möglich?
-
       List<User> userData = userRepository.findByUsername(user.getUsername());
       if(!userData.isEmpty()){
         return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
       }else{
-        User _user = userRepository.save(
-          new User(
-            (int) counter.incrementAndGet(), user.getUsername(),
-            user.getFirstname(),
-            user.getLastname(),
-            user.getPassword(),
-            Role.USER
-          )
-        );
+        User _user = userRepository.save(new User((int) counter.incrementAndGet(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getPassword(), Role.USER));
         return new ResponseEntity<>(_user, HttpStatus.CREATED);
       }
     } catch (Exception e) {
@@ -77,7 +65,6 @@ public class UserController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
 	}
 
   @GetMapping("/users/{id}")
@@ -98,7 +85,6 @@ public class UserController {
   ) {
     Optional<User> userData = userRepository.findById(id);
 
-    // TODO: prüfen, ob alle Variablen besetzt sind?
     if (userData.isPresent()) {
       User _user = userData.get();
       _user.setUsername(user.getUsername());
@@ -113,24 +99,10 @@ public class UserController {
 
   @DeleteMapping("/users/{id}")
   public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {
-    System.out.println("I'm here in delete.");
-    System.out.println("The id is " + id);
-    System.out.println(((Object) id).getClass().getName());
-    //userRepository.findById(id);
-    int test = id;
-    // userRepository.deleteById(test);
-    //Optional<User> userData = userRepository.findById(id);
-    // userRepository.delete(userData);
-    //userRepository.deleteById();
-
-    // userRepository.deleteAll();
-
     try {
       userRepository.deleteById(id);
-      System.out.println("User deleted");
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     } catch (Exception e) {
-
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
