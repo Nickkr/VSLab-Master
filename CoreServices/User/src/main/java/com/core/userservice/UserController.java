@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    UserRepository tutorialRepository;
+    UserRepository userRepository;
 
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
@@ -35,16 +35,16 @@ public class UserController {
 	public User greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
         //console.log("I am in greeting");
        // return new User(counter.incrementAndGet(),
-       tutorialRepository.save(new User((int)counter.incrementAndGet(), "username","firstname", "lastname", "password", Role.values()[0]));
+       userRepository.save(new User((int)counter.incrementAndGet(), "username","firstname", "lastname", "password", Role.values()[0]));
         return new User((int)counter.incrementAndGet(), 
             String.format(template, name), "firstname", "lastname", "password", Role.values()[0]);
     }
     
-    @PostMapping("/tutorials")
-    public ResponseEntity<User> createUser(@RequestBody User tutorial) {
+    @PostMapping("/users")
+    public ResponseEntity<User> createUser(@RequestBody User user) {
       try {
-        User _tutorial = tutorialRepository.save(new User((int)counter.incrementAndGet(), "username","firstname", "lastname", "password", Role.values()[0]));
-        return new ResponseEntity<>(_tutorial, HttpStatus.CREATED);
+        User _user = userRepository.save(new User((int)counter.incrementAndGet(), "username","firstname", "lastname", "password", Role.values()[0]));
+        return new ResponseEntity<>(_user, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
       }
