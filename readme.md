@@ -30,9 +30,23 @@ Open http://localhost:8080/greeting?name=User to check the response.
 Build and run Docker image manual
 
 ~~~bash
-  docker build -t test .
-  docker run -it -p 18082:18082 --network=vslab-master_local_dev_net test
+  docker-compose up --detach db
+  docker build -t category-service .
+  docker run -it -p 18082:18082 --network=vslab-master_local_dev_net category-service
 ~~~
+
+Build and update depending images using docker-compose
+~~~bash
+  docker-compose build --pull
+~~~
+
+
+Build and run using docker-compose
+~~~bash
+  docker-compose build --pull
+  docker-compose up --build --detach
+~~~
+
 
 
 ## Further guides and tutorials
