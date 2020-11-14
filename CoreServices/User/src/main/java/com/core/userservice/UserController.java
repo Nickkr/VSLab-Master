@@ -65,6 +65,17 @@ public class UserController {
     }
   }
 
+  @DeleteMapping("/users")
+	public ResponseEntity<HttpStatus> deleteAllUsers() {
+		try {
+			userRepository.deleteAll();
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
   @GetMapping("/users/{id}")
   public ResponseEntity<User> getUserById(@PathVariable("id") int id) {
     Optional<User> userData = userRepository.findById(id);
