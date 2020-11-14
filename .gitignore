@@ -1,12 +1,12 @@
-documentation/node_modules
-.data/**
-.data/db/
+### NPM ###
+node_modules
 
-HELP.md
+### MySQL ###
+.data
+
+### Maven ###
+.mvn
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
 ### STS ###
 .apt_generated

@@ -1,35 +1,37 @@
-version: '3.2'
+version: "3.2"
 services:
-#   product:
-#     build: ./CoreServices/Product
-#     networks:
-#       - local_dev_net
-#     ports:
-#       - '18081:8080'
-#   category:
-#     build: ./CoreServices/Category
-#     networks:
-#       - local_dev_net
-#     ports:
-#       - '18082:18082'
-#   user:
-#     build: ./CoreServices/User
-#     networks:
-#       - local_dev_net
-#     ports:
-#       - '18083:18083'
+  #   product:
+  #     build: ./CoreServices/Product
+  #     networks:
+  #       - local_dev_net
+  #     ports:
+  #       - '18081:8080'
+  category:
+    build: ./CoreServices/Category
+    ports:
+      - "18082:18082"
+    networks:
+      - local_dev_net
+    depends_on:
+      - db
+  #   user:
+  #     build: ./CoreServices/User
+  #     networks:
+  #       - local_dev_net
+  #     ports:
+  #       - '18083:18083'
   db:
     build: ./db
     volumes:
-      - './.data/db:/var/lib/mysql'
+      - "./.data/db:/var/lib/mysql"
     environment:
       MYSQL_ROOT_PASSWORD: c8de110f37300a53a971749
     ports:
-      - '3306:3306'
+      - "3306:3306"
     networks:
       local_dev_net:
-        aliases: 
-            - database
+        aliases:
+          - database
 networks:
   local_dev_net:
     driver: bridge
