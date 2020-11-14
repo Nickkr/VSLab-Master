@@ -69,6 +69,7 @@ public class UserController {
   public ResponseEntity<User> updateUser(@PathVariable("id") int id, @RequestBody User user) {
     Optional<User> userData = userRepository.findById(id);
 
+    // TODO: prüfen, ob alle Variablen besetzt sind?
     if (userData.isPresent()) {
       User _user = userData.get();
       _user.setUsername(user.getUsername());
@@ -79,5 +80,30 @@ public class UserController {
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+  }
+
+  @DeleteMapping("/users/{id}")
+  public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {
+    System.out.println("I'm here in delete.");
+    System.out.println("The id is " + id );
+    System.out.println(((Object)id).getClass().getName());
+    //userRepository.findById(id);
+    int test = id;
+   // userRepository.deleteById(test);
+    //Optional<User> userData = userRepository.findById(id);
+   // userRepository.delete(userData);
+   //userRepository.deleteById();
+
+  // userRepository.deleteAll();
+    
+    try {
+      userRepository.deleteById(id);
+      System.out.println("User deleted");
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    } catch (Exception e) {
+      System.out.println("I'm in catch");
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
   }
 }
