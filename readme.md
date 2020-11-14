@@ -19,6 +19,11 @@ You need to have the JDK 11 and maven installed. Also check if your JAVA_HOME en
 
 Follow the https://spring.io/guides/gs/rest-service/ tutorial to create inital code.
 
+Start the database
+~~~bash
+  docker-compose up --detach db
+~~~
+
 Start the application using
 ~~~bash
   cd CoreServices\Category
@@ -27,10 +32,11 @@ Start the application using
 
 Open http://localhost:8080/greeting?name=User to check the response.
 
+## Build with docker
+
 Build and run Docker image manual
 
 ~~~bash
-  docker-compose up --detach db
   docker build -t category-service .
   docker run -it -p 18082:18082 --network=vslab-master_local_dev_net category-service
 ~~~
@@ -46,8 +52,6 @@ Build and run using docker-compose
   docker-compose build --pull
   docker-compose up --build --detach
 ~~~
-
-
 
 ## Further guides and tutorials
 
