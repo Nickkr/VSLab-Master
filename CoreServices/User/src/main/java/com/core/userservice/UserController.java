@@ -46,10 +46,22 @@ public class UserController {
         // TODO: Check, if user already exists
         // TODO: SQL injection??
         // TODO: Rollentyp abfragen und entsprechend setzen oder immer User setzen und Ändern nur mit späteren Post möglich?
+        
         User _user = userRepository.save(new User((int)counter.incrementAndGet(), user.getUsername(), user.getFirstname(), user.getLastname(), user.getPassword(), Role.USER));
         return new ResponseEntity<>(_user, HttpStatus.CREATED);
       } catch (Exception e) {
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable("id") int id) {
+      Optional<User> userData = userRepository.findById(id);
+  
+      if (userData.isPresent()) {
+        return new ResponseEntity<>(userData.get(), HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
     }
 }
