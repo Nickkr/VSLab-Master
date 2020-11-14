@@ -31,31 +31,6 @@ public class UserController {
   private static final String template = "Hello, %s!";
   private final AtomicLong counter = new AtomicLong();
 
-  @GetMapping("/greeting")
-  public User greeting(
-    @RequestParam(value = "name", defaultValue = "World") String name) {
-    //console.log("I am in greeting");
-    // return new User(counter.incrementAndGet(),
-    userRepository.save(
-      new User(
-        (int) counter.incrementAndGet(),
-        "username",
-        "firstname",
-        "lastname",
-        "password",
-        Role.values()[0]
-      )
-    );
-    return new User(
-      (int) counter.incrementAndGet(),
-      String.format(template, name),
-      "firstname",
-      "lastname",
-      "password",
-      Role.values()[0]
-    );
-  }
-
   @GetMapping("/users")
   public ResponseEntity<List<User>> getAllUsers() {
     try {
