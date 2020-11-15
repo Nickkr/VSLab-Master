@@ -124,8 +124,9 @@ types:
             responses: 
                 200:
                     description: The edited product
-                    application/json:
-                        type: Product
+                    body:
+                        application/json:
+                            type: Product
         delete:
             description: Delete a product.
             responses:
