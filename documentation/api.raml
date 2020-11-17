@@ -259,6 +259,13 @@ types:
                 body:
                     application/json:
                         type: User
+    delete:
+        description: Delete all users.
+        responses:
+            204:
+                description: Users deleted.
+            404:
+                description: Users not found.
     /{username}:
         get:
             description: Query user.
