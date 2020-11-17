@@ -259,6 +259,27 @@ types:
                 body:
                     application/json:
                         type: User
+    get:
+        description: Query all user.
+        queryParameters:
+            (none):
+        responses:
+            200:
+                description: The requested users.
+                body:
+                    application/json:
+                        type: User
+                        example: |
+                              {
+                                "id": 1234,
+                                "username": "Camembert77",
+                                "firstname": "Alex",
+                                "lastname": "Tester",
+                                "password": "rt5j8if",
+                                " role" : "USER"
+                            }
+            404:
+                description: Users not found.
     delete:
         description: Delete all users.
         responses:
