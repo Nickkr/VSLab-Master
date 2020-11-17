@@ -300,26 +300,3 @@ types:
                     description: User deleted.
                 404:
                     description: User not found.
-        /role:
-            get:
-                description: Request user's role.
-                responses:
-                    200:
-                        description: The requested user's role.
-                        body:
-                            application/json:
-                                type: Role
-                    404:
-                        description: Role not found.
-
-            put:
-                description: Assign a new role.
-                body:
-                    application/json:
-                        type: ROLES
-                        example: "USER"
-                responses:
-                    201:
-                        body:
-                            application/json:
-                                type: Role
