@@ -105,6 +105,7 @@ Development related articles:
 Creating the composite service:
 
 * [Spring 5 WebClient](https://www.baeldung.com/spring-5-webclient)
+* [Spring WebClient – GET, PUT, POST, DELETE examples](https://howtodoinjava.com/spring-webflux/webclient-get-post-example/)
 * *deprecated for our used Spring version (5.2.10 / 5.3.1)*
   * [Consuming a RESTful Web Service](https://spring.io/guides/gs/consuming-rest/)
   * [The Guide to RestTemplate](https://www.baeldung.com/rest-template)
