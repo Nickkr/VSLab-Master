@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "com.core","com.example"} )
+@ComponentScan(basePackages = { "com.core", "com.example" })
 public class CategoryServiceApplication {
 
 	public static void main(String[] args) {
