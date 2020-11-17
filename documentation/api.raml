@@ -231,6 +231,8 @@ types:
                                 }
                 401:
                     description: Unauthorized access. Only admin users can mangage categories.
+                404:
+                    description: Category not found.
         delete:
             description: Deletes a category and its accociated products.
             responses:
@@ -238,6 +240,8 @@ types:
                     description: Success.
                 401:
                     description: Unauthorized access. Only admin users can mangage categories.
+                404:
+                    description: Category not found.
 /users:
     description: Manage users.
     post:
