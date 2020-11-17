@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.core.productservice.model.Product;
 import com.core.productservice.repository.ProductRepository;
 
+import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,11 +25,10 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    List<Product> all(@RequestParam(required = false) double minPrice, @RequestParam(required = false) double maxPrice,
-            @RequestParam(required = false) int categoryId, @RequestParam(required = false) String searchText) {
-
+    List<Product> all(@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Integer categoryId, @RequestParam(required = false) String searchText) {
         
-        return repository.findAll();
+        return repository.findByPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryIdEquals(1, 5.0, 1);
     }
 
     @PostMapping("/products")
