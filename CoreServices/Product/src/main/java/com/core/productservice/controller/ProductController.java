@@ -28,7 +28,12 @@ public class ProductController {
     List<Product> all(@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false) Integer categoryId, @RequestParam(required = false) String searchText) {
         
-        return repository.findByPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryIdEquals(1, 5.0, 1);
+        //return repository.findByPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryIdEquals(1, 5.0, 1);
+        if(categoryId != null) {
+            return repository.findByCategoryIdEquals(categoryId);
+        }
+        return repository.findAll();
+
     }
 
     @PostMapping("/products")

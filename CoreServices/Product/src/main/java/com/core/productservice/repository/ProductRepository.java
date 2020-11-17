@@ -7,6 +7,8 @@ import com.core.productservice.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    List<Product> findByCategoryIdEquals(int categoryId);
  
     List<Product> findByPriceGreaterThanEqualAndPriceLessThanEqual(double minPrice, double maxPrice);
     
