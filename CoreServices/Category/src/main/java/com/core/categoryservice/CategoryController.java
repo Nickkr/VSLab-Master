@@ -2,6 +2,8 @@ package com.core.categoryservice;
 
 import java.util.List;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,6 +28,17 @@ public class CategoryController {
 	@GetMapping
 	public List<Category> getCategories() {
 		return repository.findAll();
+	}
+
+	@GetMapping(params = "searchName")
+	public List<Category> getFilteredCategories(@RequestParam String searchName) {
+		ExampleMatcher matcher = ExampleMatcher.matchingAny()
+				.withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+				.withIgnorePaths("id");
+
+		Example<Category> example = Example.of(new Category(searchName), matcher);
+
+		return repository.findAll(example);
 	}
 
 	@PostMapping
@@ -54,7 +68,7 @@ public class CategoryController {
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> deleteCategory(@PathVariable Integer id) {
 		repository.deleteById(id);
-		
+
 		return ResponseEntity.noContent().build();
 	}
 

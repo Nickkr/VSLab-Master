@@ -98,6 +98,7 @@ To run your application locally, goto to your working directory containing the p
 
 Development related articles:
 
+* [Spring Data JPA Query by Example](https://www.baeldung.com/spring-data-query-by-example)
 * [Advanced Microservices Security with Spring and OAuth2](https://dzone.com/articles/advanced-microservices-security-with-spring-and-oa)
 
 ### Reference Documentation
