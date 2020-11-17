@@ -280,6 +280,20 @@ types:
                             }
             404:
                 description: Users not found.
+    put:
+        description: Change user's properties.
+        body:
+            application/json:
+                example: |
+                    {
+                        "lastname": "NeuerNachname",
+                        "password": "3jfjfe4_"
+                    }
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: User
     delete:
         description: Delete all users.
         responses:
