@@ -100,6 +100,7 @@ Development related articles:
 
 * [Spring Data JPA Query by Example](https://www.baeldung.com/spring-data-query-by-example)
 * [Advanced Microservices Security with Spring and OAuth2](https://dzone.com/articles/advanced-microservices-security-with-spring-and-oa)
+* [How to Use Docker’s Health Check Command](https://scoutapm.com/blog/how-to-use-docker-healthcheck)
 
 ### Reference Documentation
 
@@ -125,3 +126,4 @@ The following guides illustrate how to use some features concretely:
 * [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)
 * [Accessing data with MySQL](https://spring.io/guides/gs/accessing-data-mysql/)
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
+* [Consuming a RESTful Web Service](https://spring.io/guides/gs/consuming-rest/)
