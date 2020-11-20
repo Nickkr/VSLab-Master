@@ -1,6 +1,8 @@
 package com.composite.composite.service;
 
 import com.composite.composite.service.Product;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 import java.net.URI;
 import javax.ws.rs.DELETE;
 
@@ -65,10 +67,15 @@ public class ProductCategoryController {
     @LoadBalanced
     RestTemplate restTemplate;
 
-	// TODO Temporary for tests.
+    // TODO Temporary for tests.
+    @HystrixCommand(fallbackMethod = "getProductsCache")
     @GetMapping("/products")
     Product[] getProducts() {
         return restTemplate.getForObject("http://product-service/products/", Product[].class);
+    }
+
+    Product[] getProductsCache() {
+        return new Product[0];
     }
 
 }
