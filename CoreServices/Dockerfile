@@ -9,7 +9,7 @@ COPY ./${FOLDER}/pom.xml ./pom.xml
 RUN mvn verify clean --fail-never
 
 COPY ./${FOLDER}/src ./src
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 # Package build application as executable docker image.
 FROM openjdk:11-jre-slim
