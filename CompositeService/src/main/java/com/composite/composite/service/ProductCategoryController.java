@@ -14,50 +14,53 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
-
-import reactor.core.publisher.Mono;
-
 @RestController
 @Component
+//@RequestMapping("/categories")
 public class ProductCategoryController {
 
-    private WebClient clientCategory;
-    private WebClient clientProduct;
+	private static final String CATEGORY_BASE_URL = "http://category-service/categories";
+	private static final String PRODUCT_BASE_URL = "http://product-service/products";
 
-	private RestTemplate restTemplate = new RestTemplate();
+	private WebClient categoryClient = WebClient.create(CATEGORY_BASE_URL);
+	private WebClient productClient = WebClient.create(PRODUCT_BASE_URL);
 
+	@DeleteMapping("/categories/{id}")
+	public ResponseEntity<?> deleteCategoryAndProducts(@PathVariable Integer id) {
 
-    ProductCategoryController() {
-        clientCategory = WebClient.create("http://category-service/");
-        clientProduct = WebClient.create("http://product-service/");
-    }
+		// TODO Should we delete the category not at first, but after all products where deleted, to ensure consistent data in case a product deletion failed.
 
-    @DeleteMapping("/categories/{id}")
-    String deleteCategoryAndProducts(@PathVariable int id) {
-        Mono<ResponseEntity<Void>> categoryResponse = clientCategory.delete().uri("/categories/" + id).retrieve().toBodilessEntity();
-        ResponseEntity<Void> response = categoryResponse.block();
+		// Delete category
+		ResponseEntity<Void> categoryDeleteResponseEntity = categoryClient.delete().uri("/{id}", id).retrieve().toBodilessEntity().block();
 
-        if(response.getStatusCode() != HttpStatus.NO_CONTENT) {
-            return "Category not found!";
-        }
+		// If the category was deleted successfully, then delete the associated products.
+		if (categoryDeleteResponseEntity.getStatusCode() == HttpStatus.NO_CONTENT) {
+			Product[] productResponse = productClient.get().uri("?categoryId={id}", id).retrieve().bodyToMono(Product[].class).block();
 
-        Product[] productResponse = clientProduct.get().uri("/products?categoryId=" + id).retrieve().bodyToMono(Product[].class).block();
+			for (Product product : productResponse) {
+				ResponseEntity<Void> productDeleteResponseEntity = productClient.delete().uri("/{id}" + product.getId()).retrieve().toBodilessEntity().block();
 
-        for (Product product : productResponse) {
-            clientProduct.delete().uri("/products/" + product.getId()).exchange().block();
-        }
+				// TODO Check call logging
+				System.out.println("Call to " + productDeleteResponseEntity.getHeaders().getOrigin() + " returned " + productDeleteResponseEntity.getStatusCodeValue());
+			}
 
-        return "DELETED";
-    }
+			return ResponseEntity.noContent().build();
+		}
 
+		return ResponseEntity.notFound().build();
+	}
+
+	// TODO Temporary for tests.
     @GetMapping("/products")
-    Product[] getCategories() {
+    Product[] getProducts() {
+    	RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject("http://product-service/products/", Product[].class);
     }
 
