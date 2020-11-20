@@ -263,6 +263,48 @@ types:
                 body:
                     application/json:
                         type: User
+    get:
+        description: Query all user.
+        queryParameters:
+            (none):
+        responses:
+            200:
+                description: The requested users.
+                body:
+                    application/json:
+                        type: User
+                        example: |
+                              {
+                                "id": 1234,
+                                "username": "Camembert77",
+                                "firstname": "Alex",
+                                "lastname": "Tester",
+                                "password": "rt5j8if",
+                                " role" : "USER"
+                            }
+            404:
+                description: Users not found.
+    put:
+        description: Change user's properties.
+        body:
+            application/json:
+                example: |
+                    {
+                        "lastname": "NeuerNachname",
+                        "password": "3jfjfe4_"
+                    }
+        responses:
+            200:
+                body:
+                    application/json:
+                        type: User
+    delete:
+        description: Delete all users.
+        responses:
+            204:
+                description: Users deleted.
+            404:
+                description: Users not found.
     /{username}:
         get:
             description: Query user.
@@ -304,26 +346,3 @@ types:
                     description: User deleted.
                 404:
                     description: User not found.
-        /role:
-            get:
-                description: Request user's role.
-                responses:
-                    200:
-                        description: The requested user's role.
-                        body:
-                            application/json:
-                                type: Role
-                    404:
-                        description: Role not found.
-
-            put:
-                description: Assign a new role.
-                body:
-                    application/json:
-                        type: ROLES
-                        example: "USER"
-                responses:
-                    201:
-                        body:
-                            application/json:
-                                type: Role

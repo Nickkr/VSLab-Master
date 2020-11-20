@@ -1,44 +1,64 @@
 package com.composite.composite.service;
 
+import com.composite.composite.service.Product;
+import java.net.URI;
+import javax.ws.rs.DELETE;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
+
+import reactor.core.publisher.Mono;
+
 @RestController
-@RequestMapping("/categories")
+@Component
 public class ProductCategoryController {
 
-	private static final String PRODUCT_BASE_URL = "http://localhost:18081/product";
-	private static final String CATEGORY_BASE_URL = "http://localhost:18082/categories";
+    private WebClient clientCategory;
+    private WebClient clientProduct;
 
-	private WebClient categoryClient = WebClient.create(ProductCategoryController.CATEGORY_BASE_URL);
-	private WebClient productClient = WebClient.create(PRODUCT_BASE_URL);
+	private RestTemplate restTemplate = new RestTemplate();
 
-	@DeleteMapping("{id}")
-	public ResponseEntity<?> deleteCategoryAndProducts(@PathVariable Integer id) {
 
-		// TODO Should we delete the category not at first, but after all products where deleted, to ensure consistent data in case a product deletion failed.
+    ProductCategoryController() {
+        clientCategory = WebClient.create("http://category-service/");
+        clientProduct = WebClient.create("http://product-service/");
+    }
 
-		// Delete category
-		ResponseEntity<Void> categoryDeleteResponseEntity = categoryClient.delete().uri("/{id}", id).retrieve().toBodilessEntity().block();
+    @DeleteMapping("/categories/{id}")
+    String deleteCategoryAndProducts(@PathVariable int id) {
+        Mono<ResponseEntity<Void>> categoryResponse = clientCategory.delete().uri("/categories/" + id).retrieve().toBodilessEntity();
+        ResponseEntity<Void> response = categoryResponse.block();
 
-		// If the category was deleted successfully, then delete the associated products.
-		if (categoryDeleteResponseEntity.getStatusCode() == HttpStatus.NO_CONTENT) {
-			Product[] productResponse = productClient.get().uri("?categoryId={id}", id).retrieve().bodyToMono(Product[].class).block();
+        if(response.getStatusCode() != HttpStatus.NO_CONTENT) {
+            return "Category not found!";
+        }
 
-			for (Product product : productResponse) {
-				ResponseEntity<Void> productDeleteResponseEntity = productClient.delete().uri("/{id}" + product.getId()).retrieve().toBodilessEntity().block();
+        Product[] productResponse = clientProduct.get().uri("/products?categoryId=" + id).retrieve().bodyToMono(Product[].class).block();
 
-				System.out.println("Call to " + productDeleteResponseEntity.getHeaders().getOrigin() + " returned " + productDeleteResponseEntity.getStatusCodeValue());
-			}
+        for (Product product : productResponse) {
+            clientProduct.delete().uri("/products/" + product.getId()).exchange().block();
+        }
 
-			return ResponseEntity.noContent().build();
-		}
+        return "DELETED";
+    }
 
-		return ResponseEntity.notFound().build();
-	}
+    @GetMapping("/products")
+    Product[] getCategories() {
+        return restTemplate.getForObject("http://product-service/products/", Product[].class);
+    }
+
 }

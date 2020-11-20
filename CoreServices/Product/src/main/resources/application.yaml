@@ -1,0 +1,28 @@
+server:
+  port: 18081
+spring:
+  application:
+    name: product-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/product
+    username: root
+    password: c8de110f37300a53a971749
+    driver-class-name: com.mysql.cj.jdbc.Driver
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    preferIpAddress: true
+    leaseRenewalIntervalInSeconds: 5
+    metadataMap:
+      instanceId: '${spring.application.name}:${random.value}'
+---
+spring:
+  profiles: docker
+  datasource:
+    url: jdbc:mysql://database:3306/product
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:8761/eureka/
