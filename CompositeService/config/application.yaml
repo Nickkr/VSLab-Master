@@ -1,5 +1,0 @@
-server:
-    port: 18084
-eureka:
-    client:
-        enabled: false

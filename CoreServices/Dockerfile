@@ -22,7 +22,7 @@ ARG JAR_FILE=target/*.jar
 ENV SPRING_PROFILES_ACTIVE docker
 EXPOSE ${PORT}
 
-COPY ./${FOLDER}/config ./config
+#COPY ./${FOLDER}/config ./config
 COPY --from=builder /builds/${JAR_FILE} app.jar
 
 ENTRYPOINT ["java","-jar","app.jar"]

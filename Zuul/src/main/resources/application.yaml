@@ -11,3 +11,4 @@ zuul:
         product-service: /product-api/**
         category-service: /category-api/**
         user-service: /user-api/**
+        product-category-composite-service: /composite-api/**
