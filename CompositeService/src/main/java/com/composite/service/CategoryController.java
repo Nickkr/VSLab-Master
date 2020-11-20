@@ -1,4 +1,4 @@
-package com.composite.composite.service;
+package com.composite.service;
 
 public class CategoryController {
     

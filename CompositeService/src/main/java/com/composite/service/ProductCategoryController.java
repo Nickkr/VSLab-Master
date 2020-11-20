@@ -1,6 +1,6 @@
-package com.composite.composite.service;
+package com.composite.service;
 
-import com.composite.composite.service.Product;
+import com.composite.service.Product;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 import java.net.URI;
