@@ -110,6 +110,10 @@ Creating the composite service and call core services:
   * [Consuming a RESTful Web Service](https://spring.io/guides/gs/consuming-rest/)
   * [The Guide to RestTemplate](https://www.baeldung.com/rest-template)
 
+Eureka-Ribbon Discovery:
+
+* [Ribbon - Loadblanced](http://www.masterspringboot.com/cloud/netflix/service-discovery-with-netflix-eureka-and-ribbon-client-load-balancer)
+
 More development related articles:
 
 * [Advanced Microservices Security with Spring and OAuth2](https://dzone.com/articles/advanced-microservices-security-with-spring-and-oa)

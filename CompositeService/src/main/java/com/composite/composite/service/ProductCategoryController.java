@@ -5,6 +5,7 @@ import java.net.URI;
 import javax.ws.rs.DELETE;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -29,8 +30,11 @@ public class ProductCategoryController {
 	private static final String CATEGORY_BASE_URL = "http://category-service/categories";
 	private static final String PRODUCT_BASE_URL = "http://product-service/products";
 
+    @LoadBalanced
 	private WebClient categoryClient = WebClient.create(CATEGORY_BASE_URL);
-	private WebClient productClient = WebClient.create(PRODUCT_BASE_URL);
+    
+    @LoadBalanced
+    private WebClient productClient = WebClient.create(PRODUCT_BASE_URL);
 
 	@DeleteMapping("/categories/{id}")
 	public ResponseEntity<?> deleteCategoryAndProducts(@PathVariable Integer id) {
@@ -55,12 +59,15 @@ public class ProductCategoryController {
 		}
 
 		return ResponseEntity.notFound().build();
-	}
+    }
+    
+    @Autowired
+    @LoadBalanced
+    RestTemplate restTemplate;
 
 	// TODO Temporary for tests.
     @GetMapping("/products")
     Product[] getProducts() {
-    	RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject("http://product-service/products/", Product[].class);
     }
 
