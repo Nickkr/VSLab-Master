@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.composite</groupId>
-	<artifactId>composite.service</artifactId>
+	<artifactId>composite-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>composite.service</name>
+	<name>composite-service</name>
 	<description>Composite Service for the WebShop</description>
 
 	<properties>

@@ -1,5 +1,13 @@
 server:
     port: 18084
+spring:
+    application:
+        name: composite-service
+reactor:
+    netty:
+        http:
+            client: DEBUG
 eureka:
     client:
         enabled: false
+        
