@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,7 @@ public class UserController {
   private static final String template = "Hello, %s!";
   private final AtomicLong counter = new AtomicLong();
 
+  @HystrixCommand(fallbackMethod = "getUsersCache")
   @GetMapping("/users")
   public ResponseEntity<List<User>> getAllUsers() {
     try {
@@ -41,6 +45,22 @@ public class UserController {
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  ResponseEntity<List<User>> getUsersCache() {
+    User a = new User();
+    User b = new User();
+    User c = new User();
+    //User[] users = new User[]{a};
+    List<User> users = new ArrayList<User>();
+    users.add(a);
+    users.add(b);
+    users.add(c);
+    return new ResponseEntity<>(users, HttpStatus.OK);
+} 
+
+public String fallback() {
+  return "User-Service Failed ";
+}
 
   @PostMapping("/users")
   public ResponseEntity<User> createUser(@RequestBody User user) {
