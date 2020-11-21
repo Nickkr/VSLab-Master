@@ -10,13 +10,22 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>Eureka</module>
     <module>CoreServices/Category</module>
     <module>CoreServices/Product</module>
     <module>CoreServices/User</module>
+    <!--<module>Hystrix</module>-->
     <module>CompositeService</module>
-    <module>Eureka</module>
-    <module>Hystrix</module>
     <module>Zuul</module>
   </modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
