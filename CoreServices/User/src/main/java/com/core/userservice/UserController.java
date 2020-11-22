@@ -46,6 +46,7 @@ public class UserController {
     }
   }
 
+  // TODO: 
   ResponseEntity<List<User>> getUsersCache() {
     User a = new User();
     User b = new User();
@@ -56,12 +57,9 @@ public class UserController {
     users.add(b);
     users.add(c);
     return new ResponseEntity<>(users, HttpStatus.OK);
-} 
+  } 
 
-public String fallback() {
-  return "User-Service Failed ";
-}
-
+  @HystrixCommand
   @PostMapping("/users")
   public ResponseEntity<User> createUser(@RequestBody User user) {
     try {
@@ -77,6 +75,7 @@ public String fallback() {
     }
   }
 
+  @HystrixCommand
   @DeleteMapping("/users")
 	public ResponseEntity<HttpStatus> deleteAllUsers() {
 		try {
@@ -87,6 +86,7 @@ public String fallback() {
 		}
 	}
 
+  @HystrixCommand
   @GetMapping("/users/{id}")
   public ResponseEntity<User> getUserById(@PathVariable("id") int id) {
     Optional<User> userData = userRepository.findById(id);
@@ -98,6 +98,7 @@ public String fallback() {
     }
   }
 
+  @HystrixCommand
   @PutMapping("/users/{id}")
   public ResponseEntity<User> updateUser(
     @PathVariable("id") int id,
@@ -117,6 +118,7 @@ public String fallback() {
     }
   }
 
+  @HystrixCommand
   @DeleteMapping("/users/{id}")
   public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {
     try {
