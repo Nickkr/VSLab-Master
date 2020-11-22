@@ -50,17 +50,7 @@ public class UserController {
     }
   }
 
-  // TODO: 
   ResponseEntity<List<User>> getUsersCache() {
-    User a = new User();
-    User b = new User();
-    User c = new User();
-    //User[] users = new User[]{a};
-    List<User> users = new ArrayList<User>();
-    users.add(a);
-    users.add(b);
-    users.add(c);
-   // return new ResponseEntity<>(users, HttpStatus.OK);
     return new ResponseEntity<>(userCache, HttpStatus.OK);
   } 
 
