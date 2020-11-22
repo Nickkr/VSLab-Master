@@ -31,6 +31,8 @@ public class UserController {
   @Autowired
   UserRepository userRepository;
 
+  private List<User> userCache = new ArrayList<User>();
+
   private static final String template = "Hello, %s!";
   private final AtomicLong counter = new AtomicLong();
 
@@ -40,6 +42,8 @@ public class UserController {
     try {
       List<User> users = new ArrayList<User>();
       userRepository.findAll().forEach(users::add);
+      userCache.clear();
+		  users.forEach(u -> userCache.add(u));
       return new ResponseEntity<>(users, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -56,7 +60,8 @@ public class UserController {
     users.add(a);
     users.add(b);
     users.add(c);
-    return new ResponseEntity<>(users, HttpStatus.OK);
+   // return new ResponseEntity<>(users, HttpStatus.OK);
+    return new ResponseEntity<>(userCache, HttpStatus.OK);
   } 
 
   @HystrixCommand
