@@ -7,10 +7,27 @@
 You can do the build and run in one command.
 
 ~~~bash
+mvn clean package -DskipTests
 docker-compose up --build --detach
 ~~~
 
-Or follow the detailed instructions:
+When you do not have maven installed on your machine, you can let docker compile your sources.
+
+~~~bash
+BUILD_FROM=MavenSources docker-compose build
+~~~
+
+You can use the enviroment variable `BUILD_FROM` to select which dockerfile is used for the build.
+If you obmit this variable, then the build from executable jar is used by default.
+
+~~~bash
+BUILD_FROM=ExecutableJar docker-compose build
+~~~
+
+* with `BUILD_FROM=MavenSources` the source code is compiled during the docker build using the `maven:3.6.3-openjdk-11-slim` image. Therefore maven needs to download all dependencies, as it cannot reuse the hosts local repository. This might increase your build time.
+* with `BUILD_FROM=ExecutableJar` the pre-compiled jar executable is packed into the `openjdk:11-jre-slim` image. This requires you to compile the sources on the host system before the docker build.
+
+### Detailed build instructions
 
 1. *Optionally* if you want to predownload used docker images, do a pull first.
 
@@ -20,19 +37,25 @@ Or follow the detailed instructions:
     docker pull maven:3.6.3-openjdk-11-slim
     ~~~
 
-2. Build the services
+2. Compile the sources
+
+    ~~~bash
+    mvn clean package -DskipTests
+    ~~~
+
+3. Build the services
 
     ~~~bash
     docker-compose build
     ~~~
 
-3. *Optionally* delete the local MySql data for a fresh database initialization.
+4. *Optionally* delete the local MySql data for a fresh database initialization.
 
     ~~~bash
     rm -rf .data
     ~~~
 
-4. Run the services
+5. Run the services
 
     ~~~bash
     docker-compose up --detach
