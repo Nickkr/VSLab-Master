@@ -1,0 +1,1 @@
+cp .dockerignore BuildFromExecutableJar.dockerfile BuildFromMavenSources.dockerfile CoreServices/Category/
