@@ -25,10 +25,11 @@ services:
       - eureka-server
   category:
     build:
-      context: ./CoreServices
+      context: .
+      dockerfile: BuildFromExecutableJar.dockerfile
       args:
         PORT: 18082
-        FOLDER: Category
+        FOLDER: CoreServices/Category
     ports:
       - '18082:18082'
     networks:
