@@ -7,27 +7,36 @@
 You can do the build and run in one command.
 
 ~~~bash
-mvn clean package -DskipTests
 docker-compose up --build --detach
 ~~~
 
-When you do not have maven installed on your machine, you can let docker compile your sources.
+### Using local compiled executables during development
 
-~~~bash
-BUILD_FROM=MavenSources docker-compose build
-~~~
+When you do have maven installed on your machine, you can configure the docker-compose build to use existing java executables. The java executables needs to be compiled with maven before running docker-compose.
 
 You can use the enviroment variable `BUILD_FROM` to select which dockerfile is used for the build.
-If you obmit this variable, then the build from executable jar is used by default.
-
-~~~bash
-BUILD_FROM=ExecutableJar docker-compose build
-~~~
+If you obmit this variable, then the build from maven sources is used by default.
 
 * with `BUILD_FROM=MavenSources` the source code is compiled during the docker build using the `maven:3.6.3-openjdk-11-slim` image. Therefore maven needs to download all dependencies, as it cannot reuse the hosts local repository. This might increase your build time.
+
+    ~~~bash
+    BUILD_FROM=MavenSources docker-compose build
+    ~~~
+
 * with `BUILD_FROM=ExecutableJar` the pre-compiled jar executable is packed into the `openjdk:11-jre-slim` image. This requires you to compile the sources on the host system before the docker build.
 
+    ~~~bash
+    mvn clean package -DskipTests
+    BUILD_FROM=ExecutableJar docker-compose build
+    ~~~
+
+#### Script
+
+TODO: Make a script for developers to compile with local maven and use docker compose.
+
 ### Detailed build instructions
+
+TODO: Check and update usage
 
 1. *Optionally* if you want to predownload used docker images, do a pull first.
 
