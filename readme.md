@@ -12,7 +12,7 @@ docker-compose up --build --detach
 
 ### Using local compiled executables during development
 
-When you do have maven installed on your machine, you can configure the docker-compose build to use existing java executables. The java executables needs to be compiled with maven before running docker-compose.
+When you have maven installed on your machine, you can configure the docker-compose build to use existing java executables. These java executables needs to be compiled with maven before you running docker-compose.
 
 You can use the enviroment variable `BUILD_FROM` to select which dockerfile is used for the build.
 If you obmit this variable, then the build from maven sources is used by default.
@@ -30,13 +30,32 @@ If you obmit this variable, then the build from maven sources is used by default
     BUILD_FROM=ExecutableJar docker-compose build
     ~~~
 
-#### Script
+### Build and Startup script
 
-TODO: Make a script for developers to compile with local maven and use docker compose.
+You also can use the `package-build-up.cmd` script for compiling the sources with your local maven, building the docker images and start the services.
+
+* The maven pom in your working directory is used for compilation.
+* You can pass the same arguments as for `docker-compose build` and `docker-compose up`, to specify a service.
+
+Example usage:
+
+* Run it in your project folder without arguments, to build and start the whole application:
+
+    ~~~cmd
+    package-build-up.cmd
+    ~~~
+
+* Change the working directory to build a specific service, only.
+
+  Pass a service name to start this service, only.
+  *Its dependend services are included automatically by docker.*
+
+    ~~~cmd
+    cd CoreServices\Category
+    ..\..\package-and-up.cmd category
+    ~~~
 
 ### Detailed build instructions
-
-TODO: Check and update usage
 
 1. *Optionally* if you want to predownload used docker images, do a pull first.
 
@@ -55,7 +74,7 @@ TODO: Check and update usage
 3. Build the services
 
     ~~~bash
-    docker-compose build
+    BUILD_FROM=ExecutableJar docker-compose build
     ~~~
 
 4. *Optionally* delete the local MySql data for a fresh database initialization.
