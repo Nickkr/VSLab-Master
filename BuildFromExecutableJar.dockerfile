@@ -4,9 +4,9 @@ WORKDIR /services
 
 ARG FOLDER
 ARG PORT
-ARG JAR_FILE=target/*.jar
+ARG JAR_FILE="target/*.jar"
 
-ENV SPRING_PROFILES_ACTIVE docker
+ENV SPRING_PROFILES_ACTIVE="docker"
 EXPOSE ${PORT}
 
 COPY ${FOLDER}/${JAR_FILE} app.jar
