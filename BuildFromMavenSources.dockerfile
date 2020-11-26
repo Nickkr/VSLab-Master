@@ -2,10 +2,10 @@
 FROM maven:3.6.3-openjdk-11-slim as builder
 WORKDIR /builds
 
-ARG FOLDER
+ARG FOLDER="."
 ARG PORT
 
-ARG MAVEN_OPTIONS="--batch-mode --quiet --fail-fast --strict-checksums --threads 1C --define skipTests"
+ARG MAVEN_OPTIONS="--batch-mode --fail-fast --strict-checksums --threads 1C --define skipTests"
 
 COPY ${FOLDER}/pom.xml ./pom.xml
 RUN mvn ${MAVEN_OPTIONS} dependency:go-offline

@@ -2,7 +2,7 @@
 FROM openjdk:11-jre-slim
 WORKDIR /services
 
-ARG FOLDER
+ARG FOLDER="."
 ARG PORT
 ARG JAR_FILE="target/*.jar"
 
