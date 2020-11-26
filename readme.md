@@ -77,10 +77,11 @@ Example usage:
     BUILD_FROM=ExecutableJar docker-compose build
     ~~~
 
-4. *Optionally* delete the local MySql data for a fresh database initialization.
+4. *Optionally* removes containers, networks and the local MySql data storage volume for a fresh database initialization.
+    Pass the `--remove-orphans` to remove undefined service, from previous developments.
 
     ~~~bash
-    rm -rf .data
+    docker-compose down --volumes --remove-orphans
     ~~~
 
 5. Run the services

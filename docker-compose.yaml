@@ -91,7 +91,7 @@ services:
   db:
     build: ./db
     volumes:
-      - './.data/db:/var/lib/mysql'
+      - 'database-storage:/var/lib/mysql'
     environment:
       LANG: C.UTF-8
       MYSQL_ROOT_PASSWORD: c8de110f37300a53a971749
@@ -104,3 +104,5 @@ services:
 networks:
   local_dev_net:
     driver: bridge
+volumes:
+  database-storage:
