@@ -12,10 +12,10 @@ services:
       API_MIME: application/raml
   product:
     build:
-      context: ./CoreServices
+      context: ./CoreServices/Product
+      dockerfile: ./BuildFrom${BUILD_FROM:-MavenSources}.dockerfile
       args:
         PORT: 18081
-        FOLDER: Product
     networks:
       - local_dev_net
     ports:
@@ -25,10 +25,10 @@ services:
       - eureka-server
   category:
     build:
-      context: ./CoreServices
+      context: ./CoreServices/Category
+      dockerfile: ./BuildFrom${BUILD_FROM:-MavenSources}.dockerfile
       args:
         PORT: 18082
-        FOLDER: Category
     ports:
       - '18082:18082'
     networks:
@@ -38,10 +38,10 @@ services:
       - eureka-server
   user:
     build:
-      context: ./CoreServices
+      context: ./CoreServices/User
+      dockerfile: ./BuildFrom${BUILD_FROM:-MavenSources}.dockerfile
       args:
         PORT: 18083
-        FOLDER: User
     networks:
       - local_dev_net
     ports:
@@ -50,14 +50,20 @@ services:
       - db
       - eureka-server
   product-category-composite-service:
-    build: ./CompositeService
+    build:
+      context: ./CompositeService
+      dockerfile: ./BuildFrom${BUILD_FROM:-MavenSources}.dockerfile
     networks:
       - local_dev_net
     ports:
       - '18084:18084'
+    depends_on:
+      - product
+      - category
   eureka-server:
     build:
       context: ./Eureka
+      dockerfile: ./BuildFrom${BUILD_FROM:-MavenSources}.dockerfile
       args:
         PORT: 8761
     networks:
@@ -67,13 +73,19 @@ services:
     ports:
       - '8761:8761'
   zuul-server:
-    build: ./Zuul
+    build:
+      context: ./Zuul
+      dockerfile: ./BuildFrom${BUILD_FROM:-MavenSources}.dockerfile
+      args:
+        PORT: 8081
     networks:
       local_dev_net:
         aliases:
           - zuul
     ports:
       - '8081:8081'
+    depends_on:
+      - eureka-server
   db:
     build: ./db
     volumes:
