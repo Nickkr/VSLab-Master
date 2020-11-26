@@ -10,7 +10,52 @@ You can do the build and run in one command.
 docker-compose up --build --detach
 ~~~
 
-Or follow the detailed instructions:
+### Using local compiled executables during development
+
+When you have maven installed on your machine, you can configure the docker-compose build to use existing java executables. These java executables needs to be compiled with maven before you running docker-compose.
+
+You can use the enviroment variable `BUILD_FROM` to select which dockerfile is used for the build.
+If you obmit this variable, then the build from maven sources is used by default.
+
+* with `BUILD_FROM=MavenSources` the source code is compiled during the docker build using the `maven:3.6.3-openjdk-11-slim` image. Therefore maven needs to download all dependencies, as it cannot reuse the hosts local repository. This might increase your build time.
+
+    ~~~bash
+    BUILD_FROM=MavenSources docker-compose build
+    ~~~
+
+* with `BUILD_FROM=ExecutableJar` the pre-compiled jar executable is packed into the `openjdk:11-jre-slim` image. This requires you to compile the sources on the host system before the docker build.
+
+    ~~~bash
+    mvn clean package -DskipTests
+    BUILD_FROM=ExecutableJar docker-compose build
+    ~~~
+
+### Build and Startup script
+
+You also can use the `package-build-up.cmd` script for compiling the sources with your local maven, building the docker images and start the services.
+
+* The maven pom in your working directory is used for compilation.
+* You can pass the same arguments as for `docker-compose build` and `docker-compose up`, to specify a service.
+
+Example usage:
+
+* Run it in your project folder without arguments, to build and start the whole application:
+
+    ~~~cmd
+    package-build-up.cmd
+    ~~~
+
+* Change the working directory to build a specific service, only.
+
+  Pass a service name to start this service, only.
+  *Its dependend services are included automatically by docker.*
+
+    ~~~cmd
+    cd CoreServices\Category
+    ..\..\package-and-up.cmd category-service
+    ~~~
+
+### Detailed build instructions
 
 1. *Optionally* if you want to predownload used docker images, do a pull first.
 
@@ -20,19 +65,26 @@ Or follow the detailed instructions:
     docker pull maven:3.6.3-openjdk-11-slim
     ~~~
 
-2. Build the services
+2. Compile the sources
 
     ~~~bash
-    docker-compose build
+    mvn clean package -DskipTests
     ~~~
 
-3. *Optionally* delete the local MySql data for a fresh database initialization.
+3. Build the services
 
     ~~~bash
-    rm -rf .data
+    BUILD_FROM=ExecutableJar docker-compose build
     ~~~
 
-4. Run the services
+4. *Optionally* removes containers, networks and the local MySql data storage volume for a fresh database initialization.
+    Pass the `--remove-orphans` to remove undefined service, from previous developments.
+
+    ~~~bash
+    docker-compose down --volumes --remove-orphans
+    ~~~
+
+5. Run the services
 
     ~~~bash
     docker-compose up --detach
@@ -70,7 +122,7 @@ Also check if your `JAVA_HOME` environment variable is configured correctly.
 
 You can generate an initial Spring Boot Core project using [Spring Initializr](https://start.spring.io/).
 
-* Open the [pre-configured example](https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.4.0.RELEASE&packaging=jar&jvmVersion=11&groupId=com.core&artifactId=category-service&name=category-service&description=Category%20Core%20Service&packageName=com.core.category-service&dependencies=web,devtools,actuator,mysql,data-jpa,cloud-eureka,oauth2-client) and define your customization.
+* Open the [pre-configured example](https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.3.6.RELEASE&packaging=jar&jvmVersion=11&groupId=com.core&artifactId=category-service&name=category-service&description=Category%20Core%20Service&packageName=com.core.category-service&dependencies=web,devtools,actuator,mysql,data-jpa,cloud-eureka) and define your customization.
 
 Follow the [Guides](#guides) to create some inital code.
 
