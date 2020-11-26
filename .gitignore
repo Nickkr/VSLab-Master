@@ -12,6 +12,7 @@ mvnw*
 ### Gradle ###
 .gradle/
 bin/
+gradlew*
 
 ### STS ###
 .apt_generated
@@ -29,4 +30,4 @@ bin/
 application.properties
 Dockerfile
 */**/.gitignore
-build.gradle
+*.gradle
