@@ -21,7 +21,7 @@ services:
     ports:
       - '18081:18081'
     depends_on:
-      - db
+      - database
       - eureka-server
   category-service:
     build:
@@ -34,7 +34,7 @@ services:
     networks:
       - local_dev_net
     depends_on:
-      - db
+      - database
       - eureka-server
   user-service:
     build:
@@ -47,7 +47,7 @@ services:
     ports:
       - '18083:18083'
     depends_on:
-      - db
+      - database
       - eureka-server
   composite-service:
     build:
@@ -88,8 +88,10 @@ services:
       - '8081:8081'
     depends_on:
       - eureka-server
-  db:
-    build: ./db
+  database:
+    build:
+      context: ./Database
+      dockerfile: BuildDatabase.dockerfile
     volumes:
       - 'database-storage:/var/lib/mysql'
     environment:
