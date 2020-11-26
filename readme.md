@@ -52,7 +52,7 @@ Example usage:
 
     ~~~cmd
     cd CoreServices\Category
-    ..\..\package-and-up.cmd category
+    ..\..\package-and-up.cmd category-service
     ~~~
 
 ### Detailed build instructions

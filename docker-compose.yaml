@@ -10,7 +10,7 @@ services:
       API_PROJECT: api.raml
       API_TYPE: RAML 1.0
       API_MIME: application/raml
-  product:
+  product-service:
     build:
       context: ./CoreServices/Product
       dockerfile: ./BuildFrom${BUILD_FROM:-MavenSources}.dockerfile
@@ -23,7 +23,7 @@ services:
     depends_on:
       - db
       - eureka-server
-  category:
+  category-service:
     build:
       context: ./CoreServices/Category
       dockerfile: ./BuildFrom${BUILD_FROM:-MavenSources}.dockerfile
@@ -36,7 +36,7 @@ services:
     depends_on:
       - db
       - eureka-server
-  user:
+  user-service:
     build:
       context: ./CoreServices/User
       dockerfile: ./BuildFrom${BUILD_FROM:-MavenSources}.dockerfile
@@ -49,17 +49,19 @@ services:
     depends_on:
       - db
       - eureka-server
-  product-category-composite-service:
+  composite-service:
     build:
       context: ./CompositeService
       dockerfile: ./BuildFrom${BUILD_FROM:-MavenSources}.dockerfile
     networks:
-      - local_dev_net
+      local_dev_net:
+        aliases:
+          - product-category-composite-service
     ports:
       - '18084:18084'
     depends_on:
-      - product
-      - category
+      - product-service
+      - category-service
   eureka-server:
     build:
       context: ./Eureka
