@@ -1,6 +1,6 @@
 @echo off
 
-set MAVEN_OPTIONS=--batch-mode --quiet --fail-fast --strict-checksums --threads 1C --define skipTests
+set MAVEN_OPTIONS=--batch-mode --fail-fast --strict-checksums --define skipTests
 echo Compile source files in %CD%
 call mvn %MAVEN_OPTIONS% package || exit /B 1
 
