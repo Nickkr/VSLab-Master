@@ -5,7 +5,9 @@ RootDir="$(realpath "$ScriptDir"/./)"
 OriginFiles="$(realpath "$ScriptDir"/.dockerignore "$ScriptDir"/*.dockerfile)"
 
 for dir in $(find "$RootDir" -mindepth 2 -name pom.xml -printf '%h\n'); do
-  cp --verbose --update "$OriginFiles" "$dir"
+  echo cp --verbose --update $OriginFiles "$dir"
+  cp --verbose --update $OriginFiles "$dir"
+  echo
 done
 
 read -p "Press enter to continue"
