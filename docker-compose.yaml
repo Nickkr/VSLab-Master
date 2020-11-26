@@ -3,7 +3,7 @@ services:
   api-docs:
     image: gcr.io/api-console-a6952/app:0.1.0
     volumes:
-      - "./documentation:/app/api"
+      - "./API-Documentation:/app/api"
     ports:
       - "8080:8080"
     environment:
