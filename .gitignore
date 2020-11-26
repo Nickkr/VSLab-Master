@@ -31,3 +31,4 @@ application.properties
 Dockerfile
 */**/.gitignore
 *.gradle
+*.log
