@@ -78,10 +78,12 @@ Example usage:
     ~~~
 
 4. *Optionally* removes containers, networks and the local MySql data storage volume for a fresh database initialization.
-    Pass the `--remove-orphans` to remove undefined service, from previous developments.
+
+    * Pass the `--rmi local` to remove local images, from previous executions.
+    * Pass the `--remove-orphans` to remove undefined service, from previous developments.
 
     ~~~bash
-    docker-compose down --volumes --remove-orphans
+    docker-compose down --volumes --rmi local --remove-orphans
     ~~~
 
 5. Run the services
