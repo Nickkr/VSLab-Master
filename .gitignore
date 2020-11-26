@@ -1,12 +1,18 @@
 ### NPM ###
-node_modules
+node_modules/
 
 ### MySQL ###
-.data
+.data/
 
 ### Maven ###
-.mvn
+.mvn/
 target/
+mvnw*
+
+### Gradle ###
+.gradle/
+bin/
+gradlew*
 
 ### STS ###
 .apt_generated
@@ -19,3 +25,10 @@ target/
 
 ### VS Code ###
 .vscode/
+
+### Obsolete commited files ###
+application.properties
+Dockerfile
+*/**/.gitignore
+*.gradle
+*.log

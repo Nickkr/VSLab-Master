@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,20 +31,30 @@ public class UserController {
   @Autowired
   UserRepository userRepository;
 
+  private List<User> userCache = new ArrayList<User>();
+
   private static final String template = "Hello, %s!";
   private final AtomicLong counter = new AtomicLong();
 
+  @HystrixCommand(fallbackMethod = "getUsersCache")
   @GetMapping("/users")
   public ResponseEntity<List<User>> getAllUsers() {
     try {
       List<User> users = new ArrayList<User>();
       userRepository.findAll().forEach(users::add);
+      userCache.clear();
+		  users.forEach(u -> userCache.add(u));
       return new ResponseEntity<>(users, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
+  ResponseEntity<List<User>> getUsersCache() {
+    return new ResponseEntity<>(userCache, HttpStatus.OK);
+  } 
+
+  @HystrixCommand
   @PostMapping("/users")
   public ResponseEntity<User> createUser(@RequestBody User user) {
     try {
@@ -57,6 +70,7 @@ public class UserController {
     }
   }
 
+  @HystrixCommand
   @DeleteMapping("/users")
 	public ResponseEntity<HttpStatus> deleteAllUsers() {
 		try {
@@ -67,6 +81,7 @@ public class UserController {
 		}
 	}
 
+  @HystrixCommand
   @GetMapping("/users/{id}")
   public ResponseEntity<User> getUserById(@PathVariable("id") int id) {
     Optional<User> userData = userRepository.findById(id);
@@ -78,6 +93,7 @@ public class UserController {
     }
   }
 
+  @HystrixCommand
   @PutMapping("/users/{id}")
   public ResponseEntity<User> updateUser(
     @PathVariable("id") int id,
@@ -97,6 +113,7 @@ public class UserController {
     }
   }
 
+  @HystrixCommand
   @DeleteMapping("/users/{id}")
   public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {
     try {
