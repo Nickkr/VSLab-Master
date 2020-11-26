@@ -70,7 +70,7 @@ Also check if your `JAVA_HOME` environment variable is configured correctly.
 
 You can generate an initial Spring Boot Core project using [Spring Initializr](https://start.spring.io/).
 
-* Open the [pre-configured example](https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.4.0.RELEASE&packaging=jar&jvmVersion=11&groupId=com.core&artifactId=category-service&name=category-service&description=Category%20Core%20Service&packageName=com.core.category-service&dependencies=web,devtools,actuator,mysql,data-jpa,cloud-eureka,oauth2-client) and define your customization.
+* Open the [pre-configured example](https://start.spring.io/#!type=maven-project&language=java&platformVersion=2.3.6.RELEASE&packaging=jar&jvmVersion=11&groupId=com.core&artifactId=category-service&name=category-service&description=Category%20Core%20Service&packageName=com.core.category-service&dependencies=web,devtools,actuator,mysql,data-jpa,cloud-eureka) and define your customization.
 
 Follow the [Guides](#guides) to create some inital code.
 
