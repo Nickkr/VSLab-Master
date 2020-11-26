@@ -1,11 +1,11 @@
-version: '3.2'
+version: "3.2"
 services:
   api-docs:
     image: gcr.io/api-console-a6952/app:0.1.0
     volumes:
-      - './documentation:/app/api'
+      - "./documentation:/app/api"
     ports:
-      - '8080:8080'
+      - "8080:8080"
     environment:
       API_PROJECT: api.raml
       API_TYPE: RAML 1.0
@@ -19,7 +19,7 @@ services:
     networks:
       - local_dev_net
     ports:
-      - '18081:18081'
+      - "18081:18081"
     depends_on:
       - database
       - eureka-server
@@ -30,7 +30,7 @@ services:
       args:
         PORT: 18082
     ports:
-      - '18082:18082'
+      - "18082:18082"
     networks:
       - local_dev_net
     depends_on:
@@ -45,7 +45,7 @@ services:
     networks:
       - local_dev_net
     ports:
-      - '18083:18083'
+      - "18083:18083"
     depends_on:
       - database
       - eureka-server
@@ -58,7 +58,7 @@ services:
         aliases:
           - product-category-composite-service
     ports:
-      - '18084:18084'
+      - "18084:18084"
     depends_on:
       - product-service
       - category-service
@@ -73,7 +73,7 @@ services:
         aliases:
           - eureka
     ports:
-      - '8761:8761'
+      - "8761:8761"
   zuul-server:
     build:
       context: ./Zuul
@@ -85,7 +85,7 @@ services:
         aliases:
           - zuul
     ports:
-      - '8081:8081'
+      - "8081:8081"
     depends_on:
       - eureka-server
   database:
@@ -93,12 +93,12 @@ services:
       context: ./Database
       dockerfile: BuildDatabase.dockerfile
     volumes:
-      - 'database-storage:/var/lib/mysql'
+      - "database-storage:/var/lib/mysql"
     environment:
       LANG: C.UTF-8
       MYSQL_ROOT_PASSWORD: c8de110f37300a53a971749
     ports:
-      - '3306:3306'
+      - "3306:3306"
     networks:
       local_dev_net:
         aliases:
