@@ -62,20 +62,4 @@ public class ProductCategoryController {
 
 		return ResponseEntity.notFound().build();
     }
-    
-    @Autowired
-    @LoadBalanced
-    RestTemplate restTemplate;
-
-    // TODO Temporary for tests.
-    @HystrixCommand(fallbackMethod = "getProductsCache")
-    @GetMapping("/products")
-    Product[] getProducts() {
-        return restTemplate.getForObject("http://product-service/products/", Product[].class);
-    }
-
-    Product[] getProductsCache() {
-        return new Product[0];
-    }
-
 }
