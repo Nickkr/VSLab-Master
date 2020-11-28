@@ -11,7 +11,7 @@ COPY ${FOLDER}/pom.xml ./pom.xml
 RUN mvn ${MAVEN_OPTIONS} dependency:go-offline
 
 COPY ${FOLDER}/src ./src
-RUN mvn --offline ${MAVEN_OPTIONS} clean package
+RUN mvn ${MAVEN_OPTIONS} clean package
 
 # Package build application as executable docker image.
 FROM openjdk:11-jre-slim
