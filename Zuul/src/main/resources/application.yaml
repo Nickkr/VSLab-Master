@@ -28,6 +28,7 @@ turbine:
         cluster-config: default 
 zuul:
   ignoredServices: '*'
+  prefix: /webshop-api
   routes:
     product-service:
       path: /productsCore/**
