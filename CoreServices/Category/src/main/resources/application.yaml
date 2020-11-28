@@ -4,25 +4,34 @@ spring:
   application:
     name: category-service
   datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/category
     username: root
     password: c8de110f37300a53a971749
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      initialization-fail-timeout: 70000
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+    eureka-server-connect-timeout-seconds: 20
   instance:
     preferIpAddress: true
     leaseRenewalIntervalInSeconds: 5
     metadataMap:
-      instanceId: '${spring.application.name}:${random.value}'
+      instanceId: "${spring.application.name}:${random.value}"
+
 management:
   endpoints:
     enabled-by-default: true
     web:
       exposure:
-        include: '*'
+        include: "*"
 
 ---
 spring:
@@ -33,3 +42,33 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka:8761/eureka/
+
+---
+spring:
+  profiles: h2memdb
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+
+hibernate:
+  show_sql: true
+  hbm2ddl:
+    auto: create-drop
+    import_files: ../../Database/initial.sql ../../Database/test-data.sql
+
+---
+spring:
+  profiles: test
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:category;DB_CLOSE_DELAY=-1;MODE=MySQL
+
+hibernate:
+  show_sql: true
+  hbm2ddl:
+    auto: create-drop
+    import_files: ../../Database/initial.sql ../../Database/test-data.sql
+
+eureka:
+  client:
+    enabled: false
