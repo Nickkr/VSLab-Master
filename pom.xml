@@ -14,7 +14,6 @@
     <module>CoreServices/Category</module>
     <module>CoreServices/Product</module>
     <module>CoreServices/User</module>
-    <module>Hystrix</module>
     <module>CompositeService</module>
     <module>Zuul</module>
   </modules>
