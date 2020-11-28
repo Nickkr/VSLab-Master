@@ -26,19 +26,21 @@ public class CategoryController {
 	}
 
 	@GetMapping
-	public List<Category> getCategories() {
-		return repository.findAll();
+	public ResponseEntity<?> getCategories() {
+		List<Category> allCategories = repository.findAll();
+		return ResponseEntity.ok(allCategories);
 	}
 
 	@GetMapping(params = "searchName")
-	public List<Category> getFilteredCategories(@RequestParam String searchName) {
+	public ResponseEntity<?> getFilteredCategories(@RequestParam String searchName) {
 		ExampleMatcher matcher = ExampleMatcher.matchingAny()
 				.withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
 				.withIgnorePaths("id");
 
 		Example<Category> example = Example.of(new Category(searchName), matcher);
-
-		return repository.findAll(example);
+		
+		List<Category> filteredCategories = repository.findAll(example);
+		return ResponseEntity.ok(filteredCategories);
 	}
 
 	@PostMapping
