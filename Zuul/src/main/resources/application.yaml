@@ -22,7 +22,7 @@ hystrix:
   dashboard:
     proxy-stream-allow-list: '*'
 turbine:
-    appConfig: zuul, product-category-composite-service, user-service
+    appConfig: zuul, user-service, product-category-composite-service
     cluster-name-expression: new String("default")
     aggregator:
         cluster-config: default 
