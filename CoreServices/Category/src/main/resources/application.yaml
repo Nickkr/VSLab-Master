@@ -10,6 +10,10 @@ spring:
     password: c8de110f37300a53a971749
     hikari:
       initialization-fail-timeout: 70000
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
 
 eureka:
   client:
@@ -46,18 +50,25 @@ spring:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
 
-#hibernate.show_sql=true
-#hibernate.hbm2ddl.auto=create-drop
-#hibernate.cache.use_second_level_cache=true
-#hibernate.cache.use_query_cache=true
-#hibernate.cache.region.factory_class=org.hibernate.cache.ehcache.EhCacheRegionFactory
+hibernate:
+  show_sql: true
+  hbm2ddl:
+    auto: create-drop
+    import_files: ../../Database/initial.sql ../../Database/test-data.sql
 
 ---
 spring:
   profiles: test
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:db
+    url: jdbc:h2:mem:category;DB_CLOSE_DELAY=-1;MODE=MySQL
+
+hibernate:
+  show_sql: true
+  hbm2ddl:
+    auto: create-drop
+    import_files: ../../Database/initial.sql ../../Database/test-data.sql
+
 eureka:
   client:
     enabled: false
