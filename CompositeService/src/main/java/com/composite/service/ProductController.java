@@ -33,6 +33,7 @@ public class ProductController {
 
     public static String productApiUrl = "http://product-service/products";
 
+    @HystrixCommand()
     @GetMapping("/products")
     Product[] getProducts() {
         return restTemplate.getForObject(productApiUrl, Product[].class);

@@ -1,14 +1,47 @@
 server:
-    port: 8081
+  port: 8081
 eureka:
-    instance:
-        leaseRenewalIntervalInSeconds: 10
-        statusPageUrlPath: /info
-        healthCheckUrlPath: /health    
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    statusPageUrlPath: /info
+    healthCheckUrlPath: /health
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: '*'
+      base-path: /actuator
+      cors:
+        allowed-origins: true
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: '*'
+turbine:
+    appConfig: zuul, product-category-composite-service, user-service
+    cluster-name-expression: new String("default")
+    aggregator:
+        cluster-config: default 
 zuul:
-    ignoredServices: '*'
-    routes:
-        product-service: /product-api/**
-        category-service: /category-api/**
-        user-service: /user-api/**
-        product-category-composite-service: /composite-api/**
+  ignoredServices: '*'
+  routes:
+    product-service:
+      path: /productsCore/**
+      stripPrefix: true
+    category-service:
+      path: /categoryCore/**
+      stripPrefix: true
+    user-service:
+      path: /users/**
+      stripPrefix: false
+    product-category-composite-service:
+      path: /products/**
+      stripPrefix: false
+    composite:
+      service-id: product-category-composite-service
+      path: /categories/**
+      stripPrefix: false
