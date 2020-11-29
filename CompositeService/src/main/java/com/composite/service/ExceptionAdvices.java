@@ -1,4 +1,4 @@
-package com.core.categoryservice;
+package com.composite.service;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -6,22 +6,24 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 @ControllerAdvice
-public class CategoryNotFoundAdvice {
+public class ExceptionAdvices {
 
 	@ResponseBody
-	@ExceptionHandler(CategoryNotFoundException.class)
+	@ExceptionHandler(HttpClientErrorException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	String CategoryNotFoundHandler(CategoryNotFoundException ex) {
+	String HttpClientErrorExceptionHandler(HttpClientErrorException ex) {
 		return ex.getMessage();
 	}
 
 	@ResponseBody
-	@ExceptionHandler(EmptyResultDataAccessException.class)
+	@ExceptionHandler(WebClientResponseException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	String EmptyResultDataAccessExceptionHandler(EmptyResultDataAccessException ex) {
+	String WebClientResponseExceptionHandler(WebClientResponseException ex) {
 		return ex.getMessage();
 	}
-
 }

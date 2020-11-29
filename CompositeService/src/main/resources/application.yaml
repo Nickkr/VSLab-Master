@@ -3,9 +3,11 @@ server:
   ribbon:
     eureka:
       enabled: true
+
 spring:
   application:
     name: product-category-composite-service
+
 eureka:
   client:
     fetch-registry: true
@@ -15,23 +17,37 @@ eureka:
     preferIpAddress: true
     leaseRenewalIntervalInSeconds: 5
     metadataMap:
-      instanceId: '${spring.application.name}:${random.value}'
+      instanceId: ${spring.application.name}:${random.value}
+
 management:
   endpoint:
-    health: 
+    health:
       enabled: true
       show-details: always
   endpoints:
     enabled-by-default: true
     web:
       exposure:
-        include: '*'
+        include: "*"
       base-path: /actuator
       cors:
         allowed-origins: true
-hystrix:
-  dashboard:
-    proxy-stream-allow-list: '*'
+
+logging:
+  level:
+    com:
+      netflix:
+        loadbalancer:
+          DynamicServerListLoadBalancer: DEBUG
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: DEBUG
+          reactive:
+            function:
+              client:
+                ExchangeFunctions: TRACE
 
 ---
 spring:
@@ -40,8 +56,3 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka:8761/eureka/
-  instance:
-    preferIpAddress: true
-    leaseRenewalIntervalInSeconds: 5
-    metadataMap:
-      instanceId: '${spring.application.name}:${random.value}'

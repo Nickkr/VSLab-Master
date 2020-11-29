@@ -38,6 +38,7 @@ public class ProductCategoryController {
     @LoadBalanced
     private WebClient productClient = WebClient.create(PRODUCT_BASE_URL);
 
+    /*
 	@DeleteMapping("/categories/{id}")
 	public ResponseEntity<?> deleteCategoryAndProducts(@PathVariable Integer id) {
 
@@ -62,4 +63,5 @@ public class ProductCategoryController {
 
 		return ResponseEntity.notFound().build();
     }
+    */
 }
