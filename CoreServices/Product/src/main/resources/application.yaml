@@ -4,19 +4,42 @@ spring:
   application:
     name: product-service
   datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/product
     username: root
     password: c8de110f37300a53a971749
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      initialization-fail-timeout: 70000
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+    eureka-server-connect-timeout-seconds: 20
   instance:
     preferIpAddress: true
     leaseRenewalIntervalInSeconds: 5
     metadataMap:
-      instanceId: '${spring.application.name}:${random.value}'
+      instanceId: "${spring.application.name}:${random.value}"
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+      base-path: /actuator
+      cors:
+        allowed-origins: true
+
 ---
 spring:
   profiles: docker
@@ -26,3 +49,27 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka:8761/eureka/
+
+---
+spring:
+  profiles: development
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:product;DB_CLOSE_DELAY=-1
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+
+---
+spring:
+  profiles: test
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:product;DB_CLOSE_DELAY=-1
+
+eureka:
+  client:
+    enabled: false

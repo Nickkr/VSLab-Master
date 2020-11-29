@@ -27,11 +27,18 @@ eureka:
       instanceId: "${spring.application.name}:${random.value}"
 
 management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
   endpoints:
     enabled-by-default: true
     web:
       exposure:
         include: "*"
+      base-path: /actuator
+      cors:
+        allowed-origins: true
 
 ---
 spring:
@@ -45,29 +52,23 @@ eureka:
 
 ---
 spring:
-  profiles: h2memdb
+  profiles: development
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:category;DB_CLOSE_DELAY=-1
 
-hibernate:
-  show_sql: true
-  hbm2ddl:
-    auto: create-drop
-    import_files: ../../Database/initial.sql ../../Database/test-data.sql
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
 
 ---
 spring:
   profiles: test
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:category;DB_CLOSE_DELAY=-1;MODE=MySQL
-
-hibernate:
-  show_sql: true
-  hbm2ddl:
-    auto: create-drop
-    import_files: ../../Database/initial.sql ../../Database/test-data.sql
+    url: jdbc:h2:mem:category;DB_CLOSE_DELAY=-1
 
 eureka:
   client:

@@ -3,9 +3,11 @@ server:
   ribbon:
     eureka:
       enabled: true
+
 spring:
   application:
     name: product-category-composite-service
+
 eureka:
   client:
     fetch-registry: true
@@ -16,6 +18,7 @@ eureka:
     leaseRenewalIntervalInSeconds: 5
     metadataMap:
       instanceId: ${spring.application.name}:${random.value}
+
 management:
   endpoint:
     health:
@@ -29,9 +32,7 @@ management:
       base-path: /actuator
       cors:
         allowed-origins: true
-hystrix:
-  dashboard:
-    proxy-stream-allow-list: "*"
+
 logging:
   level:
     com:
@@ -47,6 +48,7 @@ logging:
             function:
               client:
                 ExchangeFunctions: TRACE
+
 ---
 spring:
   profiles: docker
