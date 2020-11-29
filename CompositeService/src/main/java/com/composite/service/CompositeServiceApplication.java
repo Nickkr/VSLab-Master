@@ -7,15 +7,16 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
+
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableCircuitBreaker
-public class Application {
+public class CompositeServiceApplication {
 
     public static final String BASE_URI = "http://localhost:18084/";
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(CompositeServiceApplication.class, args);
 	}
 
 	@Bean
