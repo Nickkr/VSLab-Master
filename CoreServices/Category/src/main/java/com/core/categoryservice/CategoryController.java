@@ -26,13 +26,13 @@ public class CategoryController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> getCategories() {
+	public ResponseEntity<List<Category>> getCategories() {
 		List<Category> allCategories = repository.findAll();
 		return ResponseEntity.ok(allCategories);
 	}
 
 	@GetMapping(params = "searchName")
-	public ResponseEntity<?> getFilteredCategories(@RequestParam String searchName) {
+	public ResponseEntity<List<Category>> getFilteredCategories(@RequestParam String searchName) {
 		ExampleMatcher matcher = ExampleMatcher.matchingAny()
 				.withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
 				.withIgnorePaths("id");
@@ -44,19 +44,21 @@ public class CategoryController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> createCategory(@RequestBody Category newCategory) {
+	public ResponseEntity<Category> createCategory(@RequestBody Category newCategory) {
 		Category createdCategory = repository.save(newCategory);
 		return ResponseEntity.created(null).body(createdCategory);
 	}
 
 	@GetMapping("{id}")
-	public Category getCategory(@PathVariable Integer id) {
-		return repository.findById(id)
+	public ResponseEntity<Category> getCategory(@PathVariable Integer id) {
+		Category category = repository.findById(id)
 				.orElseThrow(() -> new CategoryNotFoundException(id));
+
+		return ResponseEntity.ok(category);
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity<?> updateCategory(@PathVariable Integer id, @RequestBody Category newCategory) {
+	public ResponseEntity<Category> updateCategory(@PathVariable Integer id, @RequestBody Category newCategory) {
 		Category updatedCategory = repository.findById(id)
 				.map(Category -> {
 					Category.setName(newCategory.getName());
@@ -68,7 +70,7 @@ public class CategoryController {
 	}
 
 	@DeleteMapping("{id}")
-	public ResponseEntity<?> deleteCategory(@PathVariable Integer id) {
+	public ResponseEntity<Void> deleteCategory(@PathVariable Integer id) {
 		repository.deleteById(id);
 
 		return ResponseEntity.noContent().build();

@@ -7,6 +7,7 @@ import com.core.productservice.model.Product;
 import com.core.productservice.repository.ProductRepository;
 
 import org.springframework.data.domain.Example;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,7 +62,8 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
-    void deleteProduct(@PathVariable Long id) {
-        repository.deleteById(id);
+    ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    	repository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
