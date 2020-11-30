@@ -19,19 +19,17 @@ eureka:
     metadataMap:
       instanceId: ${spring.application.name}:${random.value}
 
-management:
-  endpoint:
-    health:
-      enabled: true
-      show-details: always
-  endpoints:
-    enabled-by-default: true
-    web:
-      exposure:
-        include: "*"
-      base-path: /actuator
-      cors:
-        allowed-origins: true
+ribbon:
+  ReadTimeout: 5000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # Increase the Hystrix timeout to 10s (globally)
+            timeoutInMilliseconds: 15000
 
 logging:
   level:
@@ -48,6 +46,20 @@ logging:
             function:
               client:
                 ExchangeFunctions: TRACE
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+      base-path: /actuator
+      cors:
+        allowed-origins: true
 
 ---
 spring:

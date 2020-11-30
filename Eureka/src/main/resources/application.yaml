@@ -1,8 +1,25 @@
+server:
+  port: 8761
+spring:
+  application:
+    name: eureka
 eureka:
   client:
     registerWithEureka: false
     fetchRegistry: false
   server:
     waitTimeInMsWhenSyncEmpty: 0
-server:
-  port: 8761
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+      base-path: /actuator
+      cors:
+        allowed-origins: true

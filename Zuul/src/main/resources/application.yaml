@@ -1,33 +1,41 @@
 server:
   port: 8081
+
+spring:
+  application:
+    name: zuul
+
 eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
     statusPageUrlPath: /info
     healthCheckUrlPath: /health
-management:
-  endpoint:
-    health:
-      enabled: true
-      show-details: always
-  endpoints:
-    enabled-by-default: true
-    web:
-      exposure:
-        include: '*'
-      base-path: /actuator
-      cors:
-        allowed-origins: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+ribbon:
+  ReadTimeout: 5000
+
 hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # Increase the Hystrix timeout to 15s (globally)
+            timeoutInMilliseconds: 15000
   dashboard:
-    proxy-stream-allow-list: '*'
+    proxy-stream-allow-list: "*"
+
 turbine:
-    appConfig: zuul, user-service, product-category-composite-service
-    cluster-name-expression: new String("default")
-    aggregator:
-        cluster-config: default 
+  appConfig: zuul, user-service, product-category-composite-service
+  cluster-name-expression: new String("default")
+  aggregator:
+    cluster-config: default
+
 zuul:
-  ignoredServices: '*'
+  ignoredServices: "*"
   prefix: /webshop-api
   routes:
     product-service:
@@ -46,3 +54,25 @@ zuul:
       service-id: product-category-composite-service
       path: /categories/**
       stripPrefix: false
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+      base-path: /actuator
+      cors:
+        allowed-origins: true
+
+---
+spring:
+  profiles: docker
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:8761/eureka/

@@ -32,3 +32,4 @@ Dockerfile
 */**/.gitignore
 *.gradle
 *.log
+HELP.md
