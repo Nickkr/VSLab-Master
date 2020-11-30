@@ -103,10 +103,10 @@ public class UserController {
 
     if (userData.isPresent()) {
       User _user = userData.get();
-      _user.setUsername(user.getUsername());
-      _user.setFirstname(user.getFirstname());
-      _user.setLastname(user.getLastname());
-      _user.setPassowrd(user.getPassword());
+      _user.setUsername(user.getUsername() == null ? user.getUsername() : _user.getUsername());
+      _user.setFirstname(user.getFirstname() == null ? user.getFirstname() : _user.getFirstname());
+      _user.setLastname(user.getLastname() == null ? user.getLastname() : _user.getLastname());
+      _user.setPassowrd(user.getPassword() == null ? user.getPassword() : _user.getPassword());
       return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
