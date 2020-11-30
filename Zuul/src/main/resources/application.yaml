@@ -5,6 +5,7 @@ eureka:
     leaseRenewalIntervalInSeconds: 10
     statusPageUrlPath: /info
     healthCheckUrlPath: /health
+
 management:
   endpoint:
     health:
@@ -18,9 +19,11 @@ management:
       base-path: /actuator
       cors:
         allowed-origins: true
+
 hystrix:
   dashboard:
     proxy-stream-allow-list: '*'
+
 turbine:
     appConfig: zuul, user-service, product-category-composite-service
     cluster-name-expression: new String("default")
