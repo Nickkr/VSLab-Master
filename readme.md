@@ -98,7 +98,6 @@ The Webshop API is provided by the Zuul server at <http://localhost:8081/webshop
 
 Open the following links to view:
 
-* This usage via the Zuul server <http://localhost:8081/>
 * API-documentation <http://localhost:8080/>
 * Registered instances at Eureka server <http://localhost:8761/>
 * Hystrix Dashboard at Zuul server <http://localhost:8081/hystrix>
