@@ -92,6 +92,18 @@ Example usage:
     docker-compose up --detach
     ~~~
 
+## Usage links
+
+The Webshop API is provided by the Zuul server at <http://localhost:8081/webshop-api/>.
+
+Open the following links to view:
+
+* This usage via the Zuul server <http://localhost:8081/>
+* API-documentation <http://localhost:8080/>
+* Registered instances at Eureka server <http://localhost:8761/>
+* Hystrix Dashboard at Zuul server <http://localhost:8081/hystrix>
+* Monitor the Webshop API with Hystrix <http://localhost:8081/hystrix/monitor?stream=http%3A%2F%2Flocalhost%3A8081%2Fturbine.stream&title=Webshop%20API>
+
 ## API Documentation of the WebShop
 
 The API is modeled with the RESTful API Modeling Language [RAML](https://raml.org/). The file `api.raml` contains the documentation of the api.
