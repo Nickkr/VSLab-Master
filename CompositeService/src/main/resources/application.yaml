@@ -20,7 +20,7 @@ eureka:
       instanceId: ${spring.application.name}:${random.value}
 
 ribbon:
-  ReadTimeout: 5000
+  ReadTimeout: 3000
 
 hystrix:
   command:
@@ -29,7 +29,7 @@ hystrix:
         isolation:
           thread:
             # Increase the Hystrix timeout to 10s (globally)
-            timeoutInMilliseconds: 15000
+            timeoutInMilliseconds: 10000
 
 logging:
   level:

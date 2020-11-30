@@ -15,7 +15,7 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 ribbon:
-  ReadTimeout: 5000
+  ReadTimeout: 3000
 
 hystrix:
   command:
@@ -23,8 +23,8 @@ hystrix:
       execution:
         isolation:
           thread:
-            # Increase the Hystrix timeout to 15s (globally)
-            timeoutInMilliseconds: 15000
+            # Increase the Hystrix timeout to 10s (globally)
+            timeoutInMilliseconds: 10000
   dashboard:
     proxy-stream-allow-list: "*"
 
