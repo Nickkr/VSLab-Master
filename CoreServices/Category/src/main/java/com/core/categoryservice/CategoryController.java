@@ -38,13 +38,19 @@ public class CategoryController {
 				.withIgnorePaths("id");
 
 		Example<Category> example = Example.of(new Category(searchName), matcher);
-		
+
 		List<Category> filteredCategories = repository.findAll(example);
 		return ResponseEntity.ok(filteredCategories);
 	}
 
 	@PostMapping
 	public ResponseEntity<Category> createCategory(@RequestBody Category newCategory) {
+		if (newCategory == null || newCategory.getName() == null || newCategory.getName().trim().isEmpty()) {
+			return ResponseEntity.badRequest().build();
+		}
+
+		newCategory.setName(newCategory.getName().trim());
+
 		Category createdCategory = repository.save(newCategory);
 		return ResponseEntity.created(null).body(createdCategory);
 	}
@@ -59,6 +65,10 @@ public class CategoryController {
 
 	@PutMapping("{id}")
 	public ResponseEntity<Category> updateCategory(@PathVariable Integer id, @RequestBody Category newCategory) {
+		if (newCategory == null || newCategory.getName() == null || newCategory.getName().trim().isEmpty()) {
+			return ResponseEntity.badRequest().build();
+		}
+
 		Category updatedCategory = repository.findById(id)
 				.map(Category -> {
 					Category.setName(newCategory.getName());
