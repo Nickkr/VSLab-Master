@@ -19,7 +19,7 @@ public class ExceptionAdvices {
 
 	@ResponseBody
 	@ExceptionHandler(HttpClientErrorException.class)
-	ResponseEntity<String> HttpClientErrorExceptionHandler(HttpClientErrorException ex) {
+	public ResponseEntity<String> HttpClientErrorExceptionHandler(HttpClientErrorException ex) {
 		return ResponseEntity.status(ex.getStatusCode()).body(ex.getMessage());
 	}
 
