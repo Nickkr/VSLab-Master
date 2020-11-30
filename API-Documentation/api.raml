@@ -55,7 +55,7 @@ types:
                 type: number
                 description: The maximum price.
                 required: false
-            category:
+            categoryId:
                 type: number
                 description: The id of a specific category.
                 required: false
@@ -72,7 +72,7 @@ types:
                                     "name": "Apfel",
                                     "details": "Ein Apfel",
                                     "price": 5,
-                                    "categoryID": 1
+                                    "categoryId": 1
                                 }
                             ]
     post:
@@ -92,7 +92,7 @@ types:
                                 "name": "Apfel",
                                 "details": "Ein Apfel",
                                 "price": 5,
-                                "categoryID": 1
+                                "categoryId": 1
                             }
             401:
                 description: Unauthorized access. Only admin users can mangage products.
@@ -112,7 +112,7 @@ types:
                                     "name": "Apfel",
                                     "details": "Ein Apfel",
                                     "price": 5,
-                                    "categoryID": 1
+                                    "categoryId": 1
                                 }
                 404:
                     description: Product not found.
@@ -121,6 +121,13 @@ types:
             body:
                 application/json:
                     type: Product
+                     example: |
+                        {
+                            "name": "ApfelReplaced",
+                            "details": "Ein Apfel replaced",
+                            "price": 5,
+                            "categoryId": 2
+                        }
             responses: 
                 200:
                     description: The edited product

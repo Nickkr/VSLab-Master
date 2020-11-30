@@ -7,6 +7,7 @@ import com.core.productservice.model.Product;
 import com.core.productservice.repository.ProductRepository;
 
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.lang.reflect.*;
 
 @RestController
 public class ProductController {
@@ -28,13 +30,9 @@ public class ProductController {
     @GetMapping("/products")
     List<Product> all(@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice,
             @RequestParam(required = false) Integer categoryId, @RequestParam(required = false) String searchText) {
-        
-        //return repository.findByPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryIdEquals(1, 5.0, 1);
-        if(categoryId != null) {
-            return repository.findByCategoryIdEquals(categoryId);
-        }
-        return repository.findAll();
 
+        return repository.findByPriceGreaterThanEqualAndPriceLessThanEqualAndCategoryIdEqualsAndDetailsContains(
+                minPrice, maxPrice, categoryId, searchText);
     }
 
     @PostMapping("/products")
@@ -63,7 +61,7 @@ public class ProductController {
 
     @DeleteMapping("/products/{id}")
     ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-    	repository.deleteById(id);
+        repository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
