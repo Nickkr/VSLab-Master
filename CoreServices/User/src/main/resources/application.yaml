@@ -26,6 +26,18 @@ eureka:
     metadataMap:
       instanceId: "${spring.application.name}:${random.value}"
 
+ribbon:
+  ReadTimeout: 5000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # Increase the Hystrix timeout to 15s (globally)
+            timeoutInMilliseconds: 15000
+
 management:
   endpoint:
     health:

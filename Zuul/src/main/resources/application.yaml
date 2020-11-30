@@ -14,19 +14,8 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 
-management:
-  endpoint:
-    health:
-      enabled: true
-      show-details: always
-  endpoints:
-    enabled-by-default: true
-    web:
-      exposure:
-        include: "*"
-      base-path: /actuator
-      cors:
-        allowed-origins: true
+ribbon:
+  ReadTimeout: 5000
 
 hystrix:
   command:
@@ -34,8 +23,8 @@ hystrix:
       execution:
         isolation:
           thread:
-            # Increase the Hystrix timeout to 60s (globally)
-            timeoutInMilliseconds: 60000
+            # Increase the Hystrix timeout to 15s (globally)
+            timeoutInMilliseconds: 15000
   dashboard:
     proxy-stream-allow-list: "*"
 
@@ -44,6 +33,7 @@ turbine:
   cluster-name-expression: new String("default")
   aggregator:
     cluster-config: default
+
 zuul:
   ignoredServices: "*"
   prefix: /webshop-api
@@ -64,6 +54,20 @@ zuul:
       service-id: product-category-composite-service
       path: /categories/**
       stripPrefix: false
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+      base-path: /actuator
+      cors:
+        allowed-origins: true
 
 ---
 spring:
