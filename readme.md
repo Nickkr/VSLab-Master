@@ -35,6 +35,8 @@ If you obmit this variable, then the build from maven sources is used by default
 You also can use the `package-build-up.cmd` script for compiling the sources with your local maven, building the docker images and start the services.
 
 * The maven pom in your working directory is used for compilation.
+* The first argument is passed to maven a artifactId to select the builded project, even if your working directory pom contains other projects.
+* The following arguments are passed to `docker-compose up` for starting other services, too.
 * You can pass the same arguments as for `docker-compose build` and `docker-compose up`, to specify a service.
 
 Example usage:
@@ -45,14 +47,17 @@ Example usage:
     package-build-up.cmd
     ~~~
 
-* Change the working directory to build a specific service, only.
-
-  Pass a service name to start this service, only.
+* Pass a service name to build and start this specific service, only.
   *Its dependend services are included automatically by docker.*
 
     ~~~cmd
-    cd CoreServices\Category
-    ..\..\package-and-up.cmd category-service
+    package-and-up.cmd category-service
+    ~~~
+
+* Pass a second service name to start this service, too. This only rebuild the category service, but starts the whole application.
+
+    ~~~cmd
+    package-and-up.cmd category-service zuul-server
     ~~~
 
 ### Detailed build instructions
