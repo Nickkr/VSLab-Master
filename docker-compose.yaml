@@ -88,6 +88,8 @@ services:
       - "8081:8081"
     depends_on:
       - eureka-server
+      - composite-service
+      - user-service
   database:
     build:
       context: ./Database
