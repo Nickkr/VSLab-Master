@@ -47,7 +47,7 @@ logging:
     com:
       netflix:
         loadbalancer:
-          DynamicServerListLoadBalancer: DEBUG
+          DynamicServerListLoadBalancer: INFO
     org:
       springframework:
         web:

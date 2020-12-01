@@ -3,6 +3,8 @@ package com.composite.service;
 import java.util.List;
 import java.util.function.Function;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.HttpEntity;
@@ -32,8 +34,13 @@ import reactor.core.scheduler.Schedulers;
 @RequestMapping("/categories")
 public class CategoryController {
 
+	private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
+
 	private static final String CATEGORY_BASE_URL = "http://category-service/categories";
 	private static final String PRODUCT_BASE_URL = "http://product-service/products";
+
+	private static final Category cachedCategory = new Category(0, "Cached category!");
+	private List<Category> cache = List.of(cachedCategory);
 
 	@Autowired
 	@LoadBalanced
@@ -44,10 +51,17 @@ public class CategoryController {
 	RestTemplate restTemplate;
 
 	@SuppressWarnings("rawtypes")
-	@HystrixCommand
+	@HystrixCommand(fallbackMethod = "getCategoriesCache")
 	@GetMapping
 	public ResponseEntity<List> getCategories() {
 		return restTemplate.getForEntity(CATEGORY_BASE_URL, List.class);
+	}
+
+	@SuppressWarnings("rawtypes")
+	@HystrixCommand()
+	public ResponseEntity<List> getCategoriesCache(Throwable throwable) {
+		logger.info(throwable.getLocalizedMessage());
+		return ResponseEntity.ok(cache);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -98,7 +112,7 @@ public class CategoryController {
 		// Delete all products by its id and throw exceptions if an error occurs.
 		ParallelFlux<Product> parallel = Flux.fromArray(products).parallel().runOn(Schedulers.elastic());
 		parallel.flatMap(deleteProductByID, true).sequential().collectList().block();
-		
+
 		// Delete the category after all products were deleted and throw exceptions if an error occurs.
 		categoryClient.delete().uri("/{id}", id).retrieve().toBodilessEntity().block();
 
