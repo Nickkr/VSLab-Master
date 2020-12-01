@@ -25,6 +25,10 @@ ribbon:
 hystrix:
   command:
     default:
+      ciruitBreaker:
+        requestVolumeTreshold: 2
+        errorThresholdPercentage: 50
+        sleepWindowInMilliseconds: 30000
       execution:
         isolation:
           thread:
