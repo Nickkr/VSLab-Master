@@ -20,20 +20,27 @@ eureka:
       instanceId: ${spring.application.name}:${random.value}
 
 ribbon:
-  ReadTimeout: 3000
+  ServerListRefreshInterval: 2000
+  ReadTimeout: 2000
+  ConnectTimeout: 1000
 
 hystrix:
   command:
     default:
       ciruitBreaker:
-        requestVolumeTreshold: 2
-        errorThresholdPercentage: 50
-        sleepWindowInMilliseconds: 30000
+        requestVolumeThreshold: 1
+      metrics:
+        rollingStats:
+          timeInMilliseconds: 30000
       execution:
         isolation:
           thread:
-            # Increase the Hystrix timeout to 10s (globally)
-            timeoutInMilliseconds: 10000
+            timeoutInMilliseconds: 3000
+    deleteCategory:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
 
 logging:
   level:
