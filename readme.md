@@ -183,6 +183,7 @@ Creating the composite service and call core services:
 Eureka-Ribbon Discovery:
 
 * [Ribbon - Loadblanced](http://www.masterspringboot.com/cloud/netflix/service-discovery-with-netflix-eureka-and-ribbon-client-load-balancer)
+* [The Mystery of Eureka Health Monitoring](https://dzone.com/articles/the-mystery-of-eureka-health-monitoring)
 
 More development related articles:
 
