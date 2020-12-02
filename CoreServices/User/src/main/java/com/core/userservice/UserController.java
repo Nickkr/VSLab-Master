@@ -98,10 +98,10 @@ public class UserController {
 
     if (userData.isPresent()) {
       User _user = userData.get();
-      _user.setUsername(user.getUsername() == null ? user.getUsername() : _user.getUsername());
-      _user.setFirstname(user.getFirstname() == null ? user.getFirstname() : _user.getFirstname());
-      _user.setLastname(user.getLastname() == null ? user.getLastname() : _user.getLastname());
-      _user.setPassowrd(user.getPassword() == null ? user.getPassword() : _user.getPassword());
+      _user.setUsername(user.getUsername() == null ? _user.getUsername() : user.getUsername());
+      _user.setFirstname(user.getFirstname() == null ? _user.getFirstname() : user.getFirstname());
+      _user.setLastname(user.getLastname() == null ? _user.getLastname() :  user.getLastname());
+      _user.setPassowrd(user.getPassword() == null ? _user.getPassword() : user.getPassword());
       return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
