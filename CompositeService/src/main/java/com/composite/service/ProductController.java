@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
@@ -25,6 +28,8 @@ public class ProductController {
     @Autowired
     @LoadBalanced
     RestTemplate restTemplate;
+
+    private final Map<Integer, Product> productCache = new LinkedHashMap<Integer, Product>();
 
     public static String PRODUCT_BASE_URL = "http://product-service/products";
 
@@ -41,17 +46,24 @@ public class ProductController {
     }
     @HystrixCommand()
     @PostMapping("/products")
-    Product postMethodName(@RequestBody String newProduct) {
+    Product createNewProduct(@RequestBody String newProduct) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> request = new HttpEntity<String>(newProduct, headers);
         return restTemplate.postForObject(PRODUCT_BASE_URL, request, Product.class);
     }
-    @HystrixCommand()
+    @HystrixCommand(fallbackMethod = "getProductCache")
     @GetMapping("/products/{id}")
      Product getProductById(@PathVariable int id) {
-         return restTemplate.getForObject(PRODUCT_BASE_URL + "/{id}", Product.class, id);
+         Product product = restTemplate.getForObject(PRODUCT_BASE_URL + "/{id}", Product.class, id);
+         productCache.putIfAbsent(id, product);
+         return product;
      }    
+
+     Product getProductCache(int id) {
+        return productCache.get(id);
+     }
+     
      @HystrixCommand()
      @DeleteMapping("/products/{id}")
      void deleteProductById(@PathVariable int id) {
