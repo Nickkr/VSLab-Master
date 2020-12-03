@@ -2,6 +2,7 @@ package com.core.categoryservice;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/categories")
 public class CategoryController {
 
-	private final CategoryRepository repository;
-
-	public CategoryController(CategoryRepository repository) {
-		this.repository = repository;
-	}
+	@Autowired
+	private CategoryRepository repository;
 
 	@GetMapping
 	public ResponseEntity<List<Category>> getCategories() {
