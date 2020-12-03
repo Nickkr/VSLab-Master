@@ -3,8 +3,6 @@ package com.core.categoryservice;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,66 +19,41 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryController {
 
 	@Autowired
-	private CategoryRepository repository;
-
+	private CategoryService service;
+	
 	@GetMapping
 	public ResponseEntity<List<Category>> getCategories() {
-		List<Category> allCategories = repository.findAll();
+		List<Category> allCategories = service.getCategories();
 		return ResponseEntity.ok(allCategories);
 	}
 
 	@GetMapping(params = "searchName")
 	public ResponseEntity<List<Category>> getFilteredCategories(@RequestParam String searchName) {
-		ExampleMatcher matcher = ExampleMatcher.matchingAny()
-				.withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-				.withIgnorePaths("id");
-
-		Example<Category> example = Example.of(new Category(searchName), matcher);
-
-		List<Category> filteredCategories = repository.findAll(example);
+		List<Category> filteredCategories = service.getFilteredCategories(searchName);
 		return ResponseEntity.ok(filteredCategories);
 	}
 
 	@PostMapping
 	public ResponseEntity<Category> createCategory(@RequestBody Category newCategory) {
-		if (newCategory == null || newCategory.getName() == null || newCategory.getName().trim().isEmpty()) {
-			return ResponseEntity.badRequest().build();
-		}
-
-		newCategory.setName(newCategory.getName().trim());
-
-		Category createdCategory = repository.save(newCategory);
+		Category createdCategory = service.createCategory(newCategory);
 		return ResponseEntity.created(null).body(createdCategory);
 	}
 
 	@GetMapping("{id}")
 	public ResponseEntity<Category> getCategory(@PathVariable Integer id) {
-		Category category = repository.findById(id)
-				.orElseThrow(() -> new CategoryNotFoundException(id));
-
+		Category category = service.getCategory(id);
 		return ResponseEntity.ok(category);
 	}
 
 	@PutMapping("{id}")
 	public ResponseEntity<Category> updateCategory(@PathVariable Integer id, @RequestBody Category newCategory) {
-		if (newCategory == null || newCategory.getName() == null || newCategory.getName().trim().isEmpty()) {
-			return ResponseEntity.badRequest().build();
-		}
-
-		Category updatedCategory = repository.findById(id)
-				.map(Category -> {
-					Category.setName(newCategory.getName());
-					return repository.save(Category);
-				})
-				.orElseThrow(() -> new CategoryNotFoundException(id));
-
+		Category updatedCategory = service.updateCategory(id, newCategory);
 		return ResponseEntity.created(null).body(updatedCategory);
 	}
 
 	@DeleteMapping("{id}")
 	public ResponseEntity<Void> deleteCategory(@PathVariable Integer id) {
-		repository.deleteById(id);
-
+		service.deleteCategory(id);
 		return ResponseEntity.noContent().build();
 	}
 

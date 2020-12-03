@@ -23,6 +23,12 @@ public class ExceptionAdvices {
 	}
 
 	@ResponseBody
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<String> IllegalArgumentExceptionHandler(IllegalArgumentException ex) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+	}
+
+	@ResponseBody
 	@ExceptionHandler(EmptyResultDataAccessException.class)
 	public ResponseEntity<String>  EmptyResultDataAccessExceptionHandler(EmptyResultDataAccessException ex) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
