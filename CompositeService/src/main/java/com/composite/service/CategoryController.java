@@ -32,7 +32,7 @@ import reactor.core.scheduler.Schedulers;
 
 @RestController
 @RequestMapping("/categories")
-public class CategoryController {
+public class CategoryController implements CategoryDelegateInterface  {
 
 	private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
