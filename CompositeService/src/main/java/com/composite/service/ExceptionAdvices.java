@@ -11,10 +11,36 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 @ControllerAdvice
 public class ExceptionAdvices {
 
+	private String GetExceptionMessages(Exception ex) {
+		StringBuilder builder = new StringBuilder();
+
+		builder.append(ex.getClass().getName());
+		builder.append(": ");
+		builder.append(ex.getLocalizedMessage());
+		builder.append(System.lineSeparator());
+
+		GetExceptionMessages(ex.getCause(), builder);
+		return builder.toString();
+	}
+
+	private void GetExceptionMessages(Throwable ex, StringBuilder builder) {
+		if (ex == null)
+			return;
+
+		builder.append("Caused by");
+		builder.append(": ");
+		builder.append(ex.getClass().getName());
+		builder.append(": ");
+		builder.append(ex.getLocalizedMessage());
+		builder.append(System.lineSeparator());
+
+		GetExceptionMessages(ex.getCause(), builder);
+	}
+
 	@ResponseBody
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> GeneralExceptionHandler(Exception ex) {
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.toString());
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GetExceptionMessages(ex));
 	}
 
 	@ResponseBody
