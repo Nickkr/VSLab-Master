@@ -25,7 +25,7 @@ public class CategoryCacheService {
 		}
 	}
 
-	public Category getCategory(int id) {
+	public Category getCachedCategory(int id) {
 		// TODO Retrieve missing categories.
 		return cache.get(id);
 	}
