@@ -1,5 +1,8 @@
 package com.composite.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
@@ -37,4 +40,9 @@ public class CompositeServiceApplication {
 		return builder.build();
 	}
 
+	@Bean
+	public List<Category> cachedCategories(){
+		return new ArrayList<>();
+	}
+	
 }
