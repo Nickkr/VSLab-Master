@@ -2,20 +2,18 @@ package com.core.categoryservice;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
-
 public interface CategoryInterface {
 
-	ResponseEntity<List<Category>> getCategories();
+	List<Category> getCategories();
 
-	ResponseEntity<List<Category>> getFilteredCategories(String searchName);
+	List<Category> getFilteredCategories(String searchName);
 
-	ResponseEntity<Category> createCategory(Category newCategory);
+	Category createCategory(Category newCategory);
 
-	ResponseEntity<Category> getCategory(Integer id);
+	Category getCategory(Integer id);
 
-	ResponseEntity<Category> updateCategory(Integer id, Category newCategory);
+	Category updateCategory(Integer id, Category newCategory);
 
-	ResponseEntity<Void> deleteCategory(Integer id);
+	void deleteCategory(Integer id);
 
 }
