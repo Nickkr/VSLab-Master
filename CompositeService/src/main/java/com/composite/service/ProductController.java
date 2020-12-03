@@ -26,7 +26,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 public class ProductController {
 
 	@Autowired
-	CategoryService categoryService;
+	CategoryCacheService categoryService;
 
 	@Autowired
 	@LoadBalanced
