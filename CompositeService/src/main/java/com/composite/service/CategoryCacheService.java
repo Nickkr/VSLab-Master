@@ -11,6 +11,7 @@ public class CategoryCacheService {
 
 	private Map<Integer, Category> cache = new LinkedHashMap<Integer, Category>();
 
+	@Deprecated
 	public Map<Integer, Category> getCachedCategories() {
 		return cache;
 	}
@@ -24,4 +25,8 @@ public class CategoryCacheService {
 		}
 	}
 
+	public Category getCategory(int id) {
+		// TODO Retrieve missing categories.
+		return cache.get(id);
+	}
 }
