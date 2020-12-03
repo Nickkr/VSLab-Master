@@ -17,7 +17,7 @@ public class CategoryCacheService {
 
 	public CategoryCacheService() {
 		// TODO Call the core service to retrieve the real data.
-		List<Category> data = List.of(new Category(1, "Obst"), new Category(1, "Gemüse"));
+		List<Category> data = List.of(new Category(1, "Obst"), new Category(2, "Gemüse"));
 
 		for (Category category : data) {
 			cache.putIfAbsent(category.getId(), category);
