@@ -1,5 +1,8 @@
 package com.composite.service;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.HttpEntity;
@@ -17,16 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
 public class ProductController {
 
 	@Autowired
-	CategoryCacheService categoryService;
+	CategoryService categoryService;
 
 	@Autowired
 	@LoadBalanced
