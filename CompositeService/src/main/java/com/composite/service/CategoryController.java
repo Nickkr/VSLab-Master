@@ -32,43 +32,64 @@ import reactor.core.scheduler.Schedulers;
 
 @RestController
 @RequestMapping("/categories")
-public class CategoryController implements CategoryDelegateInterface  {
+public class CategoryController implements CategoryDelegateInterface {
 
 	private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
 	private static final String CATEGORY_BASE_URL = "http://category-service/categories";
 	private static final String PRODUCT_BASE_URL = "http://product-service/products";
 
+	@Deprecated
 	private static final Category cachedCategory = new Category(0, "Cached category!");
+
+	@Deprecated
 	private List<Category> cache = List.of(cachedCategory);
+	
 
 	@Autowired
 	@LoadBalanced
-	public WebClient.Builder webClientBuilder;
+	private WebClient.Builder webClientBuilder;
 
 	@Autowired
 	@LoadBalanced
-	RestTemplate restTemplate;
+	private RestTemplate restTemplate;
 
 	@SuppressWarnings("rawtypes")
-	@HystrixCommand(fallbackMethod = "getCategoriesCache")
+	@HystrixCommand(fallbackMethod = "getCategoriesFallback")
 	@GetMapping
 	public ResponseEntity<List> getCategories() {
 		return restTemplate.getForEntity(CATEGORY_BASE_URL, List.class);
 	}
 
 	@SuppressWarnings("rawtypes")
-	@HystrixCommand()
-	public ResponseEntity<List> getCategoriesCache(Throwable throwable) {
+	@HystrixCommand
+	public ResponseEntity<List> getCategoriesFallback(Throwable throwable) {
 		logger.info(throwable.getLocalizedMessage());
+		return getCachedCategories();
+	}
+
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity<List> getCachedCategories() {
 		return ResponseEntity.ok(cache);
 	}
 
 	@SuppressWarnings("rawtypes")
-	@HystrixCommand
+	@HystrixCommand(fallbackMethod = "getFilteredCategoriesFallback")
 	@GetMapping(params = "searchName")
 	public ResponseEntity<List> getFilteredCategories(@RequestParam String searchName) {
 		return restTemplate.getForEntity(CATEGORY_BASE_URL + "?searchName={id}", List.class, searchName);
+	}
+
+	@SuppressWarnings("rawtypes")
+	@HystrixCommand
+	public ResponseEntity<List> getFilteredCategoriesFallback(Throwable throwable) {
+		logger.info(throwable.getLocalizedMessage());
+		return getCachedCategories();
+	}
+
+	@SuppressWarnings("rawtypes")
+	public ResponseEntity<List> getCachedFilteredCategories(String searchName) {
+		return ResponseEntity.ok(cache);
 	}
 
 	@HystrixCommand
@@ -77,10 +98,20 @@ public class CategoryController implements CategoryDelegateInterface  {
 		return restTemplate.postForEntity(CATEGORY_BASE_URL, newCategory, Category.class);
 	}
 
-	@HystrixCommand
+	@HystrixCommand(fallbackMethod = "getCategoryFallback")
 	@GetMapping("{id}")
 	public ResponseEntity<Category> getCategory(@PathVariable Integer id) {
 		return restTemplate.getForEntity(CATEGORY_BASE_URL + "/{id}", Category.class, id);
+	}
+
+	@HystrixCommand
+	public ResponseEntity<Category> getCategoryFallback(@PathVariable Integer id, Throwable throwable) {
+		logger.info(throwable.getLocalizedMessage());
+		return getCachedCategory(id);
+	}
+
+	public ResponseEntity<Category> getCachedCategory(Integer id) {
+		return null;
 	}
 
 	@HystrixCommand
