@@ -14,8 +14,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @EnableCircuitBreaker
 public class CompositeServiceApplication {
 
-	public static final String BASE_URI = "http://localhost:18084/";
-
 	public static void main(String[] args) {
 		SpringApplication.run(CompositeServiceApplication.class, args);
 	}
