@@ -200,12 +200,12 @@ More development related articles:
 For further reference, please consider the following sections:
 
 * [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.4.0/maven-plugin/reference/html/)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.4.0/reference/htmlsingle/#boot-features-developing-web-applications)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/2.4.0/reference/htmlsingle/#using-boot-devtools)
-* [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/2.4.0/reference/htmlsingle/#production-ready)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.4.0/reference/htmlsingle/#boot-features-jpa-and-spring-data)
-* [OAuth2 Client](https://docs.spring.io/spring-boot/docs/2.4.0/reference/htmlsingle/#boot-features-security-oauth2-client)
+* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.3.6.RELEASE/maven-plugin/reference/html/)
+* [Spring Web](https://docs.spring.io/spring-boot/docs/2.3.6.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications)
+* [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/2.3.6.RELEASE/reference/htmlsingle/#using-boot-devtools)
+* [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/2.3.6.RELEASE/reference/htmlsingle/#production-ready)
+* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.3.6.RELEASE/reference/htmlsingle/#boot-features-jpa-and-spring-data)
+* [OAuth2 Client](https://docs.spring.io/spring-boot/docs/2.3.6.RELEASE/reference/htmlsingle/#boot-features-security-oauth2-client)
 * [Spring Cloud Netflix Eureka](https://cloud.spring.io/spring-cloud-netflix/reference/html/)
 
 ### Guides
