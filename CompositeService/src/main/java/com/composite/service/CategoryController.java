@@ -61,9 +61,9 @@ public class CategoryController implements CategoryDelegateInterface {
 
 	@SuppressWarnings("rawtypes")
 	@HystrixCommand
-	public ResponseEntity<List> getFilteredCategoriesFallback(Throwable throwable) {
+	public ResponseEntity<List> getFilteredCategoriesFallback(String searchName, Throwable throwable) {
 		logger.info(throwable.getLocalizedMessage());
-		return getCachedCategories();
+		return getCachedFilteredCategories(searchName);
 	}
 
 	@SuppressWarnings("rawtypes")
