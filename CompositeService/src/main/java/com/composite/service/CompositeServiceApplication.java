@@ -1,8 +1,5 @@
 package com.composite.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
@@ -16,8 +13,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @EnableDiscoveryClient
 @EnableCircuitBreaker
 public class CompositeServiceApplication {
-
-	public static final String BASE_URI = "http://localhost:18084/";
 
 	public static void main(String[] args) {
 		SpringApplication.run(CompositeServiceApplication.class, args);
@@ -40,9 +35,4 @@ public class CompositeServiceApplication {
 		return builder.build();
 	}
 
-	@Bean
-	public List<Category> cachedCategories(){
-		return new ArrayList<>();
-	}
-	
 }
