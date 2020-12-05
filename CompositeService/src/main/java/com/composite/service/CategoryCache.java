@@ -11,6 +11,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -25,9 +26,19 @@ public class CategoryCache implements Map<Integer, Category>, Serializable {
 		cache.putAll(data);
 		return cache;
 	}
-
+	
 	private Map<Integer, Category> cache = new TreeMap<Integer, Category>();
 
+	@Bean
+	@Deprecated
+	public CategoryService defaultDataServiceDummy() {
+		return new CategoryService() {
+			public Category getCategory(Integer id) {
+				return new Category(id , "Test");
+			}
+		};
+	}
+	
 	/** Adds all elements from the categories collection and replace existing elements. */
 	public void putAll(Collection<Category> categories) {
 		cache.putAll(categories.stream().collect(Collectors.toMap(Category::getId, Function.identity())));

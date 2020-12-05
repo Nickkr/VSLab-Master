@@ -2,6 +2,7 @@ package com.composite.service;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class ProductController {
 
 	@HystrixCommand(fallbackMethod = "getProductsCache")
 	@GetMapping("/products")
-	Product[] getProducts(@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice,
+	List<ProductComposite> getProducts(@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice,
 			@RequestParam(required = false) Integer categoryId, @RequestParam(required = false) String searchText) {
 
 		Product[] products = restTemplate.getForObject(PRODUCT_BASE_URL + "?minPrice={minPrice}&maxPrice={maxPrice}&categoryId={categoryId}&searchText={searchText}", Product[].class,
@@ -50,15 +51,12 @@ public class ProductController {
 				categoryId,
 				searchText);
 
-		// Get all categories.
-
-
 		//Iterate over products and put into cache if absent
 		for (Product product : products) {
-			String category = "";
-			this.productCache.putIfAbsent(product.getId().intValue(), new ProductComposite(product, category));
+			this.productCache.putIfAbsent(product.getId().intValue(),
+			 new ProductComposite(product, categoryService.getCategory(product.getCategoryId()).getName()));
 		}
-		return products;
+		return new ArrayList<ProductComposite>(this.productCache.values());
 	}
 
 	@HystrixCommand(fallbackMethod = "getProductCache")
@@ -79,7 +77,7 @@ public class ProductController {
 	}
 
 	@HystrixCommand
-	List<ProductComposite> getProductsCache() {
+	List<ProductComposite> getProductsCache(Double minPrice, Double maxPrice, Integer categoryId, String details) {
 		return new ArrayList<ProductComposite>(this.productCache.values());
 	}
 
