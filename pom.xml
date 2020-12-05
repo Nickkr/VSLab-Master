@@ -16,6 +16,7 @@
     <module>CompositeService</module>
     <module>Eureka</module>
     <module>Zuul</module>
+    <module>AuthServer</module>
   </modules>
 
   <build>
