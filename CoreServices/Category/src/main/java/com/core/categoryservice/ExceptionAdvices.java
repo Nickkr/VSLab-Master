@@ -3,15 +3,15 @@ package com.core.categoryservice;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class ExceptionAdvices {
 
-	private String GetExceptionMessages(Exception ex) {
+	private String getExceptionMessages(Exception ex) {
 		StringBuilder builder = new StringBuilder();
 
 		builder.append(ex.getClass().getName());
@@ -19,11 +19,11 @@ public class ExceptionAdvices {
 		builder.append(ex.getLocalizedMessage());
 		builder.append(System.lineSeparator());
 
-		GetExceptionMessages(ex.getCause(), builder);
+		getExceptionMessages(ex.getCause(), builder);
 		return builder.toString();
 	}
 
-	private void GetExceptionMessages(Throwable ex, StringBuilder builder) {
+	private void getExceptionMessages(Throwable ex, StringBuilder builder) {
 		if (ex == null)
 			return;
 
@@ -34,39 +34,51 @@ public class ExceptionAdvices {
 		builder.append(ex.getLocalizedMessage());
 		builder.append(System.lineSeparator());
 
-		GetExceptionMessages(ex.getCause(), builder);
+		getExceptionMessages(ex.getCause(), builder);
 	}
 
-	private Throwable GetRootException(Throwable throwable) {
+	private Throwable getRootException(Throwable throwable) {
 		if (throwable.getCause() == null) {
 			return throwable;
 		} else {
-			return GetRootException(throwable.getCause());
+			return getRootException(throwable.getCause());
 		}
 	}
 
-	@ResponseBody
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<String> GeneralExceptionHandler(Exception ex) {
-		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GetExceptionMessages(ex));
+	@ResponseBody
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public String GeneralExceptionHandler(Exception ex) {
+		return getExceptionMessages(ex);
 	}
 
-	@ResponseBody
 	@ExceptionHandler(CategoryNotFoundException.class)
-	public ResponseEntity<String> CategoryNotFoundHandler(CategoryNotFoundException ex) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public String CategoryNotFoundHandler(CategoryNotFoundException ex) {
+		return ex.getLocalizedMessage();
 	}
 
+	@ExceptionHandler(IllegalArgumentException.class)
 	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public String IllegalArgumentExceptionHandler(IllegalArgumentException ex) {
+		return ex.getLocalizedMessage();
+	}
+
 	@ExceptionHandler(EmptyResultDataAccessException.class)
-	public ResponseEntity<String> EmptyResultDataAccessExceptionHandler(EmptyResultDataAccessException ex) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	@ResponseBody
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public String EmptyResultDataAccessExceptionHandler(EmptyResultDataAccessException ex) {
+		return ex.getLocalizedMessage();
 	}
 
-	@ResponseBody
+	
 	@ExceptionHandler(DataIntegrityViolationException.class)
-	public ResponseEntity<String> DataIntegrityViolationExceptionHandler(DataIntegrityViolationException ex) {
-		return ResponseEntity.badRequest().body(GetRootException(ex).getMessage());
+	@ResponseBody
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public String DataIntegrityViolationExceptionHandler(DataIntegrityViolationException ex) {
+		return getRootException(ex).getLocalizedMessage();
 	}
 
 }
