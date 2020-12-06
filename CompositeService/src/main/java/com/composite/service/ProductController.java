@@ -54,7 +54,7 @@ public class ProductController {
 		//Iterate over products and put into cache if absent
 		for (Product product : products) {
 			this.productCache.putIfAbsent(product.getId().intValue(),
-			 new ProductComposite(product, categoryService.getCategory(product.getCategoryId())));
+			 new ProductComposite(product, categoryService.getCategoryById(product.getCategoryId())));
 		}
 		return new ArrayList<ProductComposite>(this.productCache.values());
 	}
@@ -65,7 +65,7 @@ public class ProductController {
 		Product product = restTemplate.getForObject(PRODUCT_BASE_URL + "/{id}", Product.class, id);
 
 		//replace categoryId with categoryName
-		productCache.putIfAbsent(id, new ProductComposite(product, this.categoryService.getCategory(product.getCategoryId())));
+		productCache.putIfAbsent(id, new ProductComposite(product, this.categoryService.getCategoryById(product.getCategoryId())));
 		return product;
 	}
 
@@ -88,7 +88,7 @@ public class ProductController {
 		HttpEntity<String> request = new HttpEntity<String>(newProduct, headers);
 		Product product = restTemplate.postForObject(PRODUCT_BASE_URL, request, Product.class);
 		if(product != null) {
-			this.productCache.put(product.getId().intValue(), new ProductComposite(product, this.categoryService.getCategory(product.getCategoryId())));
+			this.productCache.put(product.getId().intValue(), new ProductComposite(product, this.categoryService.getCategoryById(product.getCategoryId())));
 		}
 		return product;
 
@@ -111,7 +111,7 @@ public class ProductController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		ResponseEntity<Product> response = restTemplate.exchange(PRODUCT_BASE_URL + "/{id}", HttpMethod.PUT, new HttpEntity<String>(product, headers), Product.class, id);
 		if(response.getStatusCode() == HttpStatus.OK) {
-			this.productCache.replace(id, new ProductComposite(response.getBody(), this.categoryService.getCategory(response.getBody().getCategoryId())));
+			this.productCache.replace(id, new ProductComposite(response.getBody(), this.categoryService.getCategoryById(response.getBody().getCategoryId())));
 		}
 		return response;
 	}

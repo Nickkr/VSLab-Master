@@ -20,54 +20,42 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
 @RequestMapping("/categories")
-public class CategoryController implements CategoryDelegateInterface {
+public class CategoryController implements CategoryDelegate {
 
 	private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
-	@Deprecated
-	private static final Category cachedCategory = new Category(0, "Cached category!");
-
-	@Deprecated
-	private List<Category> cache = List.of(cachedCategory);
-	
 	@Autowired
 	private CategoryDelegateService categoryService;
 
-	@SuppressWarnings("rawtypes")
 	@HystrixCommand(fallbackMethod = "getCategoriesFallback")
 	@GetMapping
-	public ResponseEntity<List> getCategories() {
+	public ResponseEntity<Category[]> getCategories() {
 		return categoryService.getCategories();
 	}
 
-	@SuppressWarnings("rawtypes")
 	@HystrixCommand
-	public ResponseEntity<List> getCategoriesFallback(Throwable throwable) {
-		logger.info(throwable.getLocalizedMessage());
+	public ResponseEntity<Category[]> getCategoriesFallback(Throwable throwable) {
+		logger.info("Hystrix fallback called: {}", throwable.getLocalizedMessage());
 		return getCachedCategories();
 	}
 
-	@SuppressWarnings("rawtypes")
-	public ResponseEntity<List> getCachedCategories() {
+	public ResponseEntity<Category[]> getCachedCategories() {
 		return categoryService.getCachedCategories();
 	}
 
-	@SuppressWarnings("rawtypes")
 	@HystrixCommand(fallbackMethod = "getFilteredCategoriesFallback")
 	@GetMapping(params = "searchName")
-	public ResponseEntity<List> getFilteredCategories(@RequestParam String searchName) {
+	public ResponseEntity<Category[]> getFilteredCategories(@RequestParam String searchName) {
 		return categoryService.getFilteredCategories(searchName);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@HystrixCommand
-	public ResponseEntity<List> getFilteredCategoriesFallback(String searchName, Throwable throwable) {
-		logger.info(throwable.getLocalizedMessage());
+	public ResponseEntity<Category[]> getFilteredCategoriesFallback(String searchName, Throwable throwable) {
+		logger.info("Hystrix fallback called: {}", throwable.getLocalizedMessage());
 		return getCachedFilteredCategories(searchName);
 	}
 
-	@SuppressWarnings("rawtypes")
-	public ResponseEntity<List> getCachedFilteredCategories(String searchName) {
+	public ResponseEntity<Category[]> getCachedFilteredCategories(String searchName) {
 		return categoryService.getCachedFilteredCategories(searchName);
 	}
 
@@ -85,7 +73,7 @@ public class CategoryController implements CategoryDelegateInterface {
 
 	@HystrixCommand
 	public ResponseEntity<Category> getCategoryFallback(@PathVariable Integer id, Throwable throwable) {
-		logger.info(throwable.getLocalizedMessage());
+		logger.info("Hystrix fallback called: {}", throwable.getLocalizedMessage());
 		return getCachedCategory(id);
 	}
 

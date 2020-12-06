@@ -1,8 +1,8 @@
 package com.composite.service;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -11,7 +11,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,39 +18,25 @@ public class CategoryCache implements Map<Integer, Category>, Serializable {
 
 	private static final long serialVersionUID = -2060332784605672379L;
 
-	@Deprecated
-	public static CategoryCache getDefaultData() {
-		CategoryCache cache = new CategoryCache();
-		List<Category> data = List.of(new Category(1, "Obst"), new Category(2, "Gemüse"));
-		cache.putAll(data);
-		return cache;
-	}
-	
 	private Map<Integer, Category> cache = new TreeMap<Integer, Category>();
 
-	@Bean
-	@Deprecated
-	public CategoryService defaultDataServiceDummy() {
-		return new CategoryService() {
-			public Category getCategory(Integer id) {
-				return new Category(id , "Test");
-			}
-		};
-	}
-	
 	/** Adds all elements from the categories collection and replace existing elements. */
-	public void putAll(Collection<Category> categories) {
-		cache.putAll(categories.stream().collect(Collectors.toMap(Category::getId, Function.identity())));
+	public void putAll(Category[] categories) {
+		cache.putAll(Arrays.stream(categories).collect(Collectors.toMap(Category::getId, Function.identity())));
 	}
 
 	/** Removes all elements and adds all from the categories collection. */
-	public void replaceAll(Collection<Category> categories) {
+	public void initialize(Category[] categories) {
 		clear();
 		putAll(categories);
 	}
 
 	public Category putIfAbsent(Category value) {
 		return cache.putIfAbsent(value.getId(), value);
+	}
+
+	public Category put(Category value) {
+		return cache.put(value.getId(), value);
 	}
 
 	public Category remove(Integer key) {
@@ -68,6 +53,14 @@ public class CategoryCache implements Map<Integer, Category>, Serializable {
 
 	public Category replace(Category value) {
 		return cache.replace(value.getId(), value);
+	}
+
+	public boolean containsKey(Integer key) {
+		return cache.containsKey(key);
+	}
+
+	public Category get(Integer key) {
+		return cache.get(key);
 	}
 
 	@Override
