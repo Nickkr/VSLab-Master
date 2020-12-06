@@ -6,17 +6,13 @@ import org.springframework.http.ResponseEntity;
 
 public interface CategoryDelegateInterface {
 
-	@SuppressWarnings("rawtypes")
-	ResponseEntity<List> getCategories();
+	ResponseEntity<Category[]> getCategories();
 
-	@SuppressWarnings("rawtypes")
-	ResponseEntity<List> getCachedCategories();
+	ResponseEntity<Category[]> getCachedCategories();
 
-	@SuppressWarnings("rawtypes")
-	ResponseEntity<List> getFilteredCategories(String searchName);
+	ResponseEntity<Category[]> getFilteredCategories(String searchName);
 
-	@SuppressWarnings("rawtypes")
-	ResponseEntity<List> getCachedFilteredCategories(String searchName);
+	ResponseEntity<Category[]> getCachedFilteredCategories(String searchName);
 
 	ResponseEntity<Category> createCategory(Category newCategory);
 

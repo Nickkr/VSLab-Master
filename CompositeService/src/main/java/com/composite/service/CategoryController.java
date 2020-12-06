@@ -33,41 +33,35 @@ public class CategoryController implements CategoryDelegateInterface {
 	@Autowired
 	private CategoryDelegateService categoryService;
 
-	@SuppressWarnings("rawtypes")
 	@HystrixCommand(fallbackMethod = "getCategoriesFallback")
 	@GetMapping
-	public ResponseEntity<List> getCategories() {
+	public ResponseEntity<Category[]> getCategories() {
 		return categoryService.getCategories();
 	}
 
-	@SuppressWarnings("rawtypes")
 	@HystrixCommand
-	public ResponseEntity<List> getCategoriesFallback(Throwable throwable) {
+	public ResponseEntity<Category[]> getCategoriesFallback(Throwable throwable) {
 		logger.info(throwable.getLocalizedMessage());
 		return getCachedCategories();
 	}
 
-	@SuppressWarnings("rawtypes")
-	public ResponseEntity<List> getCachedCategories() {
+	public ResponseEntity<Category[]> getCachedCategories() {
 		return categoryService.getCachedCategories();
 	}
 
-	@SuppressWarnings("rawtypes")
 	@HystrixCommand(fallbackMethod = "getFilteredCategoriesFallback")
 	@GetMapping(params = "searchName")
-	public ResponseEntity<List> getFilteredCategories(@RequestParam String searchName) {
+	public ResponseEntity<Category[]> getFilteredCategories(@RequestParam String searchName) {
 		return categoryService.getFilteredCategories(searchName);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@HystrixCommand
-	public ResponseEntity<List> getFilteredCategoriesFallback(String searchName, Throwable throwable) {
+	public ResponseEntity<Category[]> getFilteredCategoriesFallback(String searchName, Throwable throwable) {
 		logger.info(throwable.getLocalizedMessage());
 		return getCachedFilteredCategories(searchName);
 	}
 
-	@SuppressWarnings("rawtypes")
-	public ResponseEntity<List> getCachedFilteredCategories(String searchName) {
+	public ResponseEntity<Category[]> getCachedFilteredCategories(String searchName) {
 		return categoryService.getCachedFilteredCategories(searchName);
 	}
 

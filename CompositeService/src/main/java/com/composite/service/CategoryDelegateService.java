@@ -1,6 +1,8 @@
 package com.composite.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -38,30 +40,26 @@ public class CategoryDelegateService implements CategoryDelegateInterface {
 	@LoadBalanced
 	private RestTemplate restTemplate;
 
-	@SuppressWarnings("rawtypes")
-	public ResponseEntity<List> getCategories() {
-		return restTemplate.getForEntity(CATEGORY_BASE_URL, List.class);
+	public ResponseEntity<Category[]> getCategories() {
+		return restTemplate.getForEntity(CATEGORY_BASE_URL, Category[].class);
 	}
 
-	@SuppressWarnings("rawtypes")
-	public ResponseEntity<List> getCachedCategories() {
-		List<Category> body = new ArrayList<Category>(cache.values());
+	public ResponseEntity<Category[]> getCachedCategories() {
+		Category[] body = new ArrayList<Category>(cache.values());
 		return ResponseEntity.ok(body);
 	}
 
-	@SuppressWarnings("rawtypes")
-	public ResponseEntity<List> getFilteredCategories(String searchName) {
-		return restTemplate.getForEntity(CATEGORY_BASE_URL + "?searchName={id}", List.class, searchName);
+	public ResponseEntity<Category[]> getFilteredCategories(String searchName) {
+		return restTemplate.getForEntity(CATEGORY_BASE_URL + "?searchName={id}", Category[].class, searchName);
 	}
 
-	@SuppressWarnings("rawtypes")
-	public ResponseEntity<List> getCachedFilteredCategories(String searchName) {
+	public ResponseEntity<Category[]> getCachedFilteredCategories(String searchName) {
 		// Includes a category if its name contains the search name case insensitive.
 		Predicate<Category> matcher = category -> {
 			return category.getName().toLowerCase().contains(searchName.toLowerCase());
 		};
 
-		List<Category> body = cache.values().stream().filter(matcher).collect(Collectors.toList());
+		Category[] body = cache.values().stream().filter(matcher).toArray(Category[]::new);
 		return ResponseEntity.ok(body);
 	}
 

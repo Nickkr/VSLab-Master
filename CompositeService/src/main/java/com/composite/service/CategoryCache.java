@@ -1,6 +1,7 @@
 package com.composite.service;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +20,6 @@ public class CategoryCache implements Map<Integer, Category>, Serializable {
 
 	private static final long serialVersionUID = -2060332784605672379L;
 
-	@Deprecated
-	public static CategoryCache getDefaultData() {
-		CategoryCache cache = new CategoryCache();
-		List<Category> data = List.of(new Category(1, "Obst"), new Category(2, "Gemüse"));
-		cache.putAll(data);
-		return cache;
-	}
-	
 	private Map<Integer, Category> cache = new TreeMap<Integer, Category>();
 
 	@Bean
@@ -40,12 +33,12 @@ public class CategoryCache implements Map<Integer, Category>, Serializable {
 	}
 	
 	/** Adds all elements from the categories collection and replace existing elements. */
-	public void putAll(Collection<Category> categories) {
-		cache.putAll(categories.stream().collect(Collectors.toMap(Category::getId, Function.identity())));
+	public void putAll(Category[] categories) {
+		cache.putAll(Arrays.stream(categories).collect(Collectors.toMap(Category::getId, Function.identity())));
 	}
 
 	/** Removes all elements and adds all from the categories collection. */
-	public void replaceAll(Collection<Category> categories) {
+	public void replaceAll(Category[] categories) {
 		clear();
 		putAll(categories);
 	}
