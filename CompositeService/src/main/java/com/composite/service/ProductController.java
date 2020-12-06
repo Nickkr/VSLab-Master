@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -51,22 +54,22 @@ public class ProductController {
 				categoryId,
 				searchText);
 
+		List<ProductComposite> tmpList = new ArrayList<ProductComposite>();
 		//Iterate over products and put into cache if absent
 		for (Product product : products) {
-			this.productCache.putIfAbsent(product.getId().intValue(),
-			 new ProductComposite(product, categoryService.getCategoryById(product.getCategoryId())));
+			ProductComposite productComposite =  new ProductComposite(product, categoryService.getCategoryById(product.getCategoryId()));			
+			tmpList.add(productComposite);
+			this.productCache.putIfAbsent(product.getId().intValue(), productComposite);
 		}
-		return new ArrayList<ProductComposite>(this.productCache.values());
+		return tmpList;
 	}
 
 	@HystrixCommand(fallbackMethod = "getProductCache")
 	@GetMapping("/products/{id}")
-	Product getProductById(@PathVariable int id) {
+	ProductComposite getProductById(@PathVariable int id) {
 		Product product = restTemplate.getForObject(PRODUCT_BASE_URL + "/{id}", Product.class, id);
-
-		//replace categoryId with categoryName
 		productCache.putIfAbsent(id, new ProductComposite(product, this.categoryService.getCategoryById(product.getCategoryId())));
-		return product;
+		return productCache.get(id);
 	}
 
 
@@ -77,7 +80,13 @@ public class ProductController {
 
 	@HystrixCommand
 	List<ProductComposite> getProductsCache(Double minPrice, Double maxPrice, Integer categoryId, String details) {
-		return new ArrayList<ProductComposite>(this.productCache.values());
+		Predicate<ProductComposite> matcher = product -> {
+			return (minPrice != null ? product.getPrice() >= minPrice : true) 
+				&& (maxPrice != null ? product.getPrice() <= maxPrice : true)
+				&& (categoryId != null ? product.getCategory().getId() == categoryId : true)
+				&& (details != null ? product.getDetails().toLowerCase().contains(details.toLowerCase()) : true);
+		};
+		return this.productCache.values().stream().filter(matcher).collect(Collectors.toList());
 	}
 
 	@HystrixCommand()
