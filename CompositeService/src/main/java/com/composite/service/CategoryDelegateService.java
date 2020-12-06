@@ -20,7 +20,7 @@ import reactor.core.publisher.ParallelFlux;
 import reactor.core.scheduler.Schedulers;
 
 @Service
-public class CategoryDelegateService implements CategoryService, CategoryDelegateInterface {
+public class CategoryDelegateService implements CategoryService, CategoryDelegate {
 
 	private static final String CATEGORY_BASE_URL = "http://category-service/categories";
 	private static final String PRODUCT_BASE_URL = "http://product-service/products";

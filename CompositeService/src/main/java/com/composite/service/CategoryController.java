@@ -20,15 +20,9 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
 @RequestMapping("/categories")
-public class CategoryController implements CategoryDelegateInterface {
+public class CategoryController implements CategoryDelegate {
 
 	private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
-
-	@Deprecated
-	private static final Category cachedCategory = new Category(0, "Cached category!");
-
-	@Deprecated
-	private List<Category> cache = List.of(cachedCategory);
 
 	@Autowired
 	private CategoryDelegateService categoryService;

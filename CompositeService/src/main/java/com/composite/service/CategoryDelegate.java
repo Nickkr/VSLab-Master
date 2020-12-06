@@ -2,7 +2,7 @@ package com.composite.service;
 
 import org.springframework.http.ResponseEntity;
 
-public interface CategoryDelegateInterface {
+public interface CategoryDelegate {
 
 	ResponseEntity<Category[]> getCategories();
 
