@@ -41,7 +41,7 @@ public class CategoryController implements CategoryDelegateInterface {
 
 	@HystrixCommand
 	public ResponseEntity<Category[]> getCategoriesFallback(Throwable throwable) {
-		logger.info(throwable.getLocalizedMessage());
+		logger.info("Hystrix fallback called: {}", throwable.getLocalizedMessage());
 		return getCachedCategories();
 	}
 
@@ -57,7 +57,7 @@ public class CategoryController implements CategoryDelegateInterface {
 
 	@HystrixCommand
 	public ResponseEntity<Category[]> getFilteredCategoriesFallback(String searchName, Throwable throwable) {
-		logger.info(throwable.getLocalizedMessage());
+		logger.info("Hystrix fallback called: {}", throwable.getLocalizedMessage());
 		return getCachedFilteredCategories(searchName);
 	}
 
@@ -79,7 +79,7 @@ public class CategoryController implements CategoryDelegateInterface {
 
 	@HystrixCommand
 	public ResponseEntity<Category> getCategoryFallback(@PathVariable Integer id, Throwable throwable) {
-		logger.info(throwable.getLocalizedMessage());
+		logger.info("Hystrix fallback called: {}", throwable.getLocalizedMessage());
 		return getCachedCategory(id);
 	}
 
