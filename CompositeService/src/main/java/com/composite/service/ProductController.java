@@ -54,7 +54,7 @@ public class ProductController {
 		//Iterate over products and put into cache if absent
 		for (Product product : products) {
 			this.productCache.putIfAbsent(product.getId().intValue(),
-			 new ProductComposite(product, categoryService.getCategory(product.getCategoryId()).getName()));
+			 new ProductComposite(product, categoryService.getCategory(product.getCategoryId())));
 		}
 		return new ArrayList<ProductComposite>(this.productCache.values());
 	}
@@ -65,8 +65,7 @@ public class ProductController {
 		Product product = restTemplate.getForObject(PRODUCT_BASE_URL + "/{id}", Product.class, id);
 
 		//replace categoryId with categoryName
-		String category = "";
-		productCache.putIfAbsent(id, new ProductComposite(product, category));
+		productCache.putIfAbsent(id, new ProductComposite(product, this.categoryService.getCategory(product.getCategoryId())));
 		return product;
 	}
 
@@ -89,8 +88,7 @@ public class ProductController {
 		HttpEntity<String> request = new HttpEntity<String>(newProduct, headers);
 		Product product = restTemplate.postForObject(PRODUCT_BASE_URL, request, Product.class);
 		if(product != null) {
-			String category = "";
-			this.productCache.put(product.getId().intValue(), new ProductComposite(product, category));
+			this.productCache.put(product.getId().intValue(), new ProductComposite(product, this.categoryService.getCategory(product.getCategoryId())));
 		}
 		return product;
 
@@ -113,8 +111,7 @@ public class ProductController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		ResponseEntity<Product> response = restTemplate.exchange(PRODUCT_BASE_URL + "/{id}", HttpMethod.PUT, new HttpEntity<String>(product, headers), Product.class, id);
 		if(response.getStatusCode() == HttpStatus.OK) {
-			String category = "";
-			this.productCache.replace(id, new ProductComposite(response.getBody(), category));
+			this.productCache.replace(id, new ProductComposite(response.getBody(), this.categoryService.getCategory(response.getBody().getCategoryId())));
 		}
 		return response;
 	}

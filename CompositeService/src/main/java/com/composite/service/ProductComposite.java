@@ -5,26 +5,26 @@ public class ProductComposite {
 	private long id;
 	private String name;
 	private double price;
-	private String category;
+	private Category category;
     private String details;
     
     public ProductComposite() {
 	}
 
-	public ProductComposite(String name, double price, String category) {
+	public ProductComposite(String name, double price, Category category) {
 		this.name = name;
 		this.price = price;
 		this.category = category;
 	}
 
-	public ProductComposite(String name, double price, String category, String details) {
+	public ProductComposite(String name, double price, Category category, String details) {
 		this.name = name;
 		this.price = price;
 		this.category = category;
 		this.details = details;
     }
 
-    public ProductComposite(Product product, String category) {
+    public ProductComposite(Product product, Category category) {
         this.id = product.getId();
         this.name = product.getName();
         this.price = product.getPrice();
@@ -56,11 +56,11 @@ public class ProductComposite {
 		this.price = price;
 	}
 
-	public String getCategory() {
+	public Category getCategory() {
 		return this.category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(Category category) {
 		this.category = category;
 	}
 
