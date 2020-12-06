@@ -1,7 +1,5 @@
 package com.composite.service;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 
 public interface CategoryDelegateInterface {

@@ -20,7 +20,7 @@ import reactor.core.publisher.ParallelFlux;
 import reactor.core.scheduler.Schedulers;
 
 @Service
-public class CategoryDelegateService implements CategoryDelegateInterface {
+public class CategoryDelegateService implements CategoryService, CategoryDelegateInterface {
 
 	private static final String CATEGORY_BASE_URL = "http://category-service/categories";
 	private static final String PRODUCT_BASE_URL = "http://product-service/products";
@@ -35,6 +35,15 @@ public class CategoryDelegateService implements CategoryDelegateInterface {
 	@Autowired
 	@LoadBalanced
 	private RestTemplate restTemplate;
+
+	public Category getCategoryById(Integer id) {
+		if (!cache.containsKey(id)) {
+			// Initialize the cache, if category does not exists in the cache.
+			getCategories();
+		}
+
+		return cache.get(id);
+	}
 
 	public ResponseEntity<Category[]> getCategories() {
 		final ResponseEntity<Category[]> entity = restTemplate.getForEntity(CATEGORY_BASE_URL, Category[].class);
@@ -101,7 +110,7 @@ public class CategoryDelegateService implements CategoryDelegateInterface {
 
 	public ResponseEntity<Category> getCachedCategory(Integer id) {
 		final Category body = cache.get(id);
-		
+
 		if (body != null) {
 			return ResponseEntity.ok(body);
 		} else {

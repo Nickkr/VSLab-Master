@@ -29,7 +29,7 @@ public class CategoryController implements CategoryDelegateInterface {
 
 	@Deprecated
 	private List<Category> cache = List.of(cachedCategory);
-	
+
 	@Autowired
 	private CategoryDelegateService categoryService;
 
