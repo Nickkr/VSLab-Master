@@ -49,9 +49,7 @@ public class CategoryDelegateService implements CategoryService, CategoryDelegat
 		final ResponseEntity<Category[]> entity = restTemplate.getForEntity(CATEGORY_BASE_URL, Category[].class);
 
 		if (entity.getStatusCode() == HttpStatus.OK) {
-			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
 			cache.initialize(entity.getBody());
-			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
 		}
 
 		return entity;
@@ -66,9 +64,7 @@ public class CategoryDelegateService implements CategoryService, CategoryDelegat
 		final ResponseEntity<Category[]> entity = restTemplate.getForEntity(CATEGORY_BASE_URL + "?searchName={id}", Category[].class, searchName);
 
 		if (entity.getStatusCode() == HttpStatus.OK) {
-			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
 			cache.putAll(entity.getBody());
-			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
 		}
 
 		return entity;
@@ -88,9 +84,7 @@ public class CategoryDelegateService implements CategoryService, CategoryDelegat
 		final ResponseEntity<Category> entity = restTemplate.postForEntity(CATEGORY_BASE_URL, newCategory, Category.class);
 
 		if (entity.getStatusCode() == HttpStatus.CREATED) {
-			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
 			cache.putIfAbsent(entity.getBody());
-			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
 		}
 
 		return entity;
@@ -100,9 +94,7 @@ public class CategoryDelegateService implements CategoryService, CategoryDelegat
 		final ResponseEntity<Category> entity = restTemplate.getForEntity(CATEGORY_BASE_URL + "/{id}", Category.class, id);
 
 		if (entity.getStatusCode() == HttpStatus.OK) {
-			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
 			cache.put(entity.getBody());
-			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
 		}
 
 		return entity;
@@ -122,9 +114,7 @@ public class CategoryDelegateService implements CategoryService, CategoryDelegat
 		final ResponseEntity<Category> entity = restTemplate.exchange(CATEGORY_BASE_URL + "/{id}", HttpMethod.PUT, new HttpEntity<Category>(newCategory), Category.class, id);
 
 		if (entity.getStatusCode() == HttpStatus.CREATED) {
-			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
 			cache.put(entity.getBody());
-			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
 		}
 
 		return entity;
@@ -157,9 +147,7 @@ public class CategoryDelegateService implements CategoryService, CategoryDelegat
 
 		// Remove deleted category from cache.
 		if (entity.getStatusCode() == HttpStatus.NO_CONTENT) {
-			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
 			cache.remove(id);
-			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
 		}
 
 		// When no error occurred return success.
