@@ -101,7 +101,12 @@ public class CategoryDelegateService implements CategoryDelegateInterface {
 
 	public ResponseEntity<Category> getCachedCategory(Integer id) {
 		final Category body = cache.get(id);
-		return ResponseEntity.ok(body);
+		
+		if (body != null) {
+			return ResponseEntity.ok(body);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	public ResponseEntity<Category> updateCategory(Integer id, Category newCategory) {
