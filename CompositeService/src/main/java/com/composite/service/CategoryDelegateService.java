@@ -1,12 +1,8 @@
 package com.composite.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -41,43 +37,83 @@ public class CategoryDelegateService implements CategoryDelegateInterface {
 	private RestTemplate restTemplate;
 
 	public ResponseEntity<Category[]> getCategories() {
-		return restTemplate.getForEntity(CATEGORY_BASE_URL, Category[].class);
+		final ResponseEntity<Category[]> entity = restTemplate.getForEntity(CATEGORY_BASE_URL, Category[].class);
+
+		if (entity.getStatusCode() == HttpStatus.OK) {
+			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
+			cache.initialize(entity.getBody());
+			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
+		}
+
+		return entity;
 	}
 
 	public ResponseEntity<Category[]> getCachedCategories() {
-		Category[] body = new ArrayList<Category>(cache.values());
+		final Category[] body = cache.values().toArray(Category[]::new);
 		return ResponseEntity.ok(body);
 	}
 
 	public ResponseEntity<Category[]> getFilteredCategories(String searchName) {
-		return restTemplate.getForEntity(CATEGORY_BASE_URL + "?searchName={id}", Category[].class, searchName);
+		final ResponseEntity<Category[]> entity = restTemplate.getForEntity(CATEGORY_BASE_URL + "?searchName={id}", Category[].class, searchName);
+
+		if (entity.getStatusCode() == HttpStatus.OK) {
+			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
+			cache.putAll(entity.getBody());
+			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
+		}
+
+		return entity;
 	}
 
 	public ResponseEntity<Category[]> getCachedFilteredCategories(String searchName) {
 		// Includes a category if its name contains the search name case insensitive.
-		Predicate<Category> matcher = category -> {
+		final Predicate<Category> matcher = category -> {
 			return category.getName().toLowerCase().contains(searchName.toLowerCase());
 		};
 
-		Category[] body = cache.values().stream().filter(matcher).toArray(Category[]::new);
+		final Category[] body = cache.values().stream().filter(matcher).toArray(Category[]::new);
 		return ResponseEntity.ok(body);
 	}
 
 	public ResponseEntity<Category> createCategory(Category newCategory) {
-		return restTemplate.postForEntity(CATEGORY_BASE_URL, newCategory, Category.class);
+		final ResponseEntity<Category> entity = restTemplate.postForEntity(CATEGORY_BASE_URL, newCategory, Category.class);
+
+		if (entity.getStatusCode() == HttpStatus.CREATED) {
+			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
+			cache.putIfAbsent(entity.getBody());
+			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
+		}
+
+		return entity;
 	}
 
 	public ResponseEntity<Category> getCategory(Integer id) {
-		return restTemplate.getForEntity(CATEGORY_BASE_URL + "/{id}", Category.class, id);
+		final ResponseEntity<Category> entity = restTemplate.getForEntity(CATEGORY_BASE_URL + "/{id}", Category.class, id);
+
+		if (entity.getStatusCode() == HttpStatus.OK) {
+			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
+			cache.put(entity.getBody());
+			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
+		}
+
+		return entity;
 	}
 
 	public ResponseEntity<Category> getCachedCategory(Integer id) {
-		Category body = cache.get(id);
+		final Category body = cache.get(id);
 		return ResponseEntity.ok(body);
 	}
 
 	public ResponseEntity<Category> updateCategory(Integer id, Category newCategory) {
-		return restTemplate.exchange(CATEGORY_BASE_URL + "/{id}", HttpMethod.PUT, new HttpEntity<Category>(newCategory), Category.class, id);
+		final ResponseEntity<Category> entity = restTemplate.exchange(CATEGORY_BASE_URL + "/{id}", HttpMethod.PUT, new HttpEntity<Category>(newCategory), Category.class, id);
+
+		if (entity.getStatusCode() == HttpStatus.CREATED) {
+			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
+			cache.put(entity.getBody());
+			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
+		}
+
+		return entity;
 	}
 
 	public ResponseEntity<Void> deleteCategory(Integer id) {
@@ -103,7 +139,14 @@ public class CategoryDelegateService implements CategoryDelegateInterface {
 		parallel.flatMap(deleteProductByID, true).sequential().collectList().block();
 
 		// Delete the category after all products were deleted and throw exceptions if an error occurs.
-		categoryClient.delete().uri("/{id}", id).retrieve().toBodilessEntity().block();
+		ResponseEntity<Void> entity = categoryClient.delete().uri("/{id}", id).retrieve().toBodilessEntity().block();
+
+		// Remove deleted category from cache.
+		if (entity.getStatusCode() == HttpStatus.NO_CONTENT) {
+			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
+			cache.remove(id);
+			System.err.println(Arrays.deepToString(cache.values().toArray(Category[]::new)));
+		}
 
 		// When no error occurred return success.
 		return ResponseEntity.noContent().build();

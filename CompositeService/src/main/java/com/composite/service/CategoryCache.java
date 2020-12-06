@@ -3,7 +3,6 @@ package com.composite.service;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -38,13 +37,17 @@ public class CategoryCache implements Map<Integer, Category>, Serializable {
 	}
 
 	/** Removes all elements and adds all from the categories collection. */
-	public void replaceAll(Category[] categories) {
+	public void initialize(Category[] categories) {
 		clear();
 		putAll(categories);
 	}
 
 	public Category putIfAbsent(Category value) {
 		return cache.putIfAbsent(value.getId(), value);
+	}
+	
+	public Category put(Category value) {
+		return cache.put(value.getId(), value);
 	}
 
 	public Category remove(Integer key) {
