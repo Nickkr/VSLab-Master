@@ -53,8 +53,8 @@ public class UserController {
   @PostMapping("/users")
   public ResponseEntity<User> createUser(@RequestBody User user) {
     try {
-      List<User> userData = userRepository.findByUsername(user.getUsername());
-      if(!userData.isEmpty()){
+      User userData = userRepository.findByUsername(user.getUsername());
+      if(userData != null){
         return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
       }else{
         User _user = userRepository.save(new User(user.getUsername(), user.getFirstname(), user.getLastname(), user.getPassword(), user.getRole()));
@@ -76,13 +76,25 @@ public class UserController {
 		}
 	}
 
-  @HystrixCommand
+/*   @HystrixCommand
   @GetMapping("/users/{id}")
   public ResponseEntity<User> getUserById(@PathVariable("id") int id) {
     Optional<User> userData = userRepository.findById(id);
 
     if (userData.isPresent()) {
       return new ResponseEntity<>(userData.get(), HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  } */
+
+  @HystrixCommand
+  @GetMapping("/users/{username}")
+  public ResponseEntity<User> getUserByName(@PathVariable("username") String username) {
+   // Optional<User> userData = userRepository.findById(id);
+    User user = userRepository.findByUsername(username);
+    if (user != null) {
+      return new ResponseEntity<>(user, HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

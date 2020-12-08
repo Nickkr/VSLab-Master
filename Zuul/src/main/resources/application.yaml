@@ -4,7 +4,11 @@ server:
 spring:
   application:
     name: zuul
-
+security:
+  oauth2:
+    resource:
+      loadBalanced: true
+      userInfoUri: http://localhost:9999/user
 eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
@@ -60,7 +64,9 @@ zuul:
       service-id: product-category-composite-service
       path: /categories/**
       stripPrefix: false
-
+    auth-server:
+      path: /oauth/**
+      stripPrefix: false 
 management:
   endpoint:
     health:
