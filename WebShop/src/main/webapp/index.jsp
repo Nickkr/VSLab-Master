@@ -3,12 +3,12 @@
 
 <html lang="en">
 	<head>
-		<meta charset="utf-8">
 		<title>VS Labor Webshop mit Bootstrap 3 </title>
 		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.min.css">
 		<link rel="stylesheet" type="text/css" href="bootstrap/css/custom.css">
 		<script type="text/javascript" src="jquery/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="jquery/jquery-ui-1.11.3.min.js"></script>
 		<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	</head>
 	<body>
