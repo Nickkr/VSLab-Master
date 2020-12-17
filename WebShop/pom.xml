@@ -4,7 +4,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.hska.iwi</groupId>
-  <artifactId>EShop</artifactId>
+  <artifactId>WebShop</artifactId>
   <version>1.0.0</version>
   <packaging>war</packaging>
 
