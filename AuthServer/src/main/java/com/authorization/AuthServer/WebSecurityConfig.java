@@ -6,11 +6,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 @SuppressWarnings("deprecation")
-@EnableWebSecurity
+//@EnableWebSecurity
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Bean
+ /*    @Bean
     @Override
     public UserDetailsService userDetailsService() {
         return new UserDetailsManager();
-    }
+    } */
 }
