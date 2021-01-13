@@ -164,6 +164,20 @@ To run your application locally, goto to your working directory containing the p
 
 4. Open localhost on this port `http://localhost:$PORT/greeting?name=User` and check for a response.
 
+## Authorization
+
+### Links
+
+[Keys](http://localhost:18085/auth/oauth2/keys)
+[Token](http://messaging-client:secret@localhost:18085/oauth/token)
+
+Body-Parameter für Token: 
+
+grant_type: password
+username: admin
+password: password
+scope: message.read
+
 ## Further guides and tutorials
 
 Spring Data JPA implement filtering with optional parameters:
