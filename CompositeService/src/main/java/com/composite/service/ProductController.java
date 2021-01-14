@@ -16,6 +16,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +30,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.ribbon.proxy.annotation.Hystrix;
-
 @RestController
 public class ProductController {
 
@@ -43,6 +44,7 @@ public class ProductController {
 
 	public static String PRODUCT_BASE_URL = "http://product-service/products";
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@HystrixCommand(fallbackMethod = "getProductsCache")
 	@GetMapping("/products")
 	List<ProductComposite> getProducts(@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice,
@@ -63,7 +65,8 @@ public class ProductController {
 		}
 		return tmpList;
 	}
-
+	
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@HystrixCommand(fallbackMethod = "getProductCache")
 	@GetMapping("/products/{id}")
 	ProductComposite getProductById(@PathVariable int id) {
@@ -72,12 +75,13 @@ public class ProductController {
 		return productCache.get(id);
 	}
 
-
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@HystrixCommand
 	ProductComposite getProductCache(int id) {
 		return productCache.get(id);
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@HystrixCommand
 	List<ProductComposite> getProductsCache(Double minPrice, Double maxPrice, Integer categoryId, String details) {
 		Predicate<ProductComposite> matcher = product -> {
@@ -89,6 +93,7 @@ public class ProductController {
 		return this.productCache.values().stream().filter(matcher).collect(Collectors.toList());
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@HystrixCommand()
 	@PostMapping("/products")
 	Product createNewProduct(@RequestBody String newProduct) {
@@ -103,6 +108,7 @@ public class ProductController {
 
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@HystrixCommand()
 	@DeleteMapping("/products/{id}")
 	ResponseEntity<String> deleteProductById(@PathVariable int id) {
@@ -113,6 +119,7 @@ public class ProductController {
 		return response;
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@HystrixCommand()
 	@PutMapping("/products/{id}")
 	ResponseEntity<Product> updateProductById(@PathVariable int id, @RequestBody String product) {

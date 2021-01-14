@@ -7,7 +7,11 @@ server:
 spring:
   application:
     name: product-category-composite-service
-
+security:
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: http://localhost:18085/auth/oauth2/keys
 eureka:
   client:
     fetch-registry: true
@@ -51,6 +55,7 @@ logging:
     org:
       springframework:
         web:
+          security: DEBUG
           client:
             RestTemplate: DEBUG
           reactive:

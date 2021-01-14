@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.jwt.crypto.sign.RsaSigner;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
@@ -16,7 +17,6 @@ import org.springframework.security.oauth2.common.util.JsonParser;
 import org.springframework.security.oauth2.common.util.JsonParserFactory;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -31,16 +31,15 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import java.util.HashMap;
 import java.util.Map;
-
-/**
- * @author Joe Grandja
- */
 @SuppressWarnings("deprecation")
 @Configuration
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
 	@Autowired
 	private ClientDetailsService clientDetailsService;
+
+	@Autowired
+	private UserDetailsService userDetailsManager;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -62,18 +61,19 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		endpoints
 			.authenticationManager(this.authenticationManager)
 			.tokenStore(tokenStore())
-			.userApprovalHandler(userApprovalHandler())
+			.userDetailsService(userDetailsManager)
+			//.userApprovalHandler(userApprovalHandler())
 			.accessTokenConverter(accessTokenConverter());
 	}
 
-	@Bean
+/* 	@Bean
 	public UserApprovalHandler userApprovalHandler() {
 		ApprovalStoreUserApprovalHandler userApprovalHandler = new ApprovalStoreUserApprovalHandler();
 		userApprovalHandler.setApprovalStore(approvalStore());
 		userApprovalHandler.setClientDetailsService(this.clientDetailsService);
 		userApprovalHandler.setRequestFactory(new DefaultOAuth2RequestFactory(this.clientDetailsService));
 		return userApprovalHandler;
-	}
+	} */
 
 	@Bean
 	public TokenStore tokenStore() {

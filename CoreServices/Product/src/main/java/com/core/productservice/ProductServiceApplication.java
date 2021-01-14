@@ -8,7 +8,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @SuppressWarnings("deprecation")
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableResourceServer
 public class ProductServiceApplication {
 
 	public static void main(String[] args) {

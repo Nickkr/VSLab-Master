@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ public class CategoryController implements CategoryDelegate {
 	@Autowired
 	private CategoryDelegateService categoryService;
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@HystrixCommand(fallbackMethod = "getCategoriesFallback")
 	@GetMapping
 	public ResponseEntity<Category[]> getCategories() {
@@ -41,6 +43,7 @@ public class CategoryController implements CategoryDelegate {
 		return categoryService.getCachedCategories();
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@HystrixCommand(fallbackMethod = "getFilteredCategoriesFallback")
 	@GetMapping(params = "searchName")
 	public ResponseEntity<Category[]> getFilteredCategories(@RequestParam String searchName) {
@@ -57,12 +60,14 @@ public class CategoryController implements CategoryDelegate {
 		return categoryService.getCachedFilteredCategories(searchName);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@HystrixCommand
 	@PostMapping
 	public ResponseEntity<Category> createCategory(@RequestBody Category newCategory) {
 		return categoryService.createCategory(newCategory);
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@HystrixCommand(fallbackMethod = "getCategoryFallback")
 	@GetMapping("{id}")
 	public ResponseEntity<Category> getCategory(@PathVariable Integer id) {
@@ -79,12 +84,14 @@ public class CategoryController implements CategoryDelegate {
 		return categoryService.getCachedCategory(id);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@HystrixCommand
 	@PutMapping("{id}")
 	public ResponseEntity<Category> updateCategory(@PathVariable Integer id, @RequestBody Category newCategory) {
 		return categoryService.updateCategory(id, newCategory);
 	}
-
+	
+	@PreAuthorize("hasRole('ADMIN')")
 	@HystrixCommand
 	@DeleteMapping("{id}")
 	public ResponseEntity<Void> deleteCategory(@PathVariable Integer id) {
