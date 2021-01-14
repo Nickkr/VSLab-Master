@@ -6,8 +6,8 @@ spring:
 security:
   oauth2:
     resource:
-      loadBalanced: true
-      userInfoUri: http://localhost:9999/user
+        jwk:
+          key-set-uri: http://localhost:18085/auth/oauth2/keys
 eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
@@ -44,6 +44,7 @@ turbine:
     cluster-config: default
 
 zuul:
+  sensitiveHeaders:
   ignoredServices: "*"
   prefix: /webshop-api
   routes:
