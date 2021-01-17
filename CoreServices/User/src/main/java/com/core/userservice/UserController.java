@@ -92,7 +92,8 @@ public class UserController {
     }
   } */
 
-  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+// TODO Uncomment for full security 
+//  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')") 
   @HystrixCommand
   @GetMapping("/users/{username}")
   public ResponseEntity<User> getUserByName(@PathVariable("username") String username) {
