@@ -52,7 +52,6 @@ public class UserController {
     return new ResponseEntity<>(userCache, HttpStatus.OK);
   } 
 
-  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
   @HystrixCommand
   @PostMapping("/users")
   public ResponseEntity<User> createUser(@RequestBody User user) {
