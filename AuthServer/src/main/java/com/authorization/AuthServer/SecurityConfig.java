@@ -19,6 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
+				.antMatchers("/actuator").permitAll()
 				.antMatchers("/oauth2/keys").permitAll()
 				.anyRequest().authenticated()
 				.and()
