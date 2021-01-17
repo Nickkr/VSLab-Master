@@ -13,7 +13,8 @@ public class ResourceSecurityConfig extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/actuator/**").permitAll()
-				.anyRequest().authenticated();
+		.antMatchers("/actuator/**").permitAll()
+		.antMatchers("/hystrix/**", "/turbine.stream").permitAll()
+		.anyRequest().authenticated();
 	}
 }
