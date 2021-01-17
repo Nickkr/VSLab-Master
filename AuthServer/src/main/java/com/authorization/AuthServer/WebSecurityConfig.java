@@ -14,25 +14,21 @@ import org.springframework.security.authentication.AuthenticationManager;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // @formatter:off
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests()
-				.antMatchers("/actuator/**", "/oauth2/keys").permitAll()
-				.anyRequest().authenticated()
-				.and()
-			.formLogin();
+		http.authorizeRequests()
+				.antMatchers("/actuator/**").permitAll()
+				.antMatchers("/oauth2/keys").permitAll()
+				.anyRequest().authenticated();
 	}
-    // @formatter:on
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsManager();
-    }
+	@Bean
+	@Override
+	public UserDetailsService userDetailsService() {
+		return new UserDetailsManager();
+	}
 
-    @Bean
+	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
