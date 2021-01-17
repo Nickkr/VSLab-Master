@@ -1,13 +1,13 @@
 package com.authorization.AuthServer;
 
+import java.security.KeyPair;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
-
-import java.security.KeyPair;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 
 @SuppressWarnings("deprecation")
 class KeyConfig {
