@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
@@ -31,6 +32,7 @@ public class UserController {
   private static final String template = "Hello, %s!";
   private final AtomicLong counter = new AtomicLong();
 
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
   @HystrixCommand(fallbackMethod = "getUsersCache")
   @GetMapping("/users")
   public ResponseEntity<List<User>> getAllUsers() {
@@ -45,10 +47,12 @@ public class UserController {
     }
   }
 
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
   ResponseEntity<List<User>> getUsersCache() {
     return new ResponseEntity<>(userCache, HttpStatus.OK);
   } 
 
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
   @HystrixCommand
   @PostMapping("/users")
   public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -65,6 +69,7 @@ public class UserController {
     }
   }
 
+  @PreAuthorize("hasRole('ADMIN')")
   @HystrixCommand
   @DeleteMapping("/users")
 	public ResponseEntity<HttpStatus> deleteAllUsers() {
@@ -88,6 +93,7 @@ public class UserController {
     }
   } */
 
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
   @HystrixCommand
   @GetMapping("/users/{username}")
   public ResponseEntity<User> getUserByName(@PathVariable("username") String username) {
@@ -100,6 +106,7 @@ public class UserController {
     }
   }
 
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
   @HystrixCommand
   @PutMapping("/users/{id}")
   public ResponseEntity<User> updateUser(
@@ -120,6 +127,7 @@ public class UserController {
     }
   }
 
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
   @HystrixCommand
   @DeleteMapping("/users/{id}")
   public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {

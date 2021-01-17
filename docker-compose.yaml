@@ -90,7 +90,16 @@ services:
       - eureka-server
       - composite-service
       - user-service
-#  auth-server:
+  auth-server:
+    build:
+      context: ./AuthServer
+      dockerfile: ./BuildFrom${BUILD_FROM:-MavenSources}.dockerfile
+    ports:
+       - "18085:18085"
+    networks:
+       local_dev_net:
+         aliases:
+           - auth
   WebShop:
     build:
       context: ./WebShop
