@@ -18,7 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/oauth2/keys").permitAll()
 				.anyRequest().authenticated();
 	}
- 
+
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
