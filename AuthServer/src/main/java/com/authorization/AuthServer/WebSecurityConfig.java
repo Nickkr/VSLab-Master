@@ -6,7 +6,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
@@ -19,13 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/oauth2/keys").permitAll()
 				.anyRequest().authenticated();
 	}
-
-	@Bean
-	@Override
-	public UserDetailsService userDetailsService() {
-		return new UserDetailsManager();
-	}
-
+ 
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {

@@ -7,9 +7,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @SuppressWarnings("deprecation")
+@Service
 public class UserDetailsManager implements UserDetailsService {
 
 	public static String USER_BASE_URL = "http://user-service/users";
