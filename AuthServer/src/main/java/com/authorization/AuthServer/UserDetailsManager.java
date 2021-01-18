@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @SuppressWarnings("deprecation")
 @Service
@@ -18,7 +18,7 @@ public class UserDetailsManager implements UserDetailsService {
 	private static final Logger logger = LoggerFactory.getLogger(UserDetailsManager.class);
 
 	@Autowired
-	RestTemplate restTemplate;
+	public OAuth2RestTemplate restTemplate;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
