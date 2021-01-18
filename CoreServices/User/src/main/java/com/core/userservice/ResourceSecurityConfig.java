@@ -15,8 +15,6 @@ public class ResourceSecurityConfig extends ResourceServerConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/actuator/**").permitAll()
-				// TODO Remove for full security 
-				.antMatchers(HttpMethod.GET, "/users/admin").permitAll()
 				.antMatchers(HttpMethod.POST, "/users").permitAll()
 				.anyRequest().authenticated();
 	}
