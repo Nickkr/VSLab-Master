@@ -17,7 +17,6 @@ import org.springframework.security.oauth2.common.util.JsonParserFactory;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore;
@@ -34,8 +33,10 @@ import com.nimbusds.jose.jwk.RSAKey;
 @Configuration
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+/*
 	@Autowired
 	private ClientDetailsService clientDetailsService;
+ */
 
 	@Autowired
 	private UserDetailsService userDetailsManager;
@@ -74,7 +75,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		userApprovalHandler.setRequestFactory(new DefaultOAuth2RequestFactory(this.clientDetailsService));
 		return userApprovalHandler;
 	}
-*/
+ */
 
 	@Bean
 	public TokenStore tokenStore() {
