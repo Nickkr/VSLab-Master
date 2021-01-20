@@ -2,9 +2,23 @@ server:
   port: 18085
   servlet:
     context-path: "/auth"
+
 spring:
   application:
     name: auth-server
+
+security:
+  oauth2:
+    client:
+      client-id: 1234
+      client-secret: test
+      messaging-client-client-creds:
+        client-id: messaging-client
+        client-secret: secret
+        grant-type: client_credentials
+        access-token-uri: http://localhost:18085/auth/oauth/token
+        scope: message.read, message.write
+
 eureka:
   client:
     fetch-registry: true
@@ -15,15 +29,45 @@ eureka:
     leaseRenewalIntervalInSeconds: 5
     metadataMap:
       instanceId: ${spring.application.name}:${random.value}
-security:
-  oauth2:
-    client:
-      client-id: 1234
-      client-secret: test
+
+logging:
+  level:
+    com:
+      netflix:
+        loadbalancer:
+          DynamicServerListLoadBalancer: INFO
+    org: 
+      springframework:
+        security: DEBUG
+        web:
+          client:
+            RestTemplate: DEBUG
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+      base-path: /actuator
+      cors:
+        allowed-origins: true
+
 ---
 spring:
   profiles: docker
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka:8761/eureka/
+      
+security:
+  oauth2:
+    client:
+      messaging-client-client-creds:
+        access-token-uri: http://auth:18085/auth/oauth/token

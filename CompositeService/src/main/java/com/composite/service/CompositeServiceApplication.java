@@ -11,12 +11,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
+@SuppressWarnings("deprecation")
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableCircuitBreaker
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@SuppressWarnings("deprecation")
 public class CompositeServiceApplication {
 
 	public static void main(String[] args) {

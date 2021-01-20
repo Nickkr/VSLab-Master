@@ -7,11 +7,13 @@ server:
 spring:
   application:
     name: product-category-composite-service
+
 security:
   oauth2:
     resource:
       jwk:
         key-set-uri: http://localhost:18085/auth/oauth2/keys
+
 eureka:
   client:
     fetch-registry: true
@@ -54,8 +56,8 @@ logging:
           DynamicServerListLoadBalancer: INFO
     org:
       springframework:
+        security: DEBUG
         web:
-          security: DEBUG
           client:
             RestTemplate: DEBUG
           reactive:
@@ -80,10 +82,12 @@ management:
 ---
 spring:
   profiles: docker
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka:8761/eureka/
+
 security:
   oauth2:
     resource:

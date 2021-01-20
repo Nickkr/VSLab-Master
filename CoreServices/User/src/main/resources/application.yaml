@@ -1,5 +1,6 @@
 server:
   port: 18083
+
 spring:
   application:
     name: user-service
@@ -14,12 +15,12 @@ spring:
     loadbalancer:
       ribbon:
         enabled: false
+
 security:
   oauth2:
     resource:
       jwk:
         key-set-uri: http://localhost:18085/auth/oauth2/keys
-
 
 eureka:
   client:
@@ -32,7 +33,16 @@ eureka:
     metadataMap:
       instanceId: "${spring.application.name}:${random.value}"
 
-
+logging:
+  level:
+    com:
+      netflix:
+        loadbalancer:
+          DynamicServerListLoadBalancer: INFO
+    org: 
+        springframework: 
+            security: DEBUG
+            
 management:
   endpoint:
     health:
@@ -52,10 +62,12 @@ spring:
   profiles: docker
   datasource:
     url: jdbc:mysql://database:3306/user
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka:8761/eureka/
+
 security:
   oauth2:
     resource:

@@ -204,6 +204,7 @@ Microservice Security mit OAuth2:
 * [Spring Security OAuth2 Boot](https://docs.spring.io/spring-security-oauth2-boot/docs/current/reference/html5/)
 * [Microservices Security with OAuth2](https://piotrminkowski.wordpress.com/2017/02/22/microservices-security-with-oauth2/)
 * [Advanced Microservices Security with Spring and OAuth2](https://dzone.com/articles/advanced-microservices-security-with-spring-and-oa)
+* [OAuth2 configure Authorization and Resource server](https://stackoverflow.com/a/44252949)
 
 More development related articles:
 
