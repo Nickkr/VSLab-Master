@@ -15,6 +15,7 @@ public class ResourceSecurityConfig extends ResourceServerConfigurerAdapter {
 		http.authorizeRequests()
 		.antMatchers("/actuator/**").permitAll()
 		.antMatchers("/hystrix/**", "/turbine.stream").permitAll()
+		.antMatchers("/auth/oauth/token").permitAll()
 		.anyRequest().authenticated();
 	}
 }
