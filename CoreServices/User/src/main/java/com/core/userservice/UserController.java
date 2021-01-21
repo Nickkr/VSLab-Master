@@ -93,7 +93,11 @@ public class UserController {
   } */
 
 // TODO Uncomment for full security 
-//  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')") 
+//  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")  // Works!
+//  @PreAuthorize("#username == authentication.principal") // Works!
+//  @PreAuthorize("#username == principal") // Works!
+//  @PreAuthorize("principal == 'messaging-client'") // Works!
+//  @PreAuthorize("hasAuthority('MessagingTest')")  // Works!
   @HystrixCommand
   @GetMapping("/users/{username}")
   public ResponseEntity<User> getUserByName(@PathVariable("username") String username) {
