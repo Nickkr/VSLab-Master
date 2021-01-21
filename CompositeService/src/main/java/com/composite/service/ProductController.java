@@ -42,7 +42,7 @@ public class ProductController {
 
 	public static String PRODUCT_BASE_URL = "http://product-service/products";
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand(fallbackMethod = "getProductsCache")
 	@GetMapping("/products")
 	List<ProductComposite> getProducts(@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice,
@@ -64,7 +64,7 @@ public class ProductController {
 		return tmpList;
 	}
 	
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand(fallbackMethod = "getProductCache")
 	@GetMapping("/products/{id}")
 	ProductComposite getProductById(@PathVariable int id) {
@@ -73,13 +73,13 @@ public class ProductController {
 		return productCache.get(id);
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand
 	ProductComposite getProductCache(int id) {
 		return productCache.get(id);
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand
 	List<ProductComposite> getProductsCache(Double minPrice, Double maxPrice, Integer categoryId, String details) {
 		Predicate<ProductComposite> matcher = product -> {
