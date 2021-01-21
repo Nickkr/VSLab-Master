@@ -7,7 +7,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.cloud.netflix.turbine.EnableTurbine;
 
-@SuppressWarnings( "deprecation" )
+@SuppressWarnings("deprecation")
 @SpringBootApplication
 @EnableZuulProxy
 @EnableHystrixDashboard
