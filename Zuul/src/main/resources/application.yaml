@@ -1,13 +1,16 @@
 server:
   port: 8081
+
 spring:
   application:
     name: zuul
+
 security:
   oauth2:
     resource:
-        jwk:
-          key-set-uri: http://localhost:18085/auth/oauth2/keys
+      jwk:
+        key-set-uri: http://localhost:18085/auth/oauth2/keys
+
 eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
@@ -57,16 +60,17 @@ zuul:
     user-service:
       path: /users/**
       stripPrefix: false
-    product-category-composite-service:
+    composite-products:
+      service-id: product-category-composite-service
       path: /products/**
       stripPrefix: false
-    composite:
+    composite-categories:
       service-id: product-category-composite-service
       path: /categories/**
       stripPrefix: false
     auth-server:
-      path: /oauth/**
-      stripPrefix: false 
+      path: /auth/**
+      stripPrefix: false
 
 logging:
   level: DEBUG
