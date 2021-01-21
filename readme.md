@@ -103,7 +103,8 @@ The Webshop API is provided by the Zuul server at <http://localhost:8081/webshop
 
 Open the following links to view:
 
-* API-documentation <http://localhost:8080/>
+* WebShop Frontend <http://localhost:8080/WebShop-1.0.0/>
+* API-documentation <http://localhost:8082/>
 * Registered instances at Eureka server <http://localhost:8761/>
 * Hystrix Dashboard at Zuul server <http://localhost:8081/hystrix>
 * Monitor the Webshop API with Hystrix <http://localhost:8081/hystrix/monitor?stream=http%3A%2F%2Flocalhost%3A8081%2Fturbine.stream&title=Webshop%20API>
@@ -171,7 +172,7 @@ To run your application locally, goto to your working directory containing the p
 [Keys](http://localhost:18085/auth/oauth2/keys)
 [Token](http://messaging-client:secret@localhost:18085/oauth/token)
 
-Body-Parameter für Token: 
+Body-Parameter für Token:
 
 grant_type: password
 username: admin
