@@ -13,10 +13,10 @@ security:
       client-id: 1234
       client-secret: test
       auth-server-client-credentials:
-        client-id: auth-server
+        access-token-uri: http://localhost:18085/auth/oauth/token
+        client-id: AuthServer
         client-secret: secret
         grant-type: client_credentials
-        access-token-uri: http://localhost:18085/auth/oauth/token
         scope: read
 
 eureka:

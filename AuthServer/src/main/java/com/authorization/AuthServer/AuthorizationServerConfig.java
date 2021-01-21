@@ -52,8 +52,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.scopes("message.read", "message.write")
 				.secret("{noop}secret")
 				.redirectUris("http://localhost:8080/authorized")
-				.and().withClient("Postman").secret("{noop}secret").authorizedGrantTypes("client_credentials", "password").scopes("read")
-				.and().withClient("auth-server").secret("{noop}secret").authorizedGrantTypes("client_credentials").scopes("read").authorities("UserCoreAccessGetUserByName")
+				.and().withClient("Postman").secret("{noop}secret").authorizedGrantTypes("client_credentials", "password").scopes("read").authorities("ROLE_ADMIN")
+				.and().withClient("AuthServer").secret("{noop}secret").authorizedGrantTypes("client_credentials").scopes("read").authorities("UserCoreAccessGetUserByName")
 				.and().withClient("WebShop").secret("{noop}secret").authorizedGrantTypes("client_credentials", "password").scopes("read").authorities("UserCoreAccessCreateUser")
 				;
 	}
