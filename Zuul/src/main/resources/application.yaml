@@ -12,13 +12,15 @@ security:
         key-set-uri: http://localhost:18085/auth/oauth2/keys
 
 eureka:
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    statusPageUrlPath: /info
-    healthCheckUrlPath: /health
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+    eureka-server-connect-timeout-seconds: 20
+  instance:
+    preferIpAddress: true
+    leaseRenewalIntervalInSeconds: 10
+    metadataMap:
+      instanceId: ${spring.application.name}:${random.value}
 
 ribbon:
   ServerListRefreshInterval: 2000
@@ -73,15 +75,18 @@ zuul:
       stripPrefix: false
 
 logging:
-  level: DEBUG
-#    com:
-#       netflix:
-#         loadbalancer:
-#           DynamicServerListLoadBalancer: INFO
-#     org: 
-#         springframework: 
-#             security: DEBUG
- 
+  level:
+    org:
+      apache:
+        coyote: 
+          http11:
+            Http11InputBuffer: DEBUG
+      springframework:
+        security:
+          web:
+            access: DEBUG
+          oauth2: DEBUG
+
 management:
   endpoint:
     health:
