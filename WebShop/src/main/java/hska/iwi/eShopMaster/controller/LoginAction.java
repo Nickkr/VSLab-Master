@@ -1,13 +1,13 @@
 package hska.iwi.eShopMaster.controller;
 
-import hska.iwi.eShopMaster.model.businessLogic.manager.UserManager;
-import hska.iwi.eShopMaster.model.businessLogic.manager.impl.UserManagerImpl;
-import hska.iwi.eShopMaster.model.database.dataobjects.User;
-
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+
+import hska.iwi.eShopMaster.model.businessLogic.manager.UserManager;
+import hska.iwi.eShopMaster.model.businessLogic.manager.impl.UserManagerImpl;
+import hska.iwi.eShopMaster.model.database.dataobjects.User;
 
 public class LoginAction extends ActionSupport {
 

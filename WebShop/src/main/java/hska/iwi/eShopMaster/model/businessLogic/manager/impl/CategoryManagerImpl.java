@@ -1,11 +1,11 @@
 package hska.iwi.eShopMaster.model.businessLogic.manager.impl;
 
 
+import java.util.List;
+
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import hska.iwi.eShopMaster.model.database.dataAccessObjects.CategoryDAO;
 import hska.iwi.eShopMaster.model.database.dataobjects.Category;
-
-import java.util.List;
 
 public class CategoryManagerImpl implements CategoryManager{
 	private CategoryDAO helper;
