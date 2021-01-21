@@ -39,9 +39,9 @@ logging:
       netflix:
         loadbalancer:
           DynamicServerListLoadBalancer: INFO
-    org: 
-        springframework: 
-            security: DEBUG
+    org:
+      springframework:
+        security: DEBUG
 
 management:
   endpoint:

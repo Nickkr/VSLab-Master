@@ -1,5 +1,6 @@
 server:
   port: 18081
+
 spring:
   application:
     name: product-service
@@ -39,10 +40,12 @@ management:
       base-path: /actuator
       cors:
         allowed-origins: true
+
 security:
   oauth2:
     resource:
       token-info-uri: https://localhost:18085/oauth2/introspect
+
 ---
 spring:
   profiles: docker
