@@ -42,7 +42,7 @@ logging:
     org: 
         springframework: 
             security: DEBUG
-            
+
 management:
   endpoint:
     health:

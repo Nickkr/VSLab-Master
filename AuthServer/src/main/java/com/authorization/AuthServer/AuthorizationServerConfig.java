@@ -47,15 +47,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()
-				.withClient("messaging-client")
-				.authorizedGrantTypes("authorization_code", "refresh_token", "client_credentials", "password")
-				.scopes("message.read", "message.write")
-				.secret("{noop}secret")
-				.redirectUris("http://localhost:8080/authorized")
-				.and().withClient("Postman").secret("{noop}secret").authorizedGrantTypes("client_credentials", "password").scopes("read").authorities("ROLE_ADMIN")
-				.and().withClient("AuthServer").secret("{noop}secret").authorizedGrantTypes("client_credentials").scopes("read").authorities("UserCoreAccessGetUserByName")
-				.and().withClient("WebShop").secret("{noop}secret").authorizedGrantTypes("client_credentials", "password").scopes("read").authorities("UserCoreAccessCreateUser")
-				;
+				.withClient("WebShop").secret("{noop}secret").authorizedGrantTypes("client_credentials", "password").scopes("read").authorities("UserCoreAccessCreateUser")
+				.and()
+				.withClient("AuthServer").secret("{noop}secret").authorizedGrantTypes("client_credentials").scopes("read").authorities("UserCoreAccessGetUserByName")
+				.and()
+				.withClient("Postman").secret("{noop}secret").authorizedGrantTypes("client_credentials", "password").scopes("read").authorities("ROLE_ADMIN");
 	}
 
 	@Override
