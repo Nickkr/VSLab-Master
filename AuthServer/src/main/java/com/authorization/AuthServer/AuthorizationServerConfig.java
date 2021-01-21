@@ -46,14 +46,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		// @formatter:off
 		clients.inMemory()
 				.withClient("messaging-client")
 				.authorizedGrantTypes("authorization_code", "refresh_token", "client_credentials", "password")
 				.scopes("message.read", "message.write")
 				.secret("{noop}secret")
-				.redirectUris("http://localhost:8080/authorized");
-		// @formatter:on
+				.redirectUris("http://localhost:8080/authorized")
+				.authorities("MessagingTest")
+				.and()
+				.withClient("Postman").secret("{noop}secret").authorizedGrantTypes("client_credentials", "password").scopes("message.read").authorities("Test");
 	}
 
 	@Override
