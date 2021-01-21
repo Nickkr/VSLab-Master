@@ -26,7 +26,8 @@ public class UserController {
 
   private List<User> userCache = new ArrayList<User>();
 
-  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+  // Configure access for administrators only.
+  @PreAuthorize("hasRole('ADMIN')")
   @HystrixCommand(fallbackMethod = "getUsersCache")
   @GetMapping("/users")
   public ResponseEntity<List<User>> getAllUsers() {
@@ -41,11 +42,14 @@ public class UserController {
     }
   }
 
-  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+  // Configure access for administrators only.
+  @PreAuthorize("hasRole('ADMIN')")
   ResponseEntity<List<User>> getUsersCache() {
     return new ResponseEntity<>(userCache, HttpStatus.OK);
   } 
 
+  // Configure access for authorized applications or administrators.
+  @PreAuthorize("hasAuthority('UserCoreAccessCreateUser') or hasRole('ADMIN')")
   @HystrixCommand
   @PostMapping("/users")
   public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -62,6 +66,7 @@ public class UserController {
     }
   }
 
+  // Configure access for administrators only.
   @PreAuthorize("hasRole('ADMIN')")
   @HystrixCommand
   @DeleteMapping("/users")
@@ -86,12 +91,8 @@ public class UserController {
     }
   } */
 
-// TODO Uncomment for full security 
-//  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")  // Works!
-//  @PreAuthorize("#username == authentication.principal") // Works!
-//  @PreAuthorize("#username == principal") // Works!
-//  @PreAuthorize("principal == 'messaging-client'") // Works!
-//  @PreAuthorize("hasAuthority('MessagingTest')")  // Works!
+  // Configure access for authorized applications or administrators or users restricted to their own user account.
+  @PreAuthorize("hasAuthority('UserCoreAccessGetUserByName') or hasRole('ADMIN') or (hasRole('USER') and #username == principal)")
   @HystrixCommand
   @GetMapping("/users/{username}")
   public ResponseEntity<User> getUserByName(@PathVariable("username") String username) {
@@ -104,7 +105,8 @@ public class UserController {
     }
   }
 
-  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+  // Configure access for administrators or users restricted to their own user account.
+  @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and #username == principal)")
   @HystrixCommand
   @PutMapping("/users/{id}")
   public ResponseEntity<User> updateUser(
@@ -125,7 +127,8 @@ public class UserController {
     }
   }
 
-  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+  // Configure access for administrators or users restricted to their own user account.
+  @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and #username == principal)")
   @HystrixCommand
   @DeleteMapping("/users/{id}")
   public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {
