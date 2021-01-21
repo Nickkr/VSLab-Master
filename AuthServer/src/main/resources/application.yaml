@@ -12,12 +12,12 @@ security:
     client:
       client-id: 1234
       client-secret: test
-      messaging-client-client-creds:
-        client-id: messaging-client
+      auth-server-client-credentials:
+        client-id: auth-server
         client-secret: secret
         grant-type: client_credentials
         access-token-uri: http://localhost:18085/auth/oauth/token
-        scope: message.read, message.write
+        scope: read
 
 eureka:
   client:

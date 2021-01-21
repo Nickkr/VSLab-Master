@@ -15,16 +15,16 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableOAuth2Client
 public class OAuth2ClientConfig {
 
-	@ConfigurationProperties(prefix = "security.oauth2.client.messaging-client-client-creds")
+	@ConfigurationProperties(prefix = "security.oauth2.client.auth-server-client-credentials")
 	@Bean
-	public OAuth2ProtectedResourceDetails messagingClientClientCredsDetails() {
+	public OAuth2ProtectedResourceDetails authServerClientCredentialsResourceDetails() {
 		return new ClientCredentialsResourceDetails();
 	}
 
 	@Bean
 	@LoadBalanced
-	public OAuth2RestTemplate messagingClientClientCredsRestTemplate(
-			@Qualifier("messagingClientClientCredsDetails") OAuth2ProtectedResourceDetails resourceDetails) {
+	public OAuth2RestTemplate authServerClientCredentialsOAuth2RestTemplate(
+			@Qualifier("authServerClientCredentialsResourceDetails") OAuth2ProtectedResourceDetails resourceDetails) {
 		return new OAuth2RestTemplate(resourceDetails);
 	}
 
