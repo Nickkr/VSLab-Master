@@ -3,12 +3,11 @@ package com.core.userservice;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,11 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
-@CrossOrigin(origins = "http://localhost:18083")
 @RestController
 public class UserController {
 
@@ -29,10 +26,8 @@ public class UserController {
 
   private List<User> userCache = new ArrayList<User>();
 
-  private static final String template = "Hello, %s!";
-  private final AtomicLong counter = new AtomicLong();
-
-  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+  // Configure access for administrators only.
+  @PreAuthorize("hasRole('ADMIN')")
   @HystrixCommand(fallbackMethod = "getUsersCache")
   @GetMapping("/users")
   public ResponseEntity<List<User>> getAllUsers() {
@@ -47,11 +42,14 @@ public class UserController {
     }
   }
 
-  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+  // Configure access for administrators only.
+  @PreAuthorize("hasRole('ADMIN')")
   ResponseEntity<List<User>> getUsersCache() {
     return new ResponseEntity<>(userCache, HttpStatus.OK);
   } 
 
+  // Configure access for authorized applications or administrators.
+  @PreAuthorize("hasAuthority('UserCoreAccessCreateUser') or hasRole('ADMIN')")
   @HystrixCommand
   @PostMapping("/users")
   public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -68,6 +66,7 @@ public class UserController {
     }
   }
 
+  // Configure access for administrators only.
   @PreAuthorize("hasRole('ADMIN')")
   @HystrixCommand
   @DeleteMapping("/users")
@@ -92,8 +91,8 @@ public class UserController {
     }
   } */
 
-// TODO Uncomment for full security 
-//  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')") 
+  // Configure access for authorized applications or administrators or users restricted to their own user account.
+  @PreAuthorize("hasAuthority('UserCoreAccessGetUserByName') or hasRole('ADMIN') or (hasRole('USER') and #username == principal)")
   @HystrixCommand
   @GetMapping("/users/{username}")
   public ResponseEntity<User> getUserByName(@PathVariable("username") String username) {
@@ -106,7 +105,8 @@ public class UserController {
     }
   }
 
-  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+  // Configure access for administrators or users restricted to their own user account.
+  @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and #username == principal)")
   @HystrixCommand
   @PutMapping("/users/{id}")
   public ResponseEntity<User> updateUser(
@@ -127,7 +127,8 @@ public class UserController {
     }
   }
 
-  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+  // Configure access for administrators or users restricted to their own user account.
+  @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and #username == principal)")
   @HystrixCommand
   @DeleteMapping("/users/{id}")
   public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") int id) {

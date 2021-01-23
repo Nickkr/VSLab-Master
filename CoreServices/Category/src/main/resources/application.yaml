@@ -23,9 +23,17 @@ eureka:
     eureka-server-connect-timeout-seconds: 20
   instance:
     preferIpAddress: true
-    leaseRenewalIntervalInSeconds: 5
+    leaseRenewalIntervalInSeconds: 10
     metadataMap:
-      instanceId: "${spring.application.name}:${random.value}"
+      instanceId: ${spring.application.name}:${random.value}
+
+logging:
+  level:
+    org:
+      apache:
+        coyote: 
+          http11:
+            Http11InputBuffer: DEBUG
 
 management:
   endpoint:
@@ -46,6 +54,7 @@ spring:
   profiles: docker
   datasource:
     url: jdbc:mysql://database:3306/category
+
 eureka:
   client:
     serviceUrl:
