@@ -26,7 +26,7 @@ public class CategoryController implements CategoryDelegate {
 	@Autowired
 	private CategoryDelegateService categoryService;
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand(fallbackMethod = "getCategoriesFallback")
 	@GetMapping
 	public ResponseEntity<Category[]> getCategories() {
@@ -43,7 +43,7 @@ public class CategoryController implements CategoryDelegate {
 		return categoryService.getCachedCategories();
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand(fallbackMethod = "getFilteredCategoriesFallback")
 	@GetMapping(params = "searchName")
 	public ResponseEntity<Category[]> getFilteredCategories(@RequestParam String searchName) {
@@ -67,7 +67,7 @@ public class CategoryController implements CategoryDelegate {
 		return categoryService.createCategory(newCategory);
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand(fallbackMethod = "getCategoryFallback")
 	@GetMapping("{id}")
 	public ResponseEntity<Category> getCategory(@PathVariable Integer id) {
@@ -90,7 +90,7 @@ public class CategoryController implements CategoryDelegate {
 	public ResponseEntity<Category> updateCategory(@PathVariable Integer id, @RequestBody Category newCategory) {
 		return categoryService.updateCategory(id, newCategory);
 	}
-	
+
 	@PreAuthorize("hasRole('ADMIN')")
 	@HystrixCommand
 	@DeleteMapping("{id}")

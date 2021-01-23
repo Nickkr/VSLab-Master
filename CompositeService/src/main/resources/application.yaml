@@ -7,19 +7,21 @@ server:
 spring:
   application:
     name: product-category-composite-service
+
 security:
   oauth2:
     resource:
       jwk:
         key-set-uri: http://localhost:18085/auth/oauth2/keys
+
 eureka:
   client:
-    fetch-registry: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+    eureka-server-connect-timeout-seconds: 20
   instance:
     preferIpAddress: true
-    leaseRenewalIntervalInSeconds: 5
+    leaseRenewalIntervalInSeconds: 10
     metadataMap:
       instanceId: ${spring.application.name}:${random.value}
 
@@ -48,14 +50,17 @@ hystrix:
 
 logging:
   level:
-    com:
-      netflix:
-        loadbalancer:
-          DynamicServerListLoadBalancer: INFO
     org:
+      apache:
+        coyote: 
+          http11:
+            Http11InputBuffer: DEBUG
       springframework:
+        security:
+          web:
+            access: DEBUG
+          oauth2: DEBUG
         web:
-          security: DEBUG
           client:
             RestTemplate: DEBUG
           reactive:
@@ -80,10 +85,12 @@ management:
 ---
 spring:
   profiles: docker
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka:8761/eureka/
+
 security:
   oauth2:
     resource:

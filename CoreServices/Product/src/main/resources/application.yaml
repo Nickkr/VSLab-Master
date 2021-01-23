@@ -1,5 +1,6 @@
 server:
   port: 18081
+
 spring:
   application:
     name: product-service
@@ -22,9 +23,17 @@ eureka:
     eureka-server-connect-timeout-seconds: 20
   instance:
     preferIpAddress: true
-    leaseRenewalIntervalInSeconds: 5
+    leaseRenewalIntervalInSeconds: 10
     metadataMap:
-      instanceId: "${spring.application.name}:${random.value}"
+      instanceId: ${spring.application.name}:${random.value}
+
+logging:
+  level:
+    org:
+      apache:
+        coyote: 
+          http11:
+            Http11InputBuffer: DEBUG
 
 management:
   endpoint:
@@ -39,15 +48,13 @@ management:
       base-path: /actuator
       cors:
         allowed-origins: true
-security:
-  oauth2:
-    resource:
-      token-info-uri: https://localhost:18085/oauth2/introspect
+
 ---
 spring:
   profiles: docker
   datasource:
     url: jdbc:mysql://database:3306/product
+
 eureka:
   client:
     serviceUrl:

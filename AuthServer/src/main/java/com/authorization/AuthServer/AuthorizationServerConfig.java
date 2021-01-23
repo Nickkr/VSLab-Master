@@ -1,9 +1,8 @@
 package com.authorization.AuthServer;
 
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.KeyUse;
-import com.nimbusds.jose.jwk.RSAKey;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,25 +17,26 @@ import org.springframework.security.oauth2.common.util.JsonParserFactory;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
-import org.springframework.security.oauth2.provider.approval.ApprovalStoreUserApprovalHandler;
 import org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore;
-import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
-import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.KeyUse;
+import com.nimbusds.jose.jwk.RSAKey;
+
 @SuppressWarnings("deprecation")
 @Configuration
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+/*
 	@Autowired
 	private ClientDetailsService clientDetailsService;
+ */
 
 	@Autowired
 	private UserDetailsService userDetailsManager;
@@ -46,34 +46,34 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		// @formatter:off
 		clients.inMemory()
-			.withClient("messaging-client")
-				.authorizedGrantTypes("authorization_code", "refresh_token", "client_credentials", "password")
-				.scopes("message.read", "message.write")
-				.secret("{noop}secret")
-				.redirectUris("http://localhost:8080/authorized");
-		// @formatter:on
+				.withClient("WebShop").secret("{noop}secret").authorizedGrantTypes("client_credentials", "password").scopes("read").authorities("UserCoreAccessCreateUser")
+				.and()
+				.withClient("AuthServer").secret("{noop}secret").authorizedGrantTypes("client_credentials").scopes("read").authorities("UserCoreAccessGetUserByName")
+				.and()
+				.withClient("Postman").secret("{noop}secret").authorizedGrantTypes("client_credentials", "password").scopes("read").authorities("ROLE_ADMIN");
 	}
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints
-			.authenticationManager(this.authenticationManager)
-			.tokenStore(tokenStore())
-			.userDetailsService(userDetailsManager)
-			//.userApprovalHandler(userApprovalHandler())
-			.accessTokenConverter(accessTokenConverter());
+				.authenticationManager(this.authenticationManager)
+				.tokenStore(tokenStore())
+				.userDetailsService(userDetailsManager)
+				// .userApprovalHandler(userApprovalHandler())
+				.accessTokenConverter(accessTokenConverter());
 	}
 
-/* 	@Bean
+/* 
+	@Bean
 	public UserApprovalHandler userApprovalHandler() {
 		ApprovalStoreUserApprovalHandler userApprovalHandler = new ApprovalStoreUserApprovalHandler();
 		userApprovalHandler.setApprovalStore(approvalStore());
 		userApprovalHandler.setClientDetailsService(this.clientDetailsService);
 		userApprovalHandler.setRequestFactory(new DefaultOAuth2RequestFactory(this.clientDetailsService));
 		return userApprovalHandler;
-	} */
+	}
+ */
 
 	@Bean
 	public TokenStore tokenStore() {
