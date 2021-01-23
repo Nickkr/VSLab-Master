@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.ribbon.proxy.annotation.Hystrix;
+
 @RestController
 public class ProductController {
 
@@ -44,7 +42,7 @@ public class ProductController {
 
 	public static String PRODUCT_BASE_URL = "http://product-service/products";
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand(fallbackMethod = "getProductsCache")
 	@GetMapping("/products")
 	List<ProductComposite> getProducts(@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice,
@@ -66,7 +64,7 @@ public class ProductController {
 		return tmpList;
 	}
 	
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand(fallbackMethod = "getProductCache")
 	@GetMapping("/products/{id}")
 	ProductComposite getProductById(@PathVariable int id) {
@@ -75,13 +73,13 @@ public class ProductController {
 		return productCache.get(id);
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand
 	ProductComposite getProductCache(int id) {
 		return productCache.get(id);
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand
 	List<ProductComposite> getProductsCache(Double minPrice, Double maxPrice, Integer categoryId, String details) {
 		Predicate<ProductComposite> matcher = product -> {

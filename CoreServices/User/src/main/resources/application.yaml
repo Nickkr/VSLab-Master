@@ -29,20 +29,26 @@ eureka:
     eureka-server-connect-timeout-seconds: 20
   instance:
     preferIpAddress: true
-    leaseRenewalIntervalInSeconds: 5
+    leaseRenewalIntervalInSeconds: 10
     metadataMap:
-      instanceId: "${spring.application.name}:${random.value}"
+      instanceId: ${spring.application.name}:${random.value}
 
 logging:
   level:
-    com:
-      netflix:
-        loadbalancer:
-          DynamicServerListLoadBalancer: INFO
-    org: 
-        springframework: 
-            security: DEBUG
-            
+    org:
+      apache:
+        coyote: 
+          http11:
+            Http11InputBuffer: DEBUG
+      springframework:
+        security:
+          web:
+            access: DEBUG
+          oauth2: DEBUG
+        web:
+          client:
+            RestTemplate: DEBUG
+
 management:
   endpoint:
     health:

@@ -94,6 +94,8 @@ services:
     build:
       context: ./AuthServer
       dockerfile: ./BuildFrom${BUILD_FROM:-MavenSources}.dockerfile
+      args:
+        PORT: 18085
     ports:
        - "18085:18085"
     networks:
