@@ -8,6 +8,8 @@ import com.opensymphony.xwork2.ActionSupport;
 import hska.iwi.eShopMaster.model.businessLogic.manager.UserManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.UserManagerImpl;
 import hska.iwi.eShopMaster.model.database.dataobjects.User;
+import hska.iwi.eShopMaster.auth.AuthFactory;
+
 
 public class LoginAction extends ActionSupport {
 
@@ -30,9 +32,11 @@ public class LoginAction extends ActionSupport {
 
 		UserManager myCManager = new UserManagerImpl();
 		
+		AuthFactory.username = this.getUsername();
+		AuthFactory.username = this.getPassword();
 		// Get user from DB:
 		User user = myCManager.getUserByUsername(getUsername());
-
+		System.out.println(user);
 		// Does user exist?
 		if (user != null) {
 			// Is the password correct?

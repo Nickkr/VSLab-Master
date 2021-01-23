@@ -5,7 +5,8 @@ import hska.iwi.eShopMaster.model.database.dataAccessObjects.RoleDAO;
 import hska.iwi.eShopMaster.model.database.dataAccessObjects.UserDAO;
 import hska.iwi.eShopMaster.model.database.dataobjects.Role;
 import hska.iwi.eShopMaster.model.database.dataobjects.User;
-
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import hska.iwi.eShopMaster.auth.AuthFactory;
 /**
  * 
  * @author knad0001
@@ -28,10 +29,15 @@ public class UserManagerImpl implements UserManager {
 
 	
 	public User getUserByUsername(String username) {
-		if (username == null || username.equals("")) {
+		OAuth2RestTemplate restTemplate = AuthFactory.getOAuthRestTemplate("password");
+		User user = restTemplate.getForObject("http://192.168.178.37:8081/webshop-api/user/" + username, User.class);
+		System.out.println(user);
+
+		return user;
+	/* 	if (username == null || username.equals("")) {
 			return null;
 		}
-		return helper.getUserByUsername(username);
+		return helper.getUserByUsername(username); */
 	}
 
 	public boolean deleteUserById(int id) {

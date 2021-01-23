@@ -31,7 +31,7 @@
 	
 		<div class="jumbotron">
 			<div class="container-fluid">
-				<h1>VS Lab EShop </h1>
+				<h1>VS Lab WebShop</h1>
 			</div>
 		</div>
 	
