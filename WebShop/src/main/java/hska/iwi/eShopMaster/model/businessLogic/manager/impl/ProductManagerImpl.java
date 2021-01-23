@@ -1,12 +1,12 @@
 package hska.iwi.eShopMaster.model.businessLogic.manager.impl;
 
+import java.util.List;
+
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
 import hska.iwi.eShopMaster.model.database.dataAccessObjects.ProductDAO;
 import hska.iwi.eShopMaster.model.database.dataobjects.Category;
 import hska.iwi.eShopMaster.model.database.dataobjects.Product;
-
-import java.util.List;
 
 public class ProductManagerImpl implements ProductManager {
 	private ProductDAO helper;

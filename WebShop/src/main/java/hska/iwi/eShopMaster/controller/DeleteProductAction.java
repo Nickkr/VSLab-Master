@@ -1,12 +1,12 @@
 package hska.iwi.eShopMaster.controller;
 
-import hska.iwi.eShopMaster.model.database.dataAccessObjects.ProductDAO;
-import hska.iwi.eShopMaster.model.database.dataobjects.User;
-
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+
+import hska.iwi.eShopMaster.model.database.dataAccessObjects.ProductDAO;
+import hska.iwi.eShopMaster.model.database.dataobjects.User;
 
 public class DeleteProductAction extends ActionSupport {
 
