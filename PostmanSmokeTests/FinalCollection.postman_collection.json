@@ -1,0 +1,3302 @@
+{
+	"info": {
+		"_postman_id": "88f8e060-6493-488a-bc7b-bc1a0fc61076",
+		"name": "FinalCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Authorize (Not Working)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{authBaseUrl}}/auth/oauth/authorize?grant_type=authorization_code&response_type=code&client_id=messaging-client&state=1234",
+							"host": [
+								"{{authBaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"oauth",
+								"authorize"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code"
+								},
+								{
+									"key": "response_type",
+									"value": "code"
+								},
+								{
+									"key": "client_id",
+									"value": "messaging-client"
+								},
+								{
+									"key": "state",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TokenUser non-existent user Niklas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Access denied.\", function () {\r",
+									"    pm.response.to.be.unauthorized;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "Niklas",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "niklas",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "read",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{authBaseUrl}}/auth/oauth/token",
+							"host": [
+								"{{authBaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TokenUser Foo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Token generated.\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "foo-user",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "read",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{authBaseUrl}}/auth/oauth/token",
+							"host": [
+								"{{authBaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TokenAdmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Token generated.\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "read",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{authBaseUrl}}/auth/oauth/token",
+							"host": [
+								"{{authBaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "username",
+						"value": "Postman",
+						"type": "string"
+					},
+					{
+						"key": "password",
+						"value": "secret",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "{productId}",
+					"item": [
+						{
+							"name": "/products/:productId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"    console.log(pm.request.url);\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{productBaseUrl}}/products/:productId",
+									"host": [
+										"{{productBaseUrl}}"
+									],
+									"path": [
+										"products",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "14",
+											"type": "string"
+										}
+									]
+								},
+								"description": "Get a product."
+							},
+							"response": [
+								{
+									"name": "404",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/products/:productId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":productId"
+											],
+											"variable": [
+												{
+													"key": "productId",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Get a product."
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "200",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/products/:productId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":productId"
+											],
+											"variable": [
+												{
+													"key": "productId",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Get a product."
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"name\": \"Apfel\",\n  \"details\": \"Ein Apfel\",\n  \"price\": 5,\n  \"categoryId\": 1\n}"
+								}
+							]
+						},
+						{
+							"name": "/products/:productId",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"details\": \"Das ist eine schöne Orange\",\r\n    \"name\": \"Orange\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{productBaseUrl}}/products/:productId",
+									"host": [
+										"{{productBaseUrl}}"
+									],
+									"path": [
+										"products",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "14",
+											"type": "string"
+										}
+									]
+								},
+								"description": "Edit a product."
+							},
+							"response": [
+								{
+									"name": "200",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "\"Product example\"",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/products/:productId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":productId"
+											],
+											"variable": [
+												{
+													"key": "productId",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Edit a product."
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": \"<number>\",\n  \"name\": \"<string>\",\n  \"details\": \"<string>\",\n  \"price\": \"<number>\",\n  \"categoryID\": \"<number>\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/products/:productId",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{productBaseUrl}}/products/:productId",
+									"host": [
+										"{{productBaseUrl}}"
+									],
+									"path": [
+										"products",
+										":productId"
+									],
+									"variable": [
+										{
+											"key": "productId",
+											"value": "14",
+											"type": "string"
+										}
+									]
+								},
+								"description": "Delete a product."
+							},
+							"response": [
+								{
+									"name": "204",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/products/:productId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":productId"
+											],
+											"variable": [
+												{
+													"key": "productId",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Delete a product."
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "404",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/products/:productId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":productId"
+											],
+											"variable": [
+												{
+													"key": "productId",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Delete a product."
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "401",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/products/:productId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":productId"
+											],
+											"variable": [
+												{
+													"key": "productId",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Delete a product."
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					],
+					"description": "Product entity."
+				},
+				{
+					"name": "/products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{productBaseUrl}}/products?searchText=Orange",
+							"host": [
+								"{{productBaseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "searchText",
+									"value": "Orange",
+									"description": "The text to search for."
+								},
+								{
+									"key": "minPrice",
+									"value": "2.0",
+									"description": "The minimum price.",
+									"disabled": true
+								},
+								{
+									"key": "maxPrice",
+									"value": "3.0",
+									"description": "The maximum price.",
+									"disabled": true
+								},
+								{
+									"key": "categoryId",
+									"value": "1",
+									"description": "The id of a specific category.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all products."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/products?searchText=<string>&minPrice=<number>&maxPrice=<number>&categoryId=<number>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "searchText",
+											"value": "<string>",
+											"description": "The text to search for."
+										},
+										{
+											"key": "minPrice",
+											"value": "<number>",
+											"description": "The minimum price."
+										},
+										{
+											"key": "maxPrice",
+											"value": "<number>",
+											"description": "The maximum price."
+										},
+										{
+											"key": "categoryId",
+											"value": "<number>",
+											"description": "The id of a specific category."
+										}
+									]
+								},
+								"description": "Get all products."
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Apfel\",\n    \"details\": \"Ein Apfel\",\n    \"price\": 5,\n    \"categoryId\": 1\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "/products",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Orange\",\n  \"details\": \"Das ist eine Orange\",\n  \"price\": \"5.0\",\n  \"categoryId\": \"2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{productBaseUrl}}/products",
+							"host": [
+								"{{productBaseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "Add a new product."
+					},
+					"response": [
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"details\": \"<string>\",\n  \"price\": \"<number>\",\n  \"categoryID\": \"<number>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								},
+								"description": "Add a new product."
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 1,\n  \"name\": \"Apfel\",\n  \"details\": \"Ein Apfel\",\n  \"price\": 5,\n  \"categoryId\": 1\n}"
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"<string>\",\n  \"details\": \"<string>\",\n  \"price\": \"<number>\",\n  \"categoryID\": \"<number>\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								},
+								"description": "Add a new product."
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Manage products."
+		},
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "Get all categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response must be valid and have a body.\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test data type of the response.\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"array\");\r",
+									"    pm.expect(jsonData).not.to.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Schema is valid.\", function () {\r",
+									"    const schema = {\r",
+									"        \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"        \"type\": \"array\",\r",
+									"        \"items\": {\r",
+									"            \"type\": \"object\",\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"type\": \"integer\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"type\": \"string\"\r",
+									"                }\r",
+									"            },\r",
+									"            \"required\": [\r",
+									"                \"id\",\r",
+									"                \"name\"\r",
+									"            ]\r",
+									"        }\r",
+									"    }\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{categoryBaseUrl}}/categories",
+							"host": [
+								"{{categoryBaseUrl}}"
+							],
+							"path": [
+								"categories"
+							],
+							"query": [
+								{
+									"key": "searchName",
+									"value": "<string>",
+									"description": "The name to search for.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all categories. Optionally filtered by a name."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories?searchName=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories"
+									],
+									"query": [
+										{
+											"key": "searchName",
+											"value": "<string>",
+											"description": "The name to search for."
+										}
+									]
+								},
+								"description": "Get all categories. Optionally filtered by a name."
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Obst\"\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Gemüse\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get filtered categories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response must be valid and have a body.\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test data type of the response.\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"array\");\r",
+									"    pm.expect(jsonData).not.to.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Schema is valid.\", function () {\r",
+									"    const schema = {\r",
+									"        \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"        \"type\": \"array\",\r",
+									"        \"items\": {\r",
+									"            \"type\": \"object\",\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"type\": \"integer\"\r",
+									"                },\r",
+									"                \"name\": {\r",
+									"                    \"type\": \"string\"\r",
+									"                }\r",
+									"            },\r",
+									"            \"required\": [\r",
+									"                \"id\",\r",
+									"                \"name\"\r",
+									"            ]\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Has correct selected content.\", function () {\r",
+									"    var query = {};\r",
+									"    pm.request.url.query.all().forEach((param) => {query[param.key] = param.value});\r",
+									"    search = query[\"searchName\"];\r",
+									"\r",
+									"    const jsonData = pm.response.json();\r",
+									"    _.each(jsonData, (item) => {\r",
+									"        pm.expect(item.name.toLowerCase()).to.contain(search.toLowerCase());\r",
+									"    })\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{categoryBaseUrl}}/categories?searchName=m",
+							"host": [
+								"{{categoryBaseUrl}}"
+							],
+							"path": [
+								"categories"
+							],
+							"query": [
+								{
+									"key": "searchName",
+									"value": "m",
+									"description": "The name to search for."
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories?searchName=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories"
+									],
+									"query": [
+										{
+											"key": "searchName",
+											"value": "<string>",
+											"description": "The name to search for."
+										}
+									]
+								},
+								"description": "Get all categories. Optionally filtered by a name."
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Obst\"\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Gemüse\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response must be valid and have a body.\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test data type of the response.\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.name).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Schema is valid.\", function () {\r",
+									"    const schema = {\r",
+									"        \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\"\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\"\r",
+									"        ]\r",
+									"    }\r",
+									"\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Has correct created content.\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(jsonData.name).equals(requestJson.name);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Is last id variable set.\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"lastId\", jsonData.id);\r",
+									"    pm.expect(pm.collectionVariables.get(\"lastId\")).equals(jsonData.id);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{categoryBaseUrl}}/categories",
+							"host": [
+								"{{categoryBaseUrl}}"
+							],
+							"path": [
+								"categories"
+							]
+						},
+						"description": "Add a new category."
+					},
+					"response": [
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Saft\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories"
+									]
+								},
+								"description": "Add a new category."
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 3,\n  \"name\": \"Saft\"\n}"
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Saft\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories"
+									]
+								},
+								"description": "Add a new category."
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create existing category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response must be valid and have a body.\", function () {\r",
+									"    pm.response.to.be.badRequest;\r",
+									"    pm.response.to.be.withBody;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has a valid Content-Type header\", function() {\r",
+									"  pm.response.to.have.header(\"Content-Type\");\r",
+									"  // case-insensitive and rooted at the beginning of the string\r",
+									"  pm.expect(pm.response.headers.get(\"Content-Type\")).match(/^text\\/plain/i);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Saft\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{categoryBaseUrl}}/categories",
+							"host": [
+								"{{categoryBaseUrl}}"
+							],
+							"path": [
+								"categories"
+							]
+						},
+						"description": "Add a new category."
+					},
+					"response": [
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Saft\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories"
+									]
+								},
+								"description": "Add a new category."
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Saft\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories"
+									]
+								},
+								"description": "Add a new category."
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 3,\n  \"name\": \"Saft\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get a category",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function SetLastId() {\r",
+									"    // Remove the last parameter of the origin request url, without changeing the origin using strings. \r",
+									"    const tmpUrl = pm.variables.replaceIn(pm.request.url.toString());\r",
+									"    const url = tmpUrl.substring(0, tmpUrl.lastIndexOf('/'));\r",
+									"   \r",
+									"    pm.sendRequest(url, function (err, response) {\r",
+									"        pm.test(\"Get all ids response is okay to process.\", function () {\r",
+									"            pm.expect(response).to.be.ok;\r",
+									"            pm.expect(response).to.be.withBody;\r",
+									"            pm.expect(response).to.be.json;\r",
+									"\r",
+									"            const jsonData = response.json();\r",
+									"            pm.expect(jsonData).to.be.an(\"array\");\r",
+									"            pm.expect(jsonData).not.to.be.empty;\r",
+									"        });\r",
+									"\r",
+									"        const result = response.json()\r",
+									"        if (result.length > 0) {\r",
+									"            const lastId = result[result.length - 1].id\r",
+									"            pm.collectionVariables.set(\"lastId\", lastId);\r",
+									"        }\r",
+									"        \r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function CheckIfLastIdExistsAndSetItOtherwise() {\r",
+									"    const url = pm.variables.replaceIn(pm.request.url.toString());\r",
+									"\r",
+									"    // Check if a category with the current id exists.\r",
+									"    pm.sendRequest(url, function (err, response) {\r",
+									"        // Set id to last category element if, actual was not found. \r",
+									"        if (response.code == 404) {\r",
+									"            pm.test(\"Check if id exists may fail.\", function () {\r",
+									"                pm.expect(response).to.be.notFound;\r",
+									"            });\r",
+									"            SetLastId();\r",
+									"        } else {\r",
+									"            pm.test(\"Check if id exists response is okay to process.\", function () {\r",
+									"                pm.expect(response).to.be.ok;\r",
+									"            });\r",
+									"        }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"CheckIfLastIdExistsAndSetItOtherwise();"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response must be valid and have a body.\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test data type of the response.\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.name).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Schema is valid.\", function () {\r",
+									"    const schema = {\r",
+									"        \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\"\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\"\r",
+									"        ]\r",
+									"    }\r",
+									"\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Has correct selected content.\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    // Parse id from path or query from variable.\r",
+									"    var idStr = pm.request.url.path[pm.request.url.path.length - 1];\r",
+									"    var id;\r",
+									"    if (idStr.startsWith(\"{\")) {\r",
+									"        const variable_name = idStr.substring(2, idStr.length - 2);\r",
+									"        const variable_value = pm.variables.get(variable_name);\r",
+									"        id = parseInt(variable_value);\r",
+									"    } else {\r",
+									"        id = parseInt(idStr);\r",
+									"    }\r",
+									"    pm.expect(jsonData.id).equals(id);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{categoryBaseUrl}}/categories/:categoryId",
+							"host": [
+								"{{categoryBaseUrl}}"
+							],
+							"path": [
+								"categories",
+								":categoryId"
+							],
+							"variable": [
+								{
+									"key": "categoryId",
+									"value": "{{lastId}}"
+								}
+							]
+						},
+						"description": "Get a category entity."
+					},
+					"response": [
+						{
+							"name": "404",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Get a category entity."
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Get a category entity."
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 1,\n  \"name\": \"Obst\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get a not existing category",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response must be not found and have no body.\", function () {\r",
+									"    pm.response.to.be.notFound;\r",
+									"    pm.response.to.be.not.withBody;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{categoryBaseUrl}}/categories/:categoryId",
+							"host": [
+								"{{categoryBaseUrl}}"
+							],
+							"path": [
+								"categories",
+								":categoryId"
+							],
+							"variable": [
+								{
+									"key": "categoryId",
+									"value": "{{failureId}}"
+								}
+							]
+						},
+						"description": "Get a category entity."
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Get a category entity."
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 1,\n  \"name\": \"Obst\"\n}"
+						},
+						{
+							"name": "404",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Get a category entity."
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Change a category",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function SetLastId() {\r",
+									"    // Remove the last parameter of the origin request url, without changeing the origin using strings. \r",
+									"    const tmpUrl = pm.variables.replaceIn(pm.request.url.toString());\r",
+									"    const url = tmpUrl.substring(0, tmpUrl.lastIndexOf('/'));\r",
+									"   \r",
+									"    pm.sendRequest(url, function (err, response) {\r",
+									"        pm.test(\"Get all ids response is okay to process.\", function () {\r",
+									"            pm.expect(response).to.be.ok;\r",
+									"            pm.expect(response).to.be.withBody;\r",
+									"            pm.expect(response).to.be.json;\r",
+									"\r",
+									"            const jsonData = response.json();\r",
+									"            pm.expect(jsonData).to.be.an(\"array\");\r",
+									"            pm.expect(jsonData).not.to.be.empty;\r",
+									"        });\r",
+									"\r",
+									"        const result = response.json()\r",
+									"        if (result.length > 0) {\r",
+									"            const lastId = result[result.length - 1].id\r",
+									"            pm.collectionVariables.set(\"lastId\", lastId);\r",
+									"        }\r",
+									"        \r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function CheckIfLastIdExistsAndSetItOtherwise() {\r",
+									"    const url = pm.variables.replaceIn(pm.request.url.toString());\r",
+									"\r",
+									"    // Check if a category with the current id exists.\r",
+									"    pm.sendRequest(url, function (err, response) {\r",
+									"        // Set id to last category element if, actual was not found. \r",
+									"        if (response.code == 404) {\r",
+									"            pm.test(\"Check if id exists may fail.\", function () {\r",
+									"                pm.expect(response).to.be.notFound;\r",
+									"            });\r",
+									"            SetLastId();\r",
+									"        } else {\r",
+									"            pm.test(\"Check if id exists response is okay to process.\", function () {\r",
+									"                pm.expect(response).to.be.ok;\r",
+									"            });\r",
+									"        }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"CheckIfLastIdExistsAndSetItOtherwise();"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response must be valid and have a body.\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test data type of the response.\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"    pm.expect(jsonData.id).to.be.a(\"number\");\r",
+									"    pm.expect(jsonData.name).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Schema is valid.\", function () {\r",
+									"    const schema = {\r",
+									"        \"$schema\": \"http://json-schema.org/draft-04/schema#\",\r",
+									"        \"type\": \"object\",\r",
+									"        \"properties\": {\r",
+									"            \"id\": {\r",
+									"                \"type\": \"integer\"\r",
+									"            },\r",
+									"            \"name\": {\r",
+									"                \"type\": \"string\"\r",
+									"            }\r",
+									"        },\r",
+									"        \"required\": [\r",
+									"            \"id\",\r",
+									"            \"name\"\r",
+									"        ]\r",
+									"    }\r",
+									"\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(tv4.validate(jsonData, schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Has correct selected content.\", function () {\r",
+									"    const jsonData = pm.response.json();\r",
+									"\r",
+									"    // Parse id from path or query from variable.\r",
+									"    var idStr = pm.request.url.path[pm.request.url.path.length - 1];\r",
+									"    var id;\r",
+									"    if (idStr.startsWith(\"{\")) {\r",
+									"        const variable_name = idStr.substring(2, idStr.length - 2);\r",
+									"        const variable_value = pm.variables.get(variable_name);\r",
+									"        id = parseInt(variable_value);\r",
+									"    } else {\r",
+									"        id = parseInt(idStr);\r",
+									"    }\r",
+									"    pm.expect(jsonData.id).equals(id);\r",
+									"\r",
+									"    const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(jsonData.name).equals(requestJson.name);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Wein\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{categoryBaseUrl}}/categories/:categoryId",
+							"host": [
+								"{{categoryBaseUrl}}"
+							],
+							"path": [
+								"categories",
+								":categoryId"
+							],
+							"variable": [
+								{
+									"key": "categoryId",
+									"value": "{{lastId}}"
+								}
+							]
+						},
+						"description": "Change a category name."
+					},
+					"response": [
+						{
+							"name": "404",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Wein\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Change a category name."
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Wein\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Change a category name."
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Wein\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Change a category name."
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 3,\n  \"name\": \"Wein\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete a category",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function SetLastId() {\r",
+									"    // Remove the last parameter of the origin request url, without changeing the origin using strings. \r",
+									"    const tmpUrl = pm.variables.replaceIn(pm.request.url.toString());\r",
+									"    const url = tmpUrl.substring(0, tmpUrl.lastIndexOf('/'));\r",
+									"   \r",
+									"    pm.sendRequest(url, function (err, response) {\r",
+									"        pm.test(\"Get all ids response is okay to process.\", function () {\r",
+									"            pm.expect(response).to.be.ok;\r",
+									"            pm.expect(response).to.be.withBody;\r",
+									"            pm.expect(response).to.be.json;\r",
+									"\r",
+									"            const jsonData = response.json();\r",
+									"            pm.expect(jsonData).to.be.an(\"array\");\r",
+									"            pm.expect(jsonData).not.to.be.empty;\r",
+									"        });\r",
+									"\r",
+									"        const result = response.json()\r",
+									"        if (result.length > 0) {\r",
+									"            const lastId = result[result.length - 1].id\r",
+									"            pm.collectionVariables.set(\"lastId\", lastId);\r",
+									"        }\r",
+									"        \r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function CheckIfLastIdExistsAndSetItOtherwise() {\r",
+									"    const url = pm.variables.replaceIn(pm.request.url.toString());\r",
+									"\r",
+									"    // Check if a category with the current id exists.\r",
+									"    pm.sendRequest(url, function (err, response) {\r",
+									"        // Set id to last category element if, actual was not found. \r",
+									"        if (response.code == 404) {\r",
+									"            pm.test(\"Check if id exists may fail.\", function () {\r",
+									"                pm.expect(response).to.be.notFound;\r",
+									"            });\r",
+									"            SetLastId();\r",
+									"        } else {\r",
+									"            pm.test(\"Check if id exists response is okay to process.\", function () {\r",
+									"                pm.expect(response).to.be.ok;\r",
+									"            });\r",
+									"        }\r",
+									"    });\r",
+									"};\r",
+									"\r",
+									"CheckIfLastIdExistsAndSetItOtherwise();"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response must be valid and have no body.\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"    pm.response.to.be.not.withBody;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Category does not exists afterwards.\", function () {\r",
+									"    const url = pm.request.url.toString();\r",
+									"\r",
+									"    pm.sendRequest(url, function (err, response) {\r",
+									"        pm.expect(response).to.be.notFound;\r",
+									"    });\r",
+									"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{categoryBaseUrl}}/categories/:categoryId",
+							"host": [
+								"{{categoryBaseUrl}}"
+							],
+							"path": [
+								"categories",
+								":categoryId"
+							],
+							"variable": [
+								{
+									"key": "categoryId",
+									"value": "{{lastId}}"
+								}
+							]
+						},
+						"description": "Deletes a category and its accociated products."
+					},
+					"response": [
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Deletes a category and its accociated products."
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "404",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Deletes a category and its accociated products."
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "204",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Deletes a category and its accociated products."
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete a not existing category",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response must be not found and have a body.\", function () {\r",
+									"    pm.response.to.be.notFound;\r",
+									"    pm.response.to.be.withBody;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has a valid Content-Type header\", function() {\r",
+									"  pm.response.to.have.header(\"Content-Type\");\r",
+									"  // case-insensitive and rooted at the beginning of the string\r",
+									"  pm.expect(pm.response.headers.get(\"Content-Type\")).match(/^text\\/plain/i);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{categoryBaseUrl}}/categories/:categoryId",
+							"host": [
+								"{{categoryBaseUrl}}"
+							],
+							"path": [
+								"categories",
+								":categoryId"
+							],
+							"variable": [
+								{
+									"key": "categoryId",
+									"value": "{{failureId}}"
+								}
+							]
+						},
+						"description": "Deletes a category and its accociated products."
+					},
+					"response": [
+						{
+							"name": "404",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Deletes a category and its accociated products."
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "204",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Deletes a category and its accociated products."
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "401",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/categories/:categoryID",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"categories",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Deletes a category and its accociated products."
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Manage categories.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "{username}",
+					"item": [
+						{
+							"name": "/users/:username Camembert77",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{userBaseUrl}}/users/:username",
+									"host": [
+										"{{userBaseUrl}}"
+									],
+									"path": [
+										"users",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "Camembert77"
+										}
+									]
+								},
+								"description": "Query user."
+							},
+							"response": [
+								{
+									"name": "200",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Query user."
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1234,\n  \"username\": \"Camembert77\",\n  \"firstname\": \"Alex\",\n  \"lastname\": \"Tester\",\n  \"password\": \"rt5j8if\",\n  \"role\": \"USER\"\n}"
+								},
+								{
+									"name": "404",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Query user."
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/users/:username Admin",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{userBaseUrl}}/users/:username",
+									"host": [
+										"{{userBaseUrl}}"
+									],
+									"path": [
+										"users",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "admin"
+										}
+									]
+								},
+								"description": "Query user."
+							},
+							"response": [
+								{
+									"name": "200",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Query user."
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1234,\n  \"username\": \"Camembert77\",\n  \"firstname\": \"Alex\",\n  \"lastname\": \"Tester\",\n  \"password\": \"rt5j8if\",\n  \"role\": \"USER\"\n}"
+								},
+								{
+									"name": "404",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Query user."
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/users/:username Admin using Camembert77 credentials",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Access denied.\", function () {\r",
+											"    pm.response.to.be.forbidden;\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "username",
+											"value": "Camembert77",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "rt5j8if",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "read",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "secret",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "Postman WebShop Access",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "Postman",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "{{authBaseUrl}}/auth/oauth/token",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{userBaseUrl}}/users/:username",
+									"host": [
+										"{{userBaseUrl}}"
+									],
+									"path": [
+										"users",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "admin"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "200",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Query user."
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1234,\n  \"username\": \"Camembert77\",\n  \"firstname\": \"Alex\",\n  \"lastname\": \"Tester\",\n  \"password\": \"rt5j8if\",\n  \"role\": \"USER\"\n}"
+								},
+								{
+									"name": "404",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Query user."
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "/users/:username Camembert77 using Camembert77 credentials",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Access Granted\", function () {\r",
+											"    pm.response.to.be.ok;\r",
+											"    pm.response.to.be.withBody;\r",
+											"    pm.response.to.be.json;});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "oauth2",
+									"oauth2": [
+										{
+											"key": "username",
+											"value": "Camembert77",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "rt5j8if",
+											"type": "string"
+										},
+										{
+											"key": "scope",
+											"value": "read",
+											"type": "string"
+										},
+										{
+											"key": "grant_type",
+											"value": "password_credentials",
+											"type": "string"
+										},
+										{
+											"key": "clientSecret",
+											"value": "secret",
+											"type": "string"
+										},
+										{
+											"key": "tokenName",
+											"value": "Postman WebShop Access",
+											"type": "string"
+										},
+										{
+											"key": "clientId",
+											"value": "Postman",
+											"type": "string"
+										},
+										{
+											"key": "accessTokenUrl",
+											"value": "{{authBaseUrl}}/auth/oauth/token",
+											"type": "string"
+										},
+										{
+											"key": "addTokenTo",
+											"value": "header",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{userBaseUrl}}/users/:username",
+									"host": [
+										"{{userBaseUrl}}"
+									],
+									"path": [
+										"users",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "Camembert77"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "404",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Query user."
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "200",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Query user."
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1234,\n  \"username\": \"Camembert77\",\n  \"firstname\": \"Alex\",\n  \"lastname\": \"Tester\",\n  \"password\": \"rt5j8if\",\n  \"role\": \"USER\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/users/:id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"lastname\": \"NeuerNachname\",\n  \"password\": \"3jfjfe4_\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{userBaseUrl}}/users/:id",
+									"host": [
+										"{{userBaseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "4"
+										}
+									]
+								},
+								"description": "Change user's properties."
+							},
+							"response": [
+								{
+									"name": "200",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"lastname\": \"NeuerNachname\",\n  \"password\": \"3jfjfe4_\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Change user's properties."
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": \"<number>\",\n  \"username\": \"<string>\",\n  \"firstname\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"password\": \"<string>\",\n  \"role\": \"<string>\"\n}"
+								}
+							]
+						},
+						{
+							"name": "/users/:id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{userBaseUrl}}/users/:id",
+									"host": [
+										"{{userBaseUrl}}"
+									],
+									"path": [
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "4"
+										}
+									]
+								},
+								"description": "Delete a user."
+							},
+							"response": [
+								{
+									"name": "404",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Delete a user."
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "204",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "<string>"
+												}
+											]
+										},
+										"description": "Delete a user."
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "/users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{userBaseUrl}}/users",
+							"host": [
+								"{{userBaseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "(none)",
+									"value": "<string>",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Query all user."
+					},
+					"response": [
+						{
+							"name": "404",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users?(none)=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "(none)",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Query all user."
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users?(none)=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "(none)",
+											"value": "<string>"
+										}
+									]
+								},
+								"description": "Query all user."
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "\"{\\n  \\\"id\\\": 1234,\\n  \\\"username\\\": \\\"Camembert77\\\",\\n  \\\"firstname\\\": \\\"Alex\\\",\\n  \\\"lastname\\\": \\\"Tester\\\",\\n  \\\"password\\\": \\\"rt5j8if\\\",\\n  \\\" role\\\" : \\\"USER\\\"\\n\""
+						}
+					]
+				},
+				{
+					"name": "/users",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1234,\n  \"username\": \"Camembert77\",\n  \"firstname\": \"Alex\",\n  \"lastname\": \"Tester\",\n  \"password\": \"rt5j8if\",\n  \"role\": \"USER\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{userBaseUrl}}/users",
+							"host": [
+								"{{userBaseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Add a new user."
+					},
+					"response": [
+						{
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 1234,\n  \"username\": \"Camembert77\",\n  \"firstname\": \"Alex\",\n  \"lastname\": \"Tester\",\n  \"password\": \"rt5j8if\",\n  \"role\": \"USER\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								},
+								"description": "Add a new user."
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": \"<number>\",\n  \"username\": \"<string>\",\n  \"firstname\": \"<string>\",\n  \"lastname\": \"<string>\",\n  \"password\": \"<string>\",\n  \"role\": \"<string>\"\n}"
+						}
+					]
+				},
+				{
+					"name": "/users",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{userBaseUrl}}/users",
+							"host": [
+								"{{userBaseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						},
+						"description": "Delete all users."
+					},
+					"response": [
+						{
+							"name": "204",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								},
+								"description": "Delete all users."
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "404",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users"
+									]
+								},
+								"description": "Delete all users."
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Manage users."
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "grant_type",
+				"value": "client_credentials",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "read",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "admin",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "secret",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "Postman WebShop Access",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "Postman",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "{{authBaseUrl}}/auth/oauth/token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Response time is less than 2000ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+					"});",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "lastId",
+			"value": null
+		},
+		{
+			"key": "failureId",
+			"value": "99"
+		}
+	]
+}
