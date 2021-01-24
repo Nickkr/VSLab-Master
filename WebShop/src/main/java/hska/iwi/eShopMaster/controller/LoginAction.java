@@ -33,7 +33,8 @@ public class LoginAction extends ActionSupport {
 		UserManager myCManager = new UserManagerImpl();
 		
 		AuthFactory.username = this.getUsername();
-		AuthFactory.username = this.getPassword();
+		AuthFactory.password = this.getPassword();
+		
 		// Get user from DB:
 		User user = myCManager.getUserByUsername(getUsername());
 		System.out.println(user);
