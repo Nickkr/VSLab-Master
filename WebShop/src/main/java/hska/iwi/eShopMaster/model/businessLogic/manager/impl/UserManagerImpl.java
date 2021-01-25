@@ -20,7 +20,7 @@ public class UserManagerImpl implements UserManager {
 	}
 
 	
-	public void registerUser(String username, String name, String lastname, String password, Role role) {
+	public void registerUser(String username, String name, String lastname, String password, String role) {
 
 		User user = new User(username, name, lastname, password, role);
 
@@ -29,8 +29,8 @@ public class UserManagerImpl implements UserManager {
 
 	
 	public User getUserByUsername(String username) {
-		OAuth2RestTemplate restTemplate = AuthFactory.getOAuthRestTemplate("password");
-		User user = restTemplate.getForObject("http://192.168.178.37:8081/webshop-api/user/" + username, User.class);
+		OAuth2RestTemplate restTemplate = AuthFactory.getOAuth2RestTemplateWithPassword();
+		User user = restTemplate.getForObject("http://192.168.178.37:8081/webshop-api/users/" + username, User.class);
 		System.out.println(user);
 
 		return user;

@@ -24,7 +24,7 @@ public class DeleteProductAction extends ActionSupport {
 		Map<String, Object> session = ActionContext.getContext().getSession();
 		User user = (User) session.get("webshop_user");
 		
-		if(user != null && (user.getRole().getTyp().equals("admin"))) {
+		if(user != null && (user.getRole().equals("ADMIN"))) {
 
 			new ProductDAO().deleteById(id);
 			{

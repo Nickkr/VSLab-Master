@@ -36,7 +36,7 @@ public class RegisterAction extends ActionSupport {
    		if (!userManager.doesUserAlreadyExist(this.username)) {
     		    	
 	        // save it to database
-	        userManager.registerUser(this.username, this.firstname, this.lastname, this.password1, this.role);
+	        userManager.registerUser(this.username, this.firstname, this.lastname, this.password1, "USER");
 	            // User has been saved successfully to database:
 	        	addActionMessage("user registered, please login");
 	        	addActionError("user registered, please login");

@@ -33,7 +33,7 @@ public class LoginAction extends ActionSupport {
 		UserManager myCManager = new UserManagerImpl();
 		
 		AuthFactory.username = this.getUsername();
-		AuthFactory.username = this.getPassword();
+		AuthFactory.password = this.getPassword();
 		// Get user from DB:
 		User user = myCManager.getUserByUsername(getUsername());
 		System.out.println(user);
@@ -49,7 +49,8 @@ public class LoginAction extends ActionSupport {
 				session.put("message", "");
 				firstname= user.getFirstname();
 				lastname = user.getLastname();
-				role = user.getRole().getTyp();
+				role = user.getRole();
+				System.out.println(user.getRole());
 				result = "success";
 			}
 			else {

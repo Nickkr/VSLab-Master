@@ -46,13 +46,13 @@ public class User implements java.io.Serializable {
 
 	@ManyToOne()
 	@JoinColumn(name = "role", nullable = false)	
-	private Role role;
+	private String role;
 
 	public User() {
 	}
 
 	public User(String username, String firstname, String lastname,
-			String password, Role role) {
+			String password, String role) {
 		this.username = username;
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -100,11 +100,11 @@ public class User implements java.io.Serializable {
 		this.password = password;
 	}
 
-	public Role getRole() {
+	public String getRole() {
 		return this.role;
 	}
 
-	public void setRole(Role role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 

@@ -6,7 +6,7 @@ import hska.iwi.eShopMaster.model.database.dataobjects.User;
 
 public interface UserManager {
     
-    public void registerUser(String username, String name, String lastname, String password, Role role);
+    public void registerUser(String username, String name, String lastname, String password, String role);
     
     public User getUserByUsername(String username);
     
