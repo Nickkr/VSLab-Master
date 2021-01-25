@@ -45,31 +45,33 @@ public class ProductController {
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand(fallbackMethod = "getProductsCache")
 	@GetMapping("/products")
-	List<ProductComposite> getProducts(@RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice,
-			@RequestParam(required = false) Integer categoryId, @RequestParam(required = false) String searchText) {
+	List<ProductComposite> getProducts(@RequestParam(required = false) Double minPrice,
+			@RequestParam(required = false) Double maxPrice, @RequestParam(required = false) Integer categoryId,
+			@RequestParam(required = false) String searchText) {
 
-		Product[] products = restTemplate.getForObject(PRODUCT_BASE_URL + "?minPrice={minPrice}&maxPrice={maxPrice}&categoryId={categoryId}&searchText={searchText}", Product[].class,
-				minPrice,
-				maxPrice,
-				categoryId,
-				searchText);
+		Product[] products = restTemplate.getForObject(
+				PRODUCT_BASE_URL
+						+ "?minPrice={minPrice}&maxPrice={maxPrice}&categoryId={categoryId}&searchText={searchText}",
+				Product[].class, minPrice, maxPrice, categoryId, searchText);
 
 		List<ProductComposite> tmpList = new ArrayList<ProductComposite>();
-		//Iterate over products and put into cache if absent
+		// Iterate over products and put into cache if absent
 		for (Product product : products) {
-			ProductComposite productComposite =  new ProductComposite(product, categoryService.getCategoryById(product.getCategoryId()));			
+			ProductComposite productComposite = new ProductComposite(product,
+					categoryService.getCategoryById(product.getCategoryId()));
 			tmpList.add(productComposite);
 			this.productCache.putIfAbsent(product.getId().intValue(), productComposite);
 		}
 		return tmpList;
 	}
-	
+
 	@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 	@HystrixCommand(fallbackMethod = "getProductCache")
 	@GetMapping("/products/{id}")
 	ProductComposite getProductById(@PathVariable int id) {
 		Product product = restTemplate.getForObject(PRODUCT_BASE_URL + "/{id}", Product.class, id);
-		productCache.putIfAbsent(id, new ProductComposite(product, this.categoryService.getCategoryById(product.getCategoryId())));
+		productCache.putIfAbsent(id,
+				new ProductComposite(product, this.categoryService.getCategoryById(product.getCategoryId())));
 		return productCache.get(id);
 	}
 
@@ -83,10 +85,10 @@ public class ProductController {
 	@HystrixCommand
 	List<ProductComposite> getProductsCache(Double minPrice, Double maxPrice, Integer categoryId, String details) {
 		Predicate<ProductComposite> matcher = product -> {
-			return (minPrice != null ? product.getPrice() >= minPrice : true) 
-				&& (maxPrice != null ? product.getPrice() <= maxPrice : true)
-				&& (categoryId != null ? product.getCategory().getId() == categoryId : true)
-				&& (details != null ? product.getDetails().toLowerCase().contains(details.toLowerCase()) : true);
+			return (minPrice != null ? product.getPrice() >= minPrice : true)
+					&& (maxPrice != null ? product.getPrice() <= maxPrice : true)
+					&& (categoryId != null ? product.getCategory().getId() == categoryId : true)
+					&& (details != null ? product.getDetails().toLowerCase().contains(details.toLowerCase()) : true);
 		};
 		return this.productCache.values().stream().filter(matcher).collect(Collectors.toList());
 	}
@@ -94,24 +96,27 @@ public class ProductController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@HystrixCommand()
 	@PostMapping("/products")
-	Product createNewProduct(@RequestBody String newProduct) {
+	ProductComposite createNewProduct(@RequestBody ProductComposite newProduct) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<String> request = new HttpEntity<String>(newProduct, headers);
+		HttpEntity<Product> request = new HttpEntity<Product>(new Product(newProduct.getName(), newProduct.getPrice(),
+				newProduct.getCategory().getId(), newProduct.getDetails()), headers);
 		Product product = restTemplate.postForObject(PRODUCT_BASE_URL, request, Product.class);
-		if(product != null) {
-			this.productCache.put(product.getId().intValue(), new ProductComposite(product, this.categoryService.getCategoryById(product.getCategoryId())));
+		if (product != null) {
+			ProductComposite newProductComposite = new ProductComposite(product, this.categoryService.getCategoryById(product.getCategoryId()));
+			this.productCache.put(product.getId().intValue(), newProductComposite);
+			return newProductComposite;
 		}
-		return product;
-
+		return null;
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@HystrixCommand()
 	@DeleteMapping("/products/{id}")
 	ResponseEntity<String> deleteProductById(@PathVariable int id) {
-		ResponseEntity<String> response = restTemplate.exchange(PRODUCT_BASE_URL + "/{id}", HttpMethod.DELETE, null, String.class, id);
-		if(response.getStatusCode() == HttpStatus.OK) {
+		ResponseEntity<String> response = restTemplate.exchange(PRODUCT_BASE_URL + "/{id}", HttpMethod.DELETE, null,
+				String.class, id);
+		if (response.getStatusCode() == HttpStatus.OK) {
 			this.productCache.remove(id);
 		}
 		return response;
@@ -123,9 +128,11 @@ public class ProductController {
 	ResponseEntity<Product> updateProductById(@PathVariable int id, @RequestBody String product) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		ResponseEntity<Product> response = restTemplate.exchange(PRODUCT_BASE_URL + "/{id}", HttpMethod.PUT, new HttpEntity<String>(product, headers), Product.class, id);
-		if(response.getStatusCode() == HttpStatus.OK) {
-			this.productCache.replace(id, new ProductComposite(response.getBody(), this.categoryService.getCategoryById(response.getBody().getCategoryId())));
+		ResponseEntity<Product> response = restTemplate.exchange(PRODUCT_BASE_URL + "/{id}", HttpMethod.PUT,
+				new HttpEntity<String>(product, headers), Product.class, id);
+		if (response.getStatusCode() == HttpStatus.OK) {
+			this.productCache.replace(id, new ProductComposite(response.getBody(),
+					this.categoryService.getCategoryById(response.getBody().getCategoryId())));
 		}
 		return response;
 	}

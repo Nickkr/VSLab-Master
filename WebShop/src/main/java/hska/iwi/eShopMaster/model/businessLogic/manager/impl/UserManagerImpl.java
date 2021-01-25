@@ -24,15 +24,13 @@ public class UserManagerImpl implements UserManager {
 
 		User user = new User(username, name, lastname, password, role);
 
-		helper.saveObject(user);
+		AuthFactory.getOAuth2RestTemplateWithClientCredentails().postForObject(AuthFactory.WEB_SHOP_API + "/users", user, User.class);
 	}
 
 	
 	public User getUserByUsername(String username) {
 		OAuth2RestTemplate restTemplate = AuthFactory.getOAuth2RestTemplateWithPassword();
 		User user = restTemplate.getForObject(AuthFactory.WEB_SHOP_API + "/users/" + username, User.class);
-		System.out.println(user);
-
 		return user;
 	/* 	if (username == null || username.equals("")) {
 			return null;

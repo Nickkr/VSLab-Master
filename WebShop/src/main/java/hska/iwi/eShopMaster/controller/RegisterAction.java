@@ -20,60 +20,58 @@ public class RegisterAction extends ActionSupport {
     private String password2;
     private String firstname;
     private String lastname;
-    
+
     private Role role = null;
-    
+
     @Override
     public String execute() throws Exception {
-        
+
         // Return string:
         String result = "input";
 
         UserManager userManager = new UserManagerImpl();
 
-   		this.role = userManager.getRoleByLevel(1); // 1 -> regular User, 2-> Admin
+        try {
+            // save it to database
+            userManager.registerUser(this.username, this.firstname, this.lastname, this.password1, "USER");
+            // User has been saved successfully to database:
+            addActionMessage("user registered, please login");
+            addActionError("user registered, please login");
+            Map<String, Object> session = ActionContext.getContext().getSession();
+            session.put("message", "user registered, please login");
+            result = "success";
 
-   		if (!userManager.doesUserAlreadyExist(this.username)) {
-    		    	
-	        // save it to database
-	        userManager.registerUser(this.username, this.firstname, this.lastname, this.password1, "USER");
-	            // User has been saved successfully to database:
-	        	addActionMessage("user registered, please login");
-	        	addActionError("user registered, please login");
-				Map<String, Object> session = ActionContext.getContext().getSession();
-				session.put("message", "user registered, please login");
-	            result = "success";
-	        
-    	}
-    	else {
-    		addActionError(getText("error.username.alreadyInUse"));
-    	}
+        } catch (Exception error) {
+            System.out.println(error);
+            addActionError(getText("error.username.alreadyInUse"));
+        }
+
         return result;
 
     }
-    
-	@Override
-	public void validate() {
-		if (getFirstname().length() == 0) {
-			addActionError(getText("error.firstname.required"));
-		}
-		if (getLastname().length() == 0) {
-			addActionError(getText("error.lastname.required"));
-		}
-		if (getUsername().length() == 0) {
-			addActionError(getText("error.username.required"));
-		}
-		if (getPassword1().length() == 0) {
-			addActionError(getText("error.password.required"));
-		}
-		if (getPassword2().length() == 0) {
-			addActionError(getText("error.password.required"));
-		}
-		
-		if (!getPassword1().equals(getPassword2())) {
-			addActionError(getText("error.password.notEqual"));
-		}
-	}
+
+    @Override
+    public void validate() {
+        if (getFirstname().length() == 0) {
+            addActionError(getText("error.firstname.required"));
+        }
+        if (getLastname().length() == 0) {
+            addActionError(getText("error.lastname.required"));
+        }
+        if (getUsername().length() == 0) {
+            addActionError(getText("error.username.required"));
+        }
+        if (getPassword1().length() == 0) {
+            addActionError(getText("error.password.required"));
+        }
+        if (getPassword2().length() == 0) {
+            addActionError(getText("error.password.required"));
+        }
+
+        if (!getPassword1().equals(getPassword2())) {
+            addActionError(getText("error.password.notEqual"));
+        }
+    }
 
     public String getLastname() {
         return lastname;
@@ -106,7 +104,7 @@ public class RegisterAction extends ActionSupport {
     public void setPassword1(String password) {
         this.password1 = password;
     }
-    
+
     public String getPassword2() {
         return (this.password2);
     }
@@ -114,11 +112,11 @@ public class RegisterAction extends ActionSupport {
     public void setPassword2(String password) {
         this.password2 = password;
     }
-    
+
     public Role getRole() {
         return (this.role);
     }
-    
+
     public void setRole(Role role) {
         this.role = role;
     }

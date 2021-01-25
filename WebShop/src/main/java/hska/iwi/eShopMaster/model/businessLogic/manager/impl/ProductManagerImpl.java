@@ -3,6 +3,8 @@ package hska.iwi.eShopMaster.model.businessLogic.manager.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
 import hska.iwi.eShopMaster.model.database.dataAccessObjects.ProductDAO;
@@ -19,31 +21,28 @@ public class ProductManagerImpl implements ProductManager {
 
 	public List<Product> getProducts() {
 		Product[] products = AuthFactory.getOAuth2RestTemplateWithPassword()
-				.getForObject("http://192.168.178.37:8081/webshop-api/products/", Product[].class);
+				.getForObject(AuthFactory.WEB_SHOP_API + "/products/", Product[].class);
 		System.out.println(products.length);
 		return Arrays.asList(products);
-		// return helper.getObjectList();
-		// products = AuthFactory.
 	}
 
 	public List<Product> getProductsForSearchValues(String searchDescription,
 			Double searchMinPrice, Double searchMaxPrice) {	
-		Product[] products = AuthFactory.getOAuth2RestTemplateWithPassword().getForObject("http://192.168.178.37:8081/webshop-api/products/" + "?minPrice={searchMinPrice}&maxPrice={searchMaxPrice}&searchText={searchDescription}", Product[].class, searchMinPrice, searchMaxPrice, searchDescription);
+		Product[] products = AuthFactory.getOAuth2RestTemplateWithPassword().getForObject(AuthFactory.WEB_SHOP_API + "/products/" + "?minPrice={searchMinPrice}&maxPrice={searchMaxPrice}&searchText={searchDescription}", Product[].class, searchMinPrice, searchMaxPrice, searchDescription);
 		return Arrays.asList(products);
-		//return new ProductDAO().getProductListByCriteria(searchDescription, searchMinPrice, searchMaxPrice);
 	}
 
 	public Product getProductById(int id) {
-		Product product = AuthFactory.getOAuth2RestTemplateWithPassword().getForObject("http://192.168.178.37:8081/webshop-api/products/" + id, Product.class);
-		//return helper.getObjectById(id);
+		Product product = AuthFactory.getOAuth2RestTemplateWithPassword().getForObject(AuthFactory.WEB_SHOP_API +"/products/" + id, Product.class);
 		return product;
 	}
 
 	public Product getProductByName(String name) {
-		return helper.getObjectByName(name);
+		throw new NotImplementedException("WILL NEVER BE USED");
 	}
 
 	public int addProduct(String name, double price, int categoryId, String details) {
+
 		int productId = -1;
 
 		CategoryManager categoryManager = new CategoryManagerImpl();
@@ -56,16 +55,15 @@ public class ProductManagerImpl implements ProductManager {
 			} else {
 				product = new Product(name, price, category, details);
 			}
-
-			helper.saveObject(product);
-			productId = product.getId();
+			Product productResp = AuthFactory.getOAuth2RestTemplateWithPassword().postForObject(AuthFactory.WEB_SHOP_API +"/products/", product, Product.class );
+			productId = productResp.getId();
 		}
 
 		return productId;
 	}
 
 	public void deleteProductById(int id) {
-		helper.deleteById(id);
+		AuthFactory.getOAuth2RestTemplateWithPassword().delete(AuthFactory.WEB_SHOP_API +"/products/" + id);
 	}
 
 	public boolean deleteProductsByCategoryId(int categoryId) {

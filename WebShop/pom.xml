@@ -5,6 +5,13 @@
     <artifactId>WebShop</artifactId>
     <version>1.0.0</version>
     <packaging>war</packaging>
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
 
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
