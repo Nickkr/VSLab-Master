@@ -16,7 +16,7 @@
         
         <!-- Login: -->
         <action name="LoginAction" class="hska.iwi.eShopMaster.controller.LoginAction">
-            <result name="success" >/pages/start.jsp</result>
+            <result name="success">/pages/start.jsp</result>
             <result name="input">index.jsp</result>
         </action>
         

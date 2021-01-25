@@ -15,17 +15,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <build>
-
-        <plugins>
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
-
     <dependencies>
         <!-- Struts 2 -->
         <dependency>
@@ -35,7 +24,7 @@
         </dependency>
 
         <!-- Logging -->
-        <!-- 		  <dependency>
+		  <dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-api</artifactId>
 		    <version>2.5</version>
@@ -46,7 +35,6 @@
 		    <version>2.5</version>
 		  </dependency>
 
- -->
 
         <!-- JavaEE Servlet -->
         <dependency>
@@ -106,4 +94,13 @@
 
 
     </dependencies>
+    <build>
+    	<plugins>
+    		<plugin>
+    			<groupId>org.eclipse.jetty</groupId>
+    			<artifactId>jetty-maven-plugin</artifactId>
+    			<version>9.4.35.v20201120</version>
+    		</plugin>
+    	</plugins>
+    </build>
 </project>

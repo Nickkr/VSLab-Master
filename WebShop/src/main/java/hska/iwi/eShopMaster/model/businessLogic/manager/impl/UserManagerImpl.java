@@ -30,7 +30,7 @@ public class UserManagerImpl implements UserManager {
 	
 	public User getUserByUsername(String username) {
 		OAuth2RestTemplate restTemplate = AuthFactory.getOAuth2RestTemplateWithPassword();
-		User user = restTemplate.getForObject("http://192.168.178.37:8081/webshop-api/users/" + username, User.class);
+		User user = restTemplate.getForObject(AuthFactory.WEB_SHOP_API + "/users/" + username, User.class);
 		System.out.println(user);
 
 		return user;

@@ -14,11 +14,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.security.oauth2.client.resource.*;
 import java.util.*;
 
-
 public class AuthFactory {
     public static String username;
     public static String password;
-    public static String ACCESS_TOKEN_URI = "http://192.168.178.37:8081/webshop-api/auth/oauth/token";
+	public static String WEB_SHOP_API = "http://host.docker.internal:8081/webshop-api";
+	public static String ACCESS_TOKEN_URI = AuthFactory.WEB_SHOP_API + "/auth/oauth/token";
     public static String CLIENT_ID = "WebShop";
     public static String CLIENT_SECRET = "secret";
     public static OAuth2RestTemplate OAUTH2_REST_TEMPLATE_PASSWORD = null;
