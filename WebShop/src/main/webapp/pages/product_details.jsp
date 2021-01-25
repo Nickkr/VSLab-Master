@@ -3,7 +3,7 @@
 <!DOCTYPE html >
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<html>
+<html lang="de">
 	<head>
 		<title><s:text name="details.head" /></title>
 		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">

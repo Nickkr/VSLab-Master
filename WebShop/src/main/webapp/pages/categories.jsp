@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html >
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<html>
+<html lang="de">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title><s:text name="categories.head" /></title>
@@ -78,11 +78,8 @@
 					<s:else>
 						<td><s:property value="id" /></td>
 						<td><s:property value="name" /></td>
-						<td><s:form action ="DeleteCategoryAction" >
-								<s:hidden name="catId" value="%{id}" />
-								<s:submit value="loeschen"/>
-							</s:form>
-							</td>
+						<td><a href="<s:url action="DeleteCategoryAction"><s:param name="catId" value="id" /></s:url>"><img src="img/delBtn.png" alt="<s:text name="product.delete" />"/></a></td>
+
 					</s:else>
 					</tr>
 				</s:iterator>

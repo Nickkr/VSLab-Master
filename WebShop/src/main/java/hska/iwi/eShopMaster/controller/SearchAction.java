@@ -56,9 +56,9 @@ public class SearchAction extends ActionSupport{
 			}
 			this.products = productManager.getProductsForSearchValues(this.searchDescription, sMinPrice, sMaxPrice);
 			
-			// Show all categories:
-			//CategoryManager categoryManager = new CategoryManagerImpl();
-			//this.categories = categoryManager.getCategories();
+			//Show all categories:
+			CategoryManager categoryManager = new CategoryManagerImpl();
+			this.categories = categoryManager.getCategories();
 			result = "success";
 		}
 		

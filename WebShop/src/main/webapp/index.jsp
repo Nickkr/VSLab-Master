@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<html lang="en">
+<html lang="de">
 	<head>
 		<title>VS Labor Webshop mit Bootstrap 3 </title>
 		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
