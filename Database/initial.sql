@@ -1,6 +1,5 @@
 DROP DATABASE IF EXISTS product;
 CREATE DATABASE product;
-
 use product;
 
 CREATE TABLE product (
@@ -14,7 +13,6 @@ CREATE TABLE product (
 
 DROP DATABASE IF EXISTS user;
 CREATE DATABASE user;
-
 use user;
 
 CREATE TABLE user (
@@ -34,9 +32,8 @@ CREATE TABLE role (
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
-CREATE DATABASE category;
-
 DROP DATABASE IF EXISTS category;
+CREATE DATABASE category;
 use category;
 
 CREATE TABLE category (
@@ -45,5 +42,3 @@ CREATE TABLE category (
 	PRIMARY KEY (id),
 	CONSTRAINT UniqueName UNIQUE (name)
 ) ENGINE=InnoDB;
-
-
