@@ -10,6 +10,7 @@
 # exclude stuff in target except the jar executable. When matching the whole target folder, then the exception does not seem to work.
 **/target/**
 !**/target/*.jar
+!**/target/*.war
 
 ### Gradle ###
 **/.gradle/
