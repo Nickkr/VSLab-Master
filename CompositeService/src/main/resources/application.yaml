@@ -52,11 +52,12 @@ logging:
   level:
     org:
       apache:
-        coyote: 
+        coyote:
           http11:
             Http11InputBuffer: DEBUG
       springframework:
         security:
+          access: DEBUG
           web:
             access: DEBUG
           oauth2: DEBUG
@@ -67,6 +68,8 @@ logging:
             function:
               client:
                 ExchangeFunctions: TRACE
+          servlet:
+            DispatcherServlet: DEBUG
 
 management:
   endpoint:

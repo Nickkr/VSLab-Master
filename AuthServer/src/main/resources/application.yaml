@@ -34,7 +34,7 @@ logging:
   level:
     org:
       apache:
-        coyote: 
+        coyote:
           http11:
             Http11InputBuffer: DEBUG
       springframework:
@@ -45,6 +45,8 @@ logging:
         web:
           client:
             RestTemplate: DEBUG
+          servlet:
+            DispatcherServlet: DEBUG
 
 management:
   endpoint:
