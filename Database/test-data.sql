@@ -1,5 +1,6 @@
 -- Users
 insert into user.user (`name`, `lastname`, `password`, `username`, `role`) values ('admin', 'admin', 'admin', 'admin', 1);
+insert into user.user (`name`, `lastname`, `password`, `username`, `role`) values ('user', 'user', 'user', 'user', 0);
 insert into user.user (`name`, `lastname`, `password`, `username`, `role`) values ('foo', 'bar', 'admin', 'foo-admin', 1);
 insert into user.user (`name`, `lastname`, `password`, `username`, `role`) values ('foo', 'bar', 'user', 'foo-user', 0);
 
