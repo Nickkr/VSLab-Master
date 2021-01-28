@@ -109,17 +109,15 @@ services:
       args:
         PORT: 8080
     image: webshop-frontend
-    volumes: 
-      - "./WebShop:/etc/WebShop"
     ports:
       - "8080:8080"
     networks:
       local_dev_net:
         aliases:
           - webshop
-#    depends_on:
-#      - zuul-server
-#      - auth-server
+    depends_on:
+      - zuul-server
+      - auth-server
   database:
     build:
       context: ./Database
