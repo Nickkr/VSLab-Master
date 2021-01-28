@@ -61,6 +61,7 @@ public class LoginAction extends ActionSupport {
 			}
 
 		} catch (OAuth2AccessDeniedException ex) {
+			AuthFactory.logout(getUsername());
 			addActionError(ex.getMessage());
 
 			if (ex.getMessage() == "Error requesting access token.") {
@@ -68,10 +69,12 @@ public class LoginAction extends ActionSupport {
 			} else if (ex.getMessage() == "Access token denied.") {
 				addActionError(getText("error.password.wrong"));
 			}
-			
+
 		} catch (OAuth2Exception ex) {
+			AuthFactory.logout(getUsername());
 			addActionError(ex.getMessage());
 		} catch (Exception ex) {
+			AuthFactory.logout(getUsername());
 			addActionError(ex.getClass().getCanonicalName());
 			ExceptionHelper.addExceptionMessages(ex, this);
 			ex.printStackTrace();
