@@ -3,9 +3,12 @@ package hska.iwi.eShopMaster.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.client.RestTemplate;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import hska.iwi.eShopMaster.auth.AuthFactory;
 import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
 import hska.iwi.eShopMaster.model.database.dataobjects.Product;
@@ -29,7 +32,13 @@ public class ListAllProductsAction extends ActionSupport {
 		
 		if(user != null){
 			System.out.println("list all products!");
-			ProductManager productManager = new ProductManagerImpl();
+
+			RestTemplate restTemplate = AuthFactory.getOAuth2RestTemplateWithPassword(user);
+			if (restTemplate == null) {
+				return result;
+			}
+
+			ProductManager productManager = new ProductManagerImpl(restTemplate);
 			this.products = productManager.getProducts();
 			result = "success";
 		}

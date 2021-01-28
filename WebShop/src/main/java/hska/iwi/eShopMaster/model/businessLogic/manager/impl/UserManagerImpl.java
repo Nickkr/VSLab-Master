@@ -6,6 +6,9 @@ import hska.iwi.eShopMaster.model.database.dataAccessObjects.UserDAO;
 import hska.iwi.eShopMaster.model.database.dataobjects.Role;
 import hska.iwi.eShopMaster.model.database.dataobjects.User;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.web.client.RestTemplate;
+
+import hska.iwi.eShopMaster.Configuration;
 import hska.iwi.eShopMaster.auth.AuthFactory;
 /**
  * 
@@ -13,24 +16,23 @@ import hska.iwi.eShopMaster.auth.AuthFactory;
  */
 
 public class UserManagerImpl implements UserManager {
+	private final RestTemplate restTemplate;
 	UserDAO helper;
 	
-	public UserManagerImpl() {
+	public UserManagerImpl(RestTemplate restTemplate) {
 		helper = new UserDAO();
+		this.restTemplate = restTemplate;
 	}
 
 	
 	public void registerUser(String username, String name, String lastname, String password, String role) {
-
 		User user = new User(username, name, lastname, password, role);
-
-		AuthFactory.getOAuth2RestTemplateWithClientCredentails().postForObject(AuthFactory.WEB_SHOP_API + "/users", user, User.class);
+		restTemplate.postForObject(Configuration.WEB_SHOP_API + "/users", user, User.class);
 	}
 
 	
 	public User getUserByUsername(String username) {
-		OAuth2RestTemplate restTemplate = AuthFactory.getOAuth2RestTemplateWithPassword();
-		User user = restTemplate.getForObject(AuthFactory.WEB_SHOP_API + "/users/" + username, User.class);
+		User user = restTemplate.getForObject(Configuration.WEB_SHOP_API + "/users/" + username, User.class);
 		return user;
 	/* 	if (username == null || username.equals("")) {
 			return null;

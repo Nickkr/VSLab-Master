@@ -3,9 +3,12 @@ package hska.iwi.eShopMaster.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.client.RestTemplate;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import hska.iwi.eShopMaster.auth.AuthFactory;
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.CategoryManagerImpl;
 import hska.iwi.eShopMaster.model.database.dataobjects.Category;
@@ -31,8 +34,13 @@ public class InitCategorySiteAction extends ActionSupport {
 		user = (User) session.get("webshop_user");
 		boolean isAdmin = true;
 		if(user != null && isAdmin) {
+			
+			RestTemplate restTemplate = AuthFactory.getOAuth2RestTemplateWithPassword(user);
+			if (restTemplate == null) {
+				return res;
+			}
 
-			CategoryManager categoryManager = new CategoryManagerImpl();
+			CategoryManager categoryManager = new CategoryManagerImpl(restTemplate);
 			this.setCategories(categoryManager.getCategories());
 			
 			if(pageToGoTo != null){
