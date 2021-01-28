@@ -4,36 +4,40 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.web.client.RestTemplate;
 
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
 import hska.iwi.eShopMaster.model.database.dataAccessObjects.ProductDAO;
 import hska.iwi.eShopMaster.model.database.dataobjects.Category;
 import hska.iwi.eShopMaster.model.database.dataobjects.Product;
+import hska.iwi.eShopMaster.Configuration;
 import hska.iwi.eShopMaster.auth.*;
 
 public class ProductManagerImpl implements ProductManager {
+	private final RestTemplate restTemplate;
 	private ProductDAO helper;
 
-	public ProductManagerImpl() {
+	public ProductManagerImpl(RestTemplate restTemplate) {
 		helper = new ProductDAO();
+		this.restTemplate = restTemplate;
 	}
 
 	public List<Product> getProducts() {
-		Product[] products = AuthFactory.getOAuth2RestTemplateWithPassword()
-				.getForObject(AuthFactory.WEB_SHOP_API + "/products/", Product[].class);
+		Product[] products = restTemplate.getForObject(Configuration.WEB_SHOP_API + "/products/", Product[].class);
 		System.out.println(products.length);
 		return Arrays.asList(products);
 	}
 
-	public List<Product> getProductsForSearchValues(String searchDescription,
-			Double searchMinPrice, Double searchMaxPrice) {	
-		Product[] products = AuthFactory.getOAuth2RestTemplateWithPassword().getForObject(AuthFactory.WEB_SHOP_API + "/products/" + "?minPrice={searchMinPrice}&maxPrice={searchMaxPrice}&searchText={searchDescription}", Product[].class, searchMinPrice, searchMaxPrice, searchDescription);
+	public List<Product> getProductsForSearchValues(String searchDescription, Double searchMinPrice, Double searchMaxPrice) {
+		Product[] products = restTemplate.getForObject(Configuration.WEB_SHOP_API + "/products/" + "?minPrice={searchMinPrice}&maxPrice={searchMaxPrice}&searchText={searchDescription}",
+				Product[].class, searchMinPrice, searchMaxPrice, searchDescription);
 		return Arrays.asList(products);
 	}
 
 	public Product getProductById(int id) {
-		Product product = AuthFactory.getOAuth2RestTemplateWithPassword().getForObject(AuthFactory.WEB_SHOP_API +"/products/" + id, Product.class);
+		Product product = restTemplate.getForObject(Configuration.WEB_SHOP_API + "/products/" + id, Product.class);
 		return product;
 	}
 
@@ -45,7 +49,7 @@ public class ProductManagerImpl implements ProductManager {
 
 		int productId = -1;
 
-		CategoryManager categoryManager = new CategoryManagerImpl();
+		CategoryManager categoryManager = new CategoryManagerImpl(restTemplate);
 		Category category = categoryManager.getCategory(categoryId);
 
 		if (category != null) {
@@ -55,7 +59,7 @@ public class ProductManagerImpl implements ProductManager {
 			} else {
 				product = new Product(name, price, category, details);
 			}
-			Product productResp = AuthFactory.getOAuth2RestTemplateWithPassword().postForObject(AuthFactory.WEB_SHOP_API +"/products/", product, Product.class );
+			Product productResp = restTemplate.postForObject(Configuration.WEB_SHOP_API + "/products/", product, Product.class);
 			productId = productResp.getId();
 		}
 
@@ -63,7 +67,7 @@ public class ProductManagerImpl implements ProductManager {
 	}
 
 	public void deleteProductById(int id) {
-		AuthFactory.getOAuth2RestTemplateWithPassword().delete(AuthFactory.WEB_SHOP_API +"/products/" + id);
+		restTemplate.delete(Configuration.WEB_SHOP_API + "/products/" + id);
 	}
 
 	public boolean deleteProductsByCategoryId(int categoryId) {

@@ -2,12 +2,14 @@ package hska.iwi.eShopMaster.controller;
 
 import java.util.Map;
 
+import org.springframework.web.client.RestTemplate;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import hska.iwi.eShopMaster.auth.AuthFactory;
 import hska.iwi.eShopMaster.model.businessLogic.manager.ProductManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.ProductManagerImpl;
-import hska.iwi.eShopMaster.model.database.dataAccessObjects.ProductDAO;
 import hska.iwi.eShopMaster.model.database.dataobjects.User;
 
 public class DeleteProductAction extends ActionSupport {
@@ -28,7 +30,12 @@ public class DeleteProductAction extends ActionSupport {
 		
 		if(user != null && (user.getRole().equals("ADMIN"))) {
 
-			ProductManager productImpl = new ProductManagerImpl();
+			RestTemplate restTemplate = AuthFactory.getOAuth2RestTemplateWithPassword(user);
+			if (restTemplate == null) {
+				return res;
+			}
+			
+			ProductManager productImpl = new ProductManagerImpl(restTemplate);
 			productImpl.deleteProductById(id);
 			res = "success";
 		}

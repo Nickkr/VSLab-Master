@@ -2,123 +2,139 @@ package hska.iwi.eShopMaster.controller;
 
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import hska.iwi.eShopMaster.ExceptionHelper;
+import hska.iwi.eShopMaster.auth.AuthFactory;
 import hska.iwi.eShopMaster.model.businessLogic.manager.UserManager;
 import hska.iwi.eShopMaster.model.businessLogic.manager.impl.UserManagerImpl;
 import hska.iwi.eShopMaster.model.database.dataobjects.Role;
 
 public class RegisterAction extends ActionSupport {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 3655805600703279195L;
-    private String username;
-    private String password1;
-    private String password2;
-    private String firstname;
-    private String lastname;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 3655805600703279195L;
+	private String username;
+	private String password1;
+	private String password2;
+	private String firstname;
+	private String lastname;
 
-    private Role role = null;
+	private Role role = null;
 
-    @Override
-    public String execute() throws Exception {
+	@Override
+	public String execute() throws Exception {
 
-        // Return string:
-        String result = "input";
+		// Return string:
+		String result = "input";
 
-        UserManager userManager = new UserManagerImpl();
+		RestTemplate restTemplate = AuthFactory.getOAuth2RestTemplateWithClientCredentails();
+		UserManager userManager = new UserManagerImpl(restTemplate);
 
-        try {
-            // save it to database
-            userManager.registerUser(this.username, this.firstname, this.lastname, this.password1, "USER");
-            // User has been saved successfully to database:
-            addActionMessage("user registered, please login");
-            addActionError("user registered, please login");
-            Map<String, Object> session = ActionContext.getContext().getSession();
-            session.put("message", "user registered, please login");
-            result = "success";
+		try {
+			// save it to database
+			userManager.registerUser(this.username, this.firstname, this.lastname, this.password1, "USER");
+			// User has been saved successfully to database:
+			addActionMessage("user registered, please login");
+			addActionError("user registered, please login");
+			Map<String, Object> session = ActionContext.getContext().getSession();
+			session.put("message", "user registered, please login");
+			result = "success";
 
-        } catch (Exception error) {
-            System.out.println(error);
-            addActionError(getText("error.username.alreadyInUse"));
-        }
+		} catch (OAuth2Exception ex) {
+			addActionError(ex.getMessage());
+		} catch (HttpClientErrorException ex) {
+			if (ex.getStatusCode() == HttpStatus.NOT_ACCEPTABLE) {
+				addActionError(getText("error.username.alreadyInUse"));
+			} else {
+				addActionError(ex.getMessage());
+			}
+		} catch (Exception ex) {
+			addActionError(ex.getClass().getCanonicalName());
+			ExceptionHelper.addExceptionMessages(ex, this);
+			ex.printStackTrace();
+		}
 
-        return result;
+		return result;
+	}
 
-    }
+	@Override
+	public void validate() {
+		if (getFirstname().length() == 0) {
+			addActionError(getText("error.firstname.required"));
+		}
+		if (getLastname().length() == 0) {
+			addActionError(getText("error.lastname.required"));
+		}
+		if (getUsername().length() == 0) {
+			addActionError(getText("error.username.required"));
+		}
+		if (getPassword1().length() == 0) {
+			addActionError(getText("error.password.required"));
+		}
+		if (getPassword2().length() == 0) {
+			addActionError(getText("error.password.required"));
+		}
 
-    @Override
-    public void validate() {
-        if (getFirstname().length() == 0) {
-            addActionError(getText("error.firstname.required"));
-        }
-        if (getLastname().length() == 0) {
-            addActionError(getText("error.lastname.required"));
-        }
-        if (getUsername().length() == 0) {
-            addActionError(getText("error.username.required"));
-        }
-        if (getPassword1().length() == 0) {
-            addActionError(getText("error.password.required"));
-        }
-        if (getPassword2().length() == 0) {
-            addActionError(getText("error.password.required"));
-        }
+		if (!getPassword1().equals(getPassword2())) {
+			addActionError(getText("error.password.notEqual"));
+		}
+	}
 
-        if (!getPassword1().equals(getPassword2())) {
-            addActionError(getText("error.password.notEqual"));
-        }
-    }
+	public String getLastname() {
+		return lastname;
+	}
 
-    public String getLastname() {
-        return lastname;
-    }
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
+	public String getFirstname() {
+		return firstname;
+	}
 
-    public String getFirstname() {
-        return firstname;
-    }
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+	public String getUsername() {
+		return (this.username);
+	}
 
-    public String getUsername() {
-        return (this.username);
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public String getPassword1() {
+		return (this.password1);
+	}
 
-    public String getPassword1() {
-        return (this.password1);
-    }
+	public void setPassword1(String password) {
+		this.password1 = password;
+	}
 
-    public void setPassword1(String password) {
-        this.password1 = password;
-    }
+	public String getPassword2() {
+		return (this.password2);
+	}
 
-    public String getPassword2() {
-        return (this.password2);
-    }
+	public void setPassword2(String password) {
+		this.password2 = password;
+	}
 
-    public void setPassword2(String password) {
-        this.password2 = password;
-    }
+	public Role getRole() {
+		return (this.role);
+	}
 
-    public Role getRole() {
-        return (this.role);
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
+	public void setRole(Role role) {
+		this.role = role;
+	}
 
 }

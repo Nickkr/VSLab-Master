@@ -5,26 +5,30 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.web.client.RestTemplate;
 
+import hska.iwi.eShopMaster.Configuration;
 import hska.iwi.eShopMaster.auth.AuthFactory;
 import hska.iwi.eShopMaster.model.businessLogic.manager.CategoryManager;
 import hska.iwi.eShopMaster.model.database.dataAccessObjects.CategoryDAO;
 import hska.iwi.eShopMaster.model.database.dataobjects.Category;
 
 public class CategoryManagerImpl implements CategoryManager{
+	private final RestTemplate restTemplate;
 	private CategoryDAO helper;
 	
-	public CategoryManagerImpl() {
+	public CategoryManagerImpl(RestTemplate restTemplate) {
 		helper = new CategoryDAO();
+		this.restTemplate = restTemplate;
 	}
 
 	public List<Category> getCategories() {
-		Category[] categories = AuthFactory.getOAuth2RestTemplateWithPassword().getForObject(AuthFactory.WEB_SHOP_API + "/categories/", Category[].class);
+		Category[] categories = restTemplate.getForObject(Configuration.WEB_SHOP_API + "/categories/", Category[].class);
 		return Arrays.asList(categories);
 	}
 
 	public Category getCategory(int id) {
-		Category category = AuthFactory.getOAuth2RestTemplateWithPassword().getForObject(AuthFactory.WEB_SHOP_API + "/categories/" + id , Category.class);
+		Category category = restTemplate.getForObject(Configuration.WEB_SHOP_API + "/categories/" + id , Category.class);
 		return category;
 	}
 
@@ -34,14 +38,14 @@ public class CategoryManagerImpl implements CategoryManager{
 
 	public void addCategory(String name) {
 		Category cat = new Category(name);
-		AuthFactory.getOAuth2RestTemplateWithPassword().postForObject(AuthFactory.WEB_SHOP_API + "/categories/", cat, Category.class);
+		restTemplate.postForObject(Configuration.WEB_SHOP_API + "/categories/", cat, Category.class);
 	}
 
 	public void delCategory(Category cat) {
-		AuthFactory.getOAuth2RestTemplateWithPassword().delete(AuthFactory.WEB_SHOP_API +"/categories/" + cat.getId());
+		restTemplate.delete(Configuration.WEB_SHOP_API +"/categories/" + cat.getId());
 	}
 
 	public void delCategoryById(int id) {
-		AuthFactory.getOAuth2RestTemplateWithPassword().delete(AuthFactory.WEB_SHOP_API +"/categories/" + id);
+		restTemplate.delete(Configuration.WEB_SHOP_API +"/categories/" + id);
 	}
 }
